@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- 上述3个meta标签*必须*放在最前面，任何其他内容都*必须*跟随其后！ -->
+  <meta name="description" content="">
+  <meta name="author" content="">
+  <title>StockTool</title>
+  <link href="/static/css/bootstrap.min.css" rel="stylesheet">
+  <link href="/static/css/remixicon/remixicon.css" rel="stylesheet">
+  <link href="/static/css/style.css" rel="stylesheet">
+</head>
+
+<body>
+  <div class="container-fluid">
+    <div class="row">
+      <!-- 侧边栏 -->
+      <div class="col-sm-3 sidebar">
+        <br><br><br>
+        <div class="row">
+          <div class="col-md-8 col-md-offset-1">
+            <div class="form-group has-feedback">
+              <input type="text" placeholder="股票代码..." class="form-control">
+              <i class="glyphicon glyphicon-search form-control-feedback" style="display:inline-block"></i>
+            </div>
+          </div>
+          <br><br>
+        </div>
+        <ul class="nav nav-sidebar" id="i_category">
+          <li><a href="#home" data-href="{{ url_for('home.home') }}">主 页</a></li>
+          <li><a href="#group" data-href="{{ url_for('group.index') }}">对比分析</a></li>
+        </ul>
+      </div>
+      <!-- 右侧内容 -->
+      <div class="col-sm-9 col-sm-offset-3" id="main">
+      </div>
+    </div>
+  </div>
+
+  <!-- Bootstrap core JavaScript -->
+  <script src="/static/js/jquery-3.3.1.min.js"></script>
+  <script src="/static/js/bootstrap.min.js"></script>
+  <script src="/static/js/echarts.min.js"></script>
+  <script src="/static/js/script.js"></script>
+  <script type="text/javascript">
+  </script>
+</body>
+
+</html>

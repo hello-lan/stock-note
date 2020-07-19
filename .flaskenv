@@ -1,0 +1,2 @@
+FLASK_APP=stocktool
+FLASK_ENV=development

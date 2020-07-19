@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+
+{% block content %}
+{{ super() }}
+<div class="row">
+    <ol class="breadcrumb">
+        <li><a href="#group">group</a></li>
+        <li class="active">{{group.name}}</li>
+    </ol>
+    <h3 class="text-center text-info">{{ group.name }}</h3>
+</div>
+<br>
+<div class="row">
+    <h4>
+        {% for stock in group.stocks %}
+        <span class="label label-success" style="display: inline-block;">{{stock.code ~ ' ' ~stock.name}}</span>
+        {% endfor %}
+        <i class="ri-add-circle-line" data-toggle="modal" data-target="#myModal" style="position:relative;top:5px;"></i>
+    </h4>
+</div>
+
+<!-- Modal -->
+<div class="modal fade bs-example-modal-sm" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title" id="myModalLabel">添加股票</h4>
+        </div>
+        <div class="modal-body">
+            <div class="row">
+                <div class="col-md-4 col-md-offset-4">
+                    <input id="i_add-group-stock-input" type="text" class="form-control" placeholder="请输入股票代码..."  data-href="{{ url_for('group.add_stock', group_id=group.id)}}">
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">放弃</button>
+            <button type="button" class="btn btn-primary" id="i_add-group-stock-btn" data-dismiss="modal">确认</button>
+        </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
