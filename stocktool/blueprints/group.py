@@ -13,6 +13,23 @@ def index():
     return render_template("_group_index.html", groups=groups)
 
 
+@group_bp.route("/new-group", methods=["POST"])
+def create_group():
+    data = request.get_json()
+    if "name" not in data:
+        return jsonify(message="未接收到请求参数.")
+
+    group_name = data["name"]
+    _group = StockGroup.query.filter_by(name=group_name).first()
+    if _group is not None:
+        return jsonify(message="该group已经存在.")
+
+    group = StockGroup(name=group_name)
+    db.session.add(group)
+    db.session.commit()
+    return jsonify(message="创建成功")
+
+
 @group_bp.route("/<int:group_id>/detail")
 def group_detail(group_id):
     group = StockGroup.query.get_or_404(group_id)

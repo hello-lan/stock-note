@@ -1,7 +1,12 @@
 <div class="row">
     <h3 class="text-center text-primary">对比分析</h3>
 </div>
-<br><br>
+<br><br><br>
+<div class="text-center">
+    <button type="button" class="btn btn-info btn-circle btn-huge"  data-toggle="modal" data-target="#i_createGroupModal"><i style="font-weight: lighter;">&plus;</i></button>
+</div>
+
+<br><br><br><br><br><br>
 <div class="row">
     <p class="text-center" style="font-weight: lighter;"><small>已有分组</small></p>
     <hr>
@@ -9,3 +14,26 @@
         <a class="btn btn-link" href="#group-{{group.id}}" data-href="{{ url_for('group.group_detail', group_id=group.id) }}">{{ group.name }} <span class="badge">{{ group.stocks.count() }}</span></a>
     {% endfor %}
 </div>
+
+<!-- Modal for create group -->
+<div class="modal fade" id="i_createGroupModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog modal-sm" role="document">
+            <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="i_createGroupModalLabel">创建group</h4>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-8 col-md-offset-2">
+                        <input id="i_createGroupInput" type="text" class="form-control" placeholder="请给group取个名字...">
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                <button type="button" class="btn btn-primary" id="i_createGroupButton" data-dismiss="modal">确认</button>
+            </div>
+            </div>
+        </div>
+    </div>

@@ -30,6 +30,22 @@ $(document).ready(function () {
         $(window).trigger('hashchange'); // user refreshed the browser, fire the appropriate function
     }
 
+    // 创建分组
+    function create_group() {
+        var name = $("#i_createGroupInput").val();
+        $.ajax({
+            type: 'POST',
+            url: create_group_url,
+            data: JSON.stringify({'name': name}),
+            contentType: 'application/json;charset=UTF-8',
+            success: function (data) {
+                alert(data["message"]);
+            }
+        });
+    }
+
+    $(document).on('click', '#i_createGroupButton', create_group);
+
     // 往某分组里添加股票
     function add_group_stock() {
         var $input = $("#i_addGroupStockInput");
