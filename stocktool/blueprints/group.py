@@ -26,17 +26,17 @@ def add_stock(group_id):
     try:
         code = request.get_json()["code"]
     except:
-        flash("未接收到请求参数")
+        return jsonify(message="未接收到请求参数.")
     else:
         stock = Stock.query.filter_by(code=code).first()
         if stock is None:
-            flash("未查询到代码为 %s 的股票，请确认输入的股票代码是否有误或数据库是否缺失该股票的数据！" % code)
+            msg = "未查询到代码为 %s 的股票，请确认输入的股票代码是否有误或数据库是否缺失该股票的数据！" % code
+            return jsonify(message=msg)
         else:
             group.stocks.append(stock)
-            db.session.add(group)
+            # db.session.add(group)
             db.session.commit()
-    finally:
-        return render_template("_group_detail.html", group=group)
+            return jsonify(message="股票添加成功！")
 
 
 @group_bp.route("/<int:group_id>/remove-stock", methods=['DELETE'])
@@ -46,17 +46,16 @@ def remove_stock(group_id):
     try:
         code = request.get_json()["code"]
     except:
-        flash("未接收到请求参数")
+        return jsonify(message="未接收到请求参数.")
     else:
         stock = Stock.query.filter_by(code=code).first()
         if stock is None:
-            flash("未查询到代码为 %s 的股票，请确认输入的股票代码是否有误或数据库是否缺失该股票的数据！" % code)
+            msg = "未查询到代码为 %s 的股票，请确认输入的股票代码是否有误或数据库是否缺失该股票的数据！" % code
+            return jsonify(message=msg)
         else:
             group.stocks.remove(stock)
-            db.session.add(group)
             db.session.commit()
-    finally:
-        return render_template("_group_detail.html", group=group)
+            return jsonify(message="股票移除成功！")
 
 
     

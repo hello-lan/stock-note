@@ -2,13 +2,8 @@ $(document).ready(function () {
     var ENTER_KEY = 13;
     var ESC_KEY = 27;
 
-    // Bind a callback that executes when document.location.hash changes.
-    $(window).bind('hashchange', function () {
-        // Some browers return the hash symbol, and some don't.
-        var hash = window.location.hash;
-        var sel = "a[href='" + hash + "']";
-        var url = $(sel).attr("data-href");
-
+    // 加载右侧区域的内容
+    function load_content_page(url) {
         $.ajax({
             type: 'GET',
             url: url,
@@ -16,6 +11,17 @@ $(document).ready(function () {
                 $('#main').hide().html(data).fadeIn(800);
             }
         });
+    }
+
+    // Bind a callback that executes when document.location.hash changes.
+    $(window).bind('hashchange', function () {
+        // Some browers return the hash symbol, and some don't.
+        var hash = window.location.hash;
+        var sel = "a[href='" + hash + "']";
+        var url = $(sel).attr("data-href");
+        if (url != null){
+            load_content_page(url);
+        }
     });
 
     if (window.location.hash === '') {
@@ -24,30 +30,44 @@ $(document).ready(function () {
         $(window).trigger('hashchange'); // user refreshed the browser, fire the appropriate function
     }
 
-    function quitModal() {
-        $('body').removeClass("modal-open");
-        $("div.modal-backdrop").remove();
-
-    }
-
     // 往某分组里添加股票
     function add_group_stock() {
-        var $input = $("#i_add-group-stock-input");
+        var $input = $("#i_addGroupStockInput");
         var code = $input.val();
-        var url = $input.attr("data-href");
-        
-        quitModal();
-        
+        var add_url = $input.attr("data-href");
+        var cur_group_detail_url = $("#i_groupDetailUrl").attr("data-href");
+                
         $.ajax({
             type: 'POST',
-            url: url,
+            url: add_url,
             data: JSON.stringify({'code': code}),
             contentType: 'application/json;charset=UTF-8',
             success: function (data) {
-                $('#main').hide().html(data).fadeIn(800);
+                alert(data["message"]);
+                load_content_page(cur_group_detail_url);
             }
         });
     }
 
-    $(document).on('click', '#i_add-group-stock-btn', add_group_stock);
+    // 往某分组里移除股票
+    function rm_group_stock() {
+        var $input = $("#i_rmGroupStockInfo")
+        var code = $input.attr("data-code");
+        var rm_url = $input.attr("data-href");
+        var cur_group_detail_url = $("#i_groupDetailUrl").attr("data-href");
+        
+        $.ajax({
+            type: 'DELETE',
+            url: rm_url,
+            data: JSON.stringify({'code': code}),
+            contentType: 'application/json;charset=UTF-8',
+            success: function (data) {
+                alert(data["message"]);
+                load_content_page(cur_group_detail_url);
+            }
+        });
+    }
+
+    $(document).on('click', '#i_addGroupStockButton', add_group_stock);
+    $(document).on('click', '#i_rmGroupStockButton', rm_group_stock);
 });
