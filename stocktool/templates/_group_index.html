@@ -11,7 +11,7 @@
     <p class="text-center" style="font-weight: lighter;"><small>已有分组</small></p>
     <hr>
     {% for group in groups %}
-        <a class="btn btn-link" href="#group-{{group.id}}" data-href="{{ url_for('group.group_detail', group_id=group.id) }}">{{ group.name }} <span class="badge">{{ group.stocks.count() }}</span></a>
+        <a class="btn btn-link to-group-btn" data-href="{{ url_for('group.group_detail', group_id=group.id) }}">{{ group.name }} <span class="badge">{{ group.stocks.count() }}</span></a>
     {% endfor %}
 </div>
 

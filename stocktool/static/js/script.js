@@ -16,12 +16,15 @@ $(document).ready(function () {
     // Bind a callback that executes when document.location.hash changes.
     $(window).bind('hashchange', function () {
         // Some browers return the hash symbol, and some don't.
-        var hash = window.location.hash;
-        var sel = "a[href='" + hash + "']";
-        var url = $(sel).attr("data-href");
-        if (url != null){
-            load_content_page(url);
+        var hash = window.location.hash.replace('#', '');
+        var url = null;
+        if (hash === 'group') {
+            url = group_page_url;
+        } else {
+            url = home_page_url;
         }
+
+        load_content_page(url);
     });
 
     if (window.location.hash === '') {
@@ -45,6 +48,11 @@ $(document).ready(function () {
     }
 
     $(document).on('click', '#i_createGroupButton', create_group);
+
+    $(document).on('click', '.to-group-btn', function(){
+        var url = $(this).attr("data-href");
+        load_content_page(url);
+    });
 
     // 往某分组里添加股票
     function add_group_stock() {

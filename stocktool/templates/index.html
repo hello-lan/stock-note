@@ -30,8 +30,8 @@
           <br><br>
         </div>
         <ul class="nav nav-sidebar" id="i_category">
-          <li><a href="#home" data-href="{{ url_for('home.home') }}">主 页</a></li>
-          <li><a href="#group" data-href="{{ url_for('group.index') }}">对比分析</a></li>
+          <li><a href="#home">主 页</a></li>
+          <li><a href="#group">对比分析</a></li>
         </ul>
       </div>
       <!-- 右侧内容 -->
@@ -46,7 +46,10 @@
   <script src="/static/js/echarts.min.js"></script>
   <script src="/static/js/script.js"></script>
   <script type="text/javascript">
+    var home_page_url = "{{ url_for('home.home') }}";
+    var group_page_url = "{{ url_for('group.index') }}";
     var create_group_url = "{{url_for('group.create_group')}}";
+    
   </script>
 </body>
 
