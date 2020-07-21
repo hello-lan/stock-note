@@ -43,11 +43,28 @@ $(document).ready(function () {
             contentType: 'application/json;charset=UTF-8',
             success: function (data) {
                 alert(data["message"]);
+                $(window).trigger('hashchange');
+            }
+        });
+    }
+
+    // 移除分组
+    function remove_group() {
+        var group_id = $("#i_removeGroupInfo").attr("data-group");
+        $.ajax({
+            type: 'DELETE',
+            url: remove_group_url,
+            data: JSON.stringify({'group_id': group_id}),
+            contentType: 'application/json;charset=UTF-8',
+            success: function (data) {
+                alert(data["message"]);
+                // $(window).trigger('hashchange');
             }
         });
     }
 
     $(document).on('click', '#i_createGroupButton', create_group);
+    $(document).on('click', '#i_removeGroupButton', remove_group);
 
     $(document).on('click', '.to-group-btn', function(){
         var url = $(this).attr("data-href");

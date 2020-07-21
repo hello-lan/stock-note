@@ -24,7 +24,7 @@ class StockGroup(db.Model):
         return self.name
 
 
-StockGroupLog = db.Table("stock_group_log",
+stock_group_log = db.Table("stock_group_log",
     db.Column("stock_code", db.String(20), db.ForeignKey("stock.code")),
     db.Column("group_id", db.Integer, db.ForeignKey("stock_group.id"))
 )

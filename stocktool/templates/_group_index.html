@@ -3,37 +3,97 @@
 </div>
 <br><br><br>
 <div class="text-center">
-    <button type="button" class="btn btn-info btn-circle btn-huge"  data-toggle="modal" data-target="#i_createGroupModal"><i style="font-weight: lighter;">&plus;</i></button>
+    <button type="button" class="btn btn-info btn-circle btn-huge" data-toggle="modal" data-target="#i_createGroupModal"><i style="font-weight: lighter;">&plus;</i></button>
 </div>
-
-<br><br><br><br><br><br>
+<br><br><br>
 <div class="row">
-    <p class="text-center" style="font-weight: lighter;"><small>已有分组</small></p>
-    <hr>
-    {% for group in groups %}
-        <a class="btn btn-link to-group-btn" data-href="{{ url_for('group.group_detail', group_id=group.id) }}">{{ group.name }} <span class="badge">{{ group.stocks.count() }}</span></a>
-    {% endfor %}
+    <div class="col-md-12">
+        <p class="text-center" style="font-weight: lighter;"><small>已有分组</small></p>
+        <hr>
+    </div>
+    <div class="col-md-1 col-md-offset-11">
+        <button class="btn btn-default btn-xs" id="i_manageGroups" type="button" style="position:relative; right:0;" onclick="group_edit_status()">管理</button>
+    </div>
+    <div class="col-md-12">
+        <ul class="list-inline">
+            {% for group in groups %}
+            <li>
+                <a class="btn btn-link to-group-btn" role="button" data-href="{{ url_for('group.group_detail', group_id=group.id) }}">
+                    {{ group.name }}
+                    <i class="badge">{{ group.stocks.count() }}</i>
+                </a>
+                <i class="ri-indeterminate-circle-line rm-group-btn hidden" onclick="show_rm_group_modal('{{group.id}}', '{{group.name}}')"></i>
+            </li>
+            {% endfor %}
+        </ul>
+    </div>
 </div>
 
 <!-- Modal for create group -->
 <div class="modal fade" id="i_createGroupModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-        <div class="modal-dialog modal-sm" role="document">
-            <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title" id="i_createGroupModalLabel">创建group</h4>
-            </div>
-            <div class="modal-body">
-                <div class="row">
-                    <div class="col-md-8 col-md-offset-2">
-                        <input id="i_createGroupInput" type="text" class="form-control" placeholder="请给group取个名字...">
-                    </div>
+    <div class="modal-dialog modal-sm" role="document">
+        <div class="modal-content">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title" id="i_createGroupModalLabel">创建group</h4>
+        </div>
+        <div class="modal-body">
+            <div class="row">
+                <div class="col-md-8 col-md-offset-2">
+                    <input id="i_createGroupInput" type="text" class="form-control" placeholder="请给group取个名字...">
                 </div>
             </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
-                <button type="button" class="btn btn-primary" id="i_createGroupButton" data-dismiss="modal">确认</button>
-            </div>
-            </div>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+            <button type="button" class="btn btn-primary" id="i_createGroupButton" data-dismiss="modal">确认</button>
+        </div>
         </div>
     </div>
+</div>
+
+
+<!-- Modal for remove group -->
+<div class="modal fade" id="i_removeGroupModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog modal-sm" role="document">
+        <div class="modal-content">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title" id="i_removeGroupModalLabel">移除group</h4>
+        </div>
+        <div class="modal-body">
+            <p  class="text-info text-center" >
+                <span id="i_removeGroupInfo" data-group=""></span>
+            </p>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+            <button type="button" class="btn btn-primary" id="i_removeGroupButton" data-dismiss="modal">确认</button>
+        </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    var count = 0;
+    function group_edit_status(){
+        if(count%2==0){
+            $(".to-group-btn").addClass("disabled");
+            $(".rm-group-btn").removeClass("hidden");
+            $("#i_manageGroups").text("完成");
+
+        } else{
+            $(".to-group-btn").removeClass("disabled");
+            $(".rm-group-btn").addClass("hidden");
+            $("#i_manageGroups").text("管理");
+            $(window).trigger('hashchange');
+        }
+        count++;
+    }
+
+    function show_rm_group_modal(group_id, group_name) {
+        $("#i_removeGroupInfo").attr("data-group", group_id);
+        $("#i_removeGroupInfo").text(group_id + " " + group_name);
+        $('#i_removeGroupModal').modal("show");
+    }
+</script>

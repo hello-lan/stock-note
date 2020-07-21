@@ -13,7 +13,7 @@ def index():
     return render_template("_group_index.html", groups=groups)
 
 
-@group_bp.route("/new-group", methods=["POST"])
+@group_bp.route("/create-group", methods=["POST"])
 def create_group():
     data = request.get_json()
     if "name" not in data:
@@ -28,6 +28,22 @@ def create_group():
     db.session.add(group)
     db.session.commit()
     return jsonify(message="创建成功")
+
+
+@group_bp.route("/remove-group", methods=["DELETE"])
+def remove_group():
+    data = request.get_json()
+    if "group_id" not in data:
+        return jsonify(message="未接收到请求参数.")
+
+    group_id = data["group_id"]
+    group = StockGroup.query.get(group_id)
+    if group is None:
+        return jsonify(message="该group不存在.")
+    
+    db.session.delete(group)
+    db.session.commit()
+    return jsonify(message="成功移除'%s'group" % group.name)
 
 
 @group_bp.route("/<int:group_id>/detail")
