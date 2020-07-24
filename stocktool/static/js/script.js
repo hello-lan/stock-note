@@ -16,25 +16,11 @@ $(document).ready(function () {
         });
     }
 
-    // Bind a callback that executes when document.location.hash changes.
-    $(window).bind('hashchange', function () {
-        // Some browers return the hash symbol, and some don't.
-        var hash = window.location.hash.replace('#', '');
-        var url = null;
-        if (hash === 'group') {
-            url = group_page_url;
-        } else {
-            url = home_page_url;
-        }
-
+    $(document).on('click', '.load-content-btn', function(){
+        var url = $(this).attr("data-href");
         load_content_page(url);
     });
 
-    if (window.location.hash === '') {
-        window.location.hash = '#home'; // home page, show the default view
-    } else {
-        $(window).trigger('hashchange'); // user refreshed the browser, fire the appropriate function
-    }
 
     // 查询个股
     function searchStock(e) {
@@ -83,11 +69,6 @@ $(document).ready(function () {
 
     $(document).on('click', '#i_createGroupButton', create_group);
     $(document).on('click', '#i_removeGroupButton', remove_group);
-
-    $(document).on('click', '.to-group-btn', function(){
-        var url = $(this).attr("data-href");
-        load_content_page(url);
-    });
 
     // 往某分组里添加股票
     function add_group_stock() {

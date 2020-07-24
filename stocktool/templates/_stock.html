@@ -1,10 +1,15 @@
-<div class="row">
-    <ol class="breadcrumb" style="background:white">
-        <li>个股</li>
-        <li class="active">{{stock.name}}</li>
-    </ol>
-    <h3 class="text-center text-info">{{ stock.code ~ ' ' ~ stock.name }}</h3>
-</div>
+{% extends 'base.html' %}
+
+{% block breadcrumb %}
+    <li>个股</li>
+    <li class="active">{{stock.name}}</li>
+{% endblock %}
+
+{% block content_title %}
+    {{ stock.code ~ ' ' ~ stock.name }}
+{% endblock %}
+
+{% block content %}
 <br><br><br>
 <div class="row">
     <div class="col-md-10">
@@ -119,3 +124,5 @@
     };
     myChart.setOption(option);
 </script>
+
+{% endblock %}

@@ -1,15 +1,20 @@
-<div class="row">
-    <ol class="breadcrumb">
-        <li class="text-muted">group</li>
-        <li class="active" id="i_groupDetailUrl" data-href="{{ url_for('group.group_detail', group_id=group.id) }}">{{group.name}}</li>
-    </ol>
-    <h3 class="text-center text-info">{{ group.name }}</h3>
-</div>
+{% extends 'base.html' %}
+
+{% block breadcrumb %}
+    <li class="text-muted">group</li>
+    <li class="active" id="i_groupDetailUrl" data-href="{{ url_for('group.group_detail', group_id=group.id) }}">{{group.name}}</li>
+{% endblock %}
+
+{% block content_title %}
+    {{ group.name }}
+{% endblock %}
+
+{% block content %}
 <br>
 <div class="row">
     <h4>
         {% for stock in group.stocks %}
-        <span class="label label-success" style="display: inline-block;">
+        <span class="label label-success load-content-btn" data-href="{{ url_for('stock.stock_detail', code=stock.code) }}" style="display: inline-block;">
             {{stock.code ~ ' ' ~stock.name}} &nbsp;
             <button type="button" class="close" onclick="show_rm_modal('{{ stock.code }}','{{ stock.name }}')">&times;</button>
         </span>
@@ -69,3 +74,4 @@
         $('#i_rmGroupStockModal').modal("show");
     }
 </script>
+{% endblock %}

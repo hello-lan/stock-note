@@ -18,7 +18,7 @@
         <ul class="list-inline">
             {% for group in groups %}
             <li>
-                <a class="btn btn-link to-group-btn" role="button" data-href="{{ url_for('group.group_detail', group_id=group.id) }}">
+                <a class="btn btn-link load-content-btn" role="button" data-href="{{ url_for('group.group_detail', group_id=group.id) }}">
                     {{ group.name }}
                     <i class="badge">{{ group.stocks.count() }}</i>
                 </a>

@@ -49,7 +49,7 @@ def remove_group():
 @group_bp.route("/<int:group_id>/detail")
 def group_detail(group_id):
     group = StockGroup.query.get_or_404(group_id)
-    return render_template("_group_detail.html", group=group)
+    return render_template("_group.html", group=group)
 
 
 @group_bp.route("/<int:group_id>/add-stock", methods=["POST"])

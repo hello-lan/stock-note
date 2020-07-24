@@ -1,0 +1,16 @@
+<div class="row">
+    <ol class="breadcrumb" style="background:white">
+        {% block breadcrumb %}
+        <li>首页</li>
+        <li class="active">二级页</li>
+        {% endblock %}
+    </ol>
+    <h3 class="text-center text-info">
+        {% block content_title %}
+        内容标题
+        {% endblock %}
+    </h3>
+</div>
+
+{% block content %}
+{% endblock %}
