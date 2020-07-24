@@ -1,0 +1,121 @@
+<div class="row">
+    <ol class="breadcrumb" style="background:white">
+        <li>个股</li>
+        <li class="active">{{stock.name}}</li>
+    </ol>
+    <h3 class="text-center text-info">{{ stock.code ~ ' ' ~ stock.name }}</h3>
+</div>
+<br><br><br>
+<div class="row">
+    <div class="col-md-10">
+        <div class="row">
+            <h5 class="text-success">收益性</h5>
+            <hr><br>
+            <div class="col-md-12 col-md-offset-1">
+                <div id="J_echartsPlot" style="width: 600px;height:300px;"></div>
+            </div>
+            <br>
+            <div class="table-responsive col-md-12">
+                <table class="table table-bordered table-condensed">
+                    <thead>
+                        <tr>
+                            <th class="text-center">日期</th>
+                            <th class="text-center">经营现金流量净额(元)</th>
+                            <th class="text-center">投资现金流量净额(元)</th>
+                            <th class="text-center">筹资现金流量净额(元)</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for cashflow in cashflows %}
+                        <tr>
+                            <td class="text-center">{{ cashflow.account_date }}</td>
+                            <td class="text-center">{{ cashflow.net_operating_cashflow | round }}</td>
+                            <td class="text-center">{{ cashflow.net_investing_cashflow | round }}</td>
+                            <td class="text-center">{{ cashflow.net_financing_cashflow | round }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <br>
+        <div class="row">
+            <h5 class="text-success">竞争优势</h5>
+            <hr><br>
+            <p>评估是否出现以下一项或多项情形?</p>
+            <ul>
+                <li>通过出众的技术或特色创造真实的差异化产品</li>
+                <li>通过一个信任的品牌或声誉创造可感知的差异化产品</li>
+                <li>降低成本并以更低的价格提供相似的产品和服务</li>
+                <li>通过创造高的转换成本锁定消费者</li>
+                <li>通过建立高进入壁垒把竞争者阻挡在外面</li>
+            </ul>
+        </div>
+        <br>
+        <div class="row">
+            <h5 class="text-success">估值与安全边际</h5>
+            <hr><br>
+        </div>
+        <div class="row">
+            <h5 class="text-success">目标价格</h5>
+            <hr><br>
+        </div>
+    </div>
+    <div class="col-md-2" role="complementary">
+        <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix">
+            <ul class="nav bs-docs-sidenav">
+                <li class="active"><a href="#overview">- 收益性</a></li>
+                <li><a href="#grid">- 竞争优势分析</a></li>
+                <li><a href="#grid">- 估值与安全边际</a></li>
+                <li><a href="#grid">- 目标价格</a></li>
+            </ul>
+        </nav>
+    </div>
+</div>
+
+<script>
+    var myChart = echarts.init(document.getElementById('J_echartsPlot'));
+    option = {
+        legend: {
+            data: ["自由现金流/销售收入", '净利润率', '净资产收益率', '资产收益率'],
+        },
+        tooltip: {
+            trigger: 'axis',
+        },
+        xAxis: {
+            type: 'category',
+            boundaryGap: true,
+            data: ['2013', '2014', '2015', '2016', '2017', '2018', '2019']
+        },
+        yAxis: {
+            type: 'value'
+        },
+        series: [
+            {
+                name: '自由现金流/销售收入',
+                data: [0.15, 0.2, 0.18, 0.21, 0.16, 0.15, 0.22],
+                type: 'line',
+                smooth: true
+            },
+            {
+                name: '净利润率',
+                data: [0.10, 0.12, 0.125, 0.13, 0.11, 0.121, 0.125],
+                type: 'line',
+                smooth: true
+            },
+            {
+                name: '净资产收益率',
+                data: [0.09, 0.12, 0.123, 0.13, 0.107, 0.13, 0.125],
+                type: 'line',
+                smooth: true
+            },
+            {
+                name: '资产收益率',
+                data: [0.05, 0.062, 0.053, 0.061, 0.067, 0.069, 0.065],
+                type: 'line',
+                smooth: true
+            },
+        ]
+    };
+    myChart.setOption(option);
+</script>

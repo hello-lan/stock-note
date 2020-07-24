@@ -23,11 +23,11 @@
         <div class="row">
           <div class="col-md-8 col-md-offset-1">
             <div class="form-group has-feedback">
-              <input type="text" placeholder="股票代码..." class="form-control">
+              <input type="text" id="i_stockInput" placeholder="股票代码..." class="form-control">
               <i class="glyphicon glyphicon-search form-control-feedback" style="display:inline-block"></i>
             </div>
           </div>
-          <br><br>
+          <br><br><br>
         </div>
         <ul class="nav nav-sidebar" id="i_category">
           <li><a href="#home">主 页</a></li>
@@ -48,6 +48,8 @@
   <script type="text/javascript">
     var home_page_url = "{{ url_for('home.home') }}";
     var group_page_url = "{{ url_for('group.index') }}";
+    var stock_page_url = "{{ url_for('stock.stock_detail')}}";
+
     var create_group_url = "{{url_for('group.create_group')}}";
     var remove_group_url = "{{url_for('group.remove_group')}}";
   </script>

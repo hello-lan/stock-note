@@ -6,6 +6,7 @@ from flask import Flask, render_template, jsonify, request
 
 from stocktool.blueprints.home import home_bp
 from stocktool.blueprints.group import group_bp
+from stocktool.blueprints.stock import stock_bp
 from stocktool.extensions import db
 from stocktool.settings import config
 
@@ -31,6 +32,7 @@ def register_extensions(app):
 def register_blueprints(app):
     app.register_blueprint(home_bp)
     app.register_blueprint(group_bp, url_prefix="/stock-group")
+    app.register_blueprint(stock_bp, url_prefix="/stock")
 
 
 def register_errors(app):
@@ -45,8 +47,7 @@ def register_errors(app):
     @app.errorhandler(404)
     def page_not_found(e):
         if request.accept_mimetypes.accept_json and \
-                not request.accept_mimetypes.accept_html \
-                or request.path.startswith('/api'):
+                not request.accept_mimetypes.accept_html:
             response = jsonify(code=404, message='The requested URL was not found on the server.')
             response.status_code = 404
             return response
@@ -80,3 +81,34 @@ def register_commands(app):
             click.echo('Drop tables.')
         db.create_all()
         click.echo('Initialized database.')
+
+    @app.cli.command()
+    def initstock():
+        """ 初始化股票列表
+        """
+        from stocktool.models import Stock
+        from stocktool.utils import get_stock_list
+
+        data = get_stock_list()
+        for item in data:
+            stock = Stock(**item)
+            db.session.add(stock)
+        db.session.commit()
+
+    @app.cli.command()
+    @click.option("--code", type=click.STRING, help="股票代码")
+    @click.option("--account-date", type=click.DateTime(formats=["%Y-%m-%d",]), help="会计日期")
+    def add_crashflow(code, account_date):
+        """ 添加单只股票的现金流量数据
+        """
+        from stocktool.models import CashFlow
+        from stocktool.utils import get_cashflow
+
+        item = get_cashflow(code, account_date)
+
+        cashflow = CashFlow(**item)
+        db.session.add(cashflow)
+        db.session.commit()
+        
+
+

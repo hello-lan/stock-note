@@ -9,7 +9,10 @@ $(document).ready(function () {
             url: url,
             success: function (data) {
                 $('#main').hide().html(data).fadeIn(800);
-            }
+            },
+            error:function (jqXHR, textStatus, errorThrown) {
+                $('#main').hide().html(jqXHR.responseText).fadeIn(800);
+            },
         });
     }
 
@@ -32,6 +35,21 @@ $(document).ready(function () {
     } else {
         $(window).trigger('hashchange'); // user refreshed the browser, fire the appropriate function
     }
+
+    // 查询个股
+    function searchStock(e) {
+        var $input = $("#i_stockInput");
+        var value = $input.val().trim()
+        if (e.which !== ENTER_KEY || !value) {
+            return;
+        }
+        $input.focus().val('');
+
+        var url = stock_page_url + "?code=" + value;
+        load_content_page(url);
+    }
+
+    $(document).on('keyup', '#i_stockInput', searchStock.bind(this));
 
     // 创建分组
     function create_group() {

@@ -67,7 +67,6 @@ def add_stock(group_id):
             return jsonify(message=msg)
         else:
             group.stocks.append(stock)
-            # db.session.add(group)
             db.session.commit()
             return jsonify(message="股票添加成功！")
 
