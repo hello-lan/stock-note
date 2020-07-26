@@ -111,3 +111,127 @@ $(document).ready(function () {
     $(document).on('click', '#i_addGroupStockButton', add_group_stock);
     $(document).on('click', '#i_rmGroupStockButton', rm_group_stock);
 });
+
+
+// ===============画图函数==================
+
+/**
+ * 公司收入曲线，双坐标轴，左边：金额   右边:同比
+ * @param {*} domId : htm中的id,曲线图将被绑定到该id下
+ * @param {*} data ： 绘图相关数据
+ */
+function plotIncomeMixLineBar(domId, data){
+    // 解析参数
+    var xLabels = data.xLabels;  // x轴标签序列
+    var valueName = data.name;
+    var values = data.values;
+    // 计算同比
+    var rateName = "同比";
+    var size = values.length;
+    var rates = new Array(size);
+    rates[0] = null;
+    for (var i=1; i < size; i++) {
+        rates[i] = 100 * (values[i] - values[i-1]) / values[i-1];
+    }
+
+    var legendData = [valueName, rateName];
+
+    // 构造echarts的option
+    var myChart = echarts.init(document.getElementById(domId));
+    var option = {
+        tooltip: {
+            trigger: 'axis',
+        },
+        legend: {
+            data: legendData
+        },
+        xAxis: [
+            {
+                type: 'category',
+                data: xLabels,
+                axisPointer: {
+                    type: 'shadow'
+                }
+            }
+        ],
+        yAxis: [
+            {
+                type: 'value',
+                name: '金额(元)',
+                axisLabel: {
+                    formatter: '{value}'
+                }
+            },
+            {
+                type: 'value',
+                name: '百分比',
+                interval: 25,
+                splitLine: {
+                    show: false,
+                },
+                axisLabel: {
+                    formatter: '{value}%'
+                }
+            }
+        ],
+        series: [
+            {
+                name: valueName,
+                type: 'bar',
+                data: values
+            },
+            {
+                name: rateName,
+                type: 'line',
+                yAxisIndex: 1,
+                data: rates
+            }
+        ]
+    };
+    myChart.setOption(option);
+}
+
+/**
+ * 绘制曲线图
+ * @param {*} domId : htm中的id,曲线图将被绑定到该id下
+ * @param {*} data 
+ */
+function plotLines(domId, data) {
+    var xLabels = data.xLabels;
+    var items = data.items;
+
+    var size = items.length;
+    var legendData = new Array(size);
+    var seriesData = new Array(size);
+
+    items.forEach(function(item){
+        legendData.push(item.name);
+        seriesData.push({
+            name: item.name,
+            data: item.values,
+            type: 'line',
+            smooth: true
+        });
+    })
+
+    // 构造echarts的option
+    var myChart = echarts.init(document.getElementById(domId));
+    var option = {
+        legend: {
+            data: legendData,
+        },
+        tooltip: {
+            trigger: 'axis',
+        },
+        xAxis: {
+            type: 'category',
+            boundaryGap: true,
+            data: xLabels
+        },
+        yAxis: {
+            type: 'value'
+        },
+        series: seriesData,
+    };
+    myChart.setOption(option);
+}

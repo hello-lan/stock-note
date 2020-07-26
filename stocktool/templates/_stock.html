@@ -1,128 +1,164 @@
 {% extends 'base.html' %}
 
 {% block breadcrumb %}
-    <li>个股</li>
-    <li class="active">{{stock.name}}</li>
+<li>个股</li>
+<li class="active">{{stock.name}}</li>
 {% endblock %}
 
 {% block content_title %}
-    {{ stock.code ~ ' ' ~ stock.name }}
+{{ stock.code ~ ' ' ~ stock.name }}
 {% endblock %}
 
 {% block content %}
 <br><br><br>
 <div class="row">
-    <div class="col-md-10">
+    <div class="col-md-11">
         <div class="row">
-            <h5 class="text-success">收益性</h5>
+            <h5 class="text-success" id="annualReport"><i class="glyphicon glyphicon-paperclip"></i> 年度报告</h5>
             <hr><br>
-            <div class="col-md-12 col-md-offset-1">
-                <div id="J_echartsPlot" style="width: 600px;height:300px;"></div>
-            </div>
-            <br>
-            <div class="table-responsive col-md-12">
-                <table class="table table-bordered table-condensed">
-                    <thead>
-                        <tr>
-                            <th class="text-center">日期</th>
-                            <th class="text-center">经营现金流量净额(元)</th>
-                            <th class="text-center">投资现金流量净额(元)</th>
-                            <th class="text-center">筹资现金流量净额(元)</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {% for cashflow in cashflows %}
-                        <tr>
-                            <td class="text-center">{{ cashflow.account_date }}</td>
-                            <td class="text-center">{{ cashflow.net_operating_cashflow | round }}</td>
-                            <td class="text-center">{{ cashflow.net_investing_cashflow | round }}</td>
-                            <td class="text-center">{{ cashflow.net_financing_cashflow | round }}</td>
-                        </tr>
-                        {% endfor %}
-                    </tbody>
-                </table>
-            </div>
-        </div>
-        <br>
-        <div class="row">
-            <h5 class="text-success">竞争优势</h5>
-            <hr><br>
-            <p>评估是否出现以下一项或多项情形?</p>
             <ul>
-                <li>通过出众的技术或特色创造真实的差异化产品</li>
-                <li>通过一个信任的品牌或声誉创造可感知的差异化产品</li>
-                <li>降低成本并以更低的价格提供相似的产品和服务</li>
-                <li>通过创造高的转换成本锁定消费者</li>
-                <li>通过建立高进入壁垒把竞争者阻挡在外面</li>
+                <li><a href="http://money.finance.sina.com.cn/corp/go.php/vCB_Bulletin/stockid/{{stock.code}}/page_type/ndbg.phtml"
+                        target="_blank">年度报告&gt;&gt;</a></li>
+                <li>
+                    <a href="http://stockdata.stock.hexun.com/2009_zcfz_{{ stock.code }}.shtml"
+                        target="_blank">财务数据&gt;&gt;</a>
+                </li>
             </ul>
         </div>
         <br>
         <div class="row">
-            <h5 class="text-success">估值与安全边际</h5>
+            <h5 class="text-success" id="growth"><i class="glyphicon glyphicon-signal"></i> 成长性</h5>
+            <hr><br>
+            <div class="col-md-12">
+                <!-- Nav tabs -->
+                <ul class="nav nav-tabs" role="tablist">
+                    <li role="presentation" class="active"><a href="#i_growthIncome" aria-controls="i_growthIncome" role="tab" data-toggle="tab">营业收入</a></li>
+                    <li role="presentation"><a href="#i_growthOperatingProfit" aria-controls="i_growthOperatingProfit" role="tab" data-toggle="tab">营业利润</a></li>
+                    <li role="presentation"><a href="#i_growthNetProfit" aria-controls="i_growthNetProfit" role="tab" data-toggle="tab">净利润</a></li>
+                </ul>
+                <br>
+                <!-- Tab panes -->
+                <div class="tab-content">
+                    <div role="tabpanel" class="tab-pane active" id="i_growthIncome">
+                        <div id="J_growthIncomeChart" style="width: 600px;height:300px;"></div>
+                    </div>
+                    <div role="tabpanel" class="tab-pane" id="i_growthOperatingProfit">
+                        <div id="J_growthOperatingProfitChart" style="width: 600px;height:300px;"></div>
+                    </div>
+                    <div role="tabpanel" class="tab-pane" id="i_growthNetProfit">
+                        <div id="J_growthNetProfitChart" style="width: 600px;height:300px;"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-12">
+                <p>若公司表现出高增长，则需要注意，高增长的历史记录并不能保证公司未来还能继续保持高速增长，需要进一步分析其
+                    <a data-toggle="popover" data-placement="top" data-trigger="hover" data-html=true data-title="可能的成长来源" data-content="&lt;ul class=&quot;list-unstyled&quot;&gt;&lt;li&gt;1.销售更多的产品或服务&lt;/li&gt;&lt;li&gt;2.提高价格(凭借品牌或垄断)&lt;/li&gt;&lt;li&gt;3.销售新的产品或服务&lt;/li&gt;&lt;li&gt;4.购买其他公司&lt;/li&gt;&lt;/ul&gt;">成长率的来源<i class="ri-information-line"></i>
+                    </a>
+                    和是否具有
+                    <a data-toggle="popover" data-trigger="hover" data-placement="top" title="质询成长质量" data-content="通常，收购是个质量很低的增长途径；最直接的是销售增长，因为销售增长是很难伪造的；而盈利增长有可能伪造，所以一般而言，任何一家公司盈利增长超过销售增长持续一段时间(比如5~10年)，你就需要深挖这些数字(比如是不是有削减成本、税率降低、一次性损益等不可持续的行为)。">可持续性<i class="ri-information-line"></i>
+                    </a>。
+                </p>
+            </div>
+        </div>
+        <br>
+        <div class="row">
+            <h5 class="text-success" id="profitability"><i class="glyphicon glyphicon-piggy-bank"></i> 盈利能力</h5>
+            <hr><br>
+            <div class="col-md-12">
+                <div id="J_PlotPorfitablity" style="width: 600px;height:300px;"></div>
+            </div>
+            <div>
+                <p>通过调查公司的财务状况，寻找公司拥有竞争优势的确实证据，《股市真规则》中给出了以下指标的参考值: </p>
+                <ul>
+                    <li>自由现金流/销售收入 >= 5%</li>
+                    <li>净利润率 >= 15%</li>
+                    <li>ROE >= 15%</li>
+                    <li>ROA >= 6%</li>
+                </ul>
+            </div>
+        </div>
+        <br>
+        <div class="row">
+            <h5 class="text-success" id="advantage"><i class="glyphicon glyphicon-star"></i> 竞争优势</h5>
+            <hr><br>
+            <div class="col-md-12">
+                <p>若公司显示较强的盈利能力，则进一步分析公司是否某方面的竞争优势，这些竞争优势有可能是:</p>
+                <ul>
+                    <li>通过出众的技术或特色创造真实的差异化产品</li>
+                    <li>通过一个信任的品牌或声誉创造可感知的差异化产品</li>
+                    <li>降低成本并以更低的价格提供相似的产品和服务</li>
+                    <li>通过创造高的转换成本锁定消费者</li>
+                    <li>通过建立高进入壁垒把竞争者阻挡在外面</li>
+                </ul>
+            </div>
+        </div>
+        <br>
+        <div class="row">
+            <h5 class="text-success" id="health"><i class="glyphicon glyphicon-heart"></i> 财务健康</h5>
             <hr><br>
         </div>
+        <br>
         <div class="row">
-            <h5 class="text-success">目标价格</h5>
+            <h5 class="text-success" id="risk"><i class="glyphicon glyphicon-warning-sign"></i> 潜在风险</h5>
+            <hr><br>
+        </div>
+        <br>
+        <div class="row">
+            <h5 class="text-success" id="valuation"><i class="glyphicon glyphicon-scale"></i> 安全边际</h5>
+            <hr><br>
+        </div>
+        <br>
+        <div class="row">
+            <h5 class="text-success" id="note"><i class="glyphicon glyphicon-pencil"></i> 我的笔记</h5>
             <hr><br>
         </div>
     </div>
-    <div class="col-md-2" role="complementary">
-        <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix">
+    <div class="col-md-1" role="complementary">
+        <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix bg-info">
             <ul class="nav bs-docs-sidenav">
-                <li class="active"><a href="#overview">- 收益性</a></li>
-                <li><a href="#grid">- 竞争优势分析</a></li>
-                <li><a href="#grid">- 估值与安全边际</a></li>
-                <li><a href="#grid">- 目标价格</a></li>
+                <li class="active"><a href="#annualReport"> - 年度报告</a></li>
+                <li><a href="#growth"> - 成长性</a></li>
+                <li><a href="#profitability"> - 盈利能力</a></li>
+                <li><a href="#advantage"> - 竞争优势</a></li>
+                <li><a href="#health"> - 财务健康</a></li>
+                <li><a href="#risk"> - 潜在风险</a></li>
+                <li><a href="#valuation"> - 安全边际</a></li>
+                <li><a href="#note"> - 我的笔记</a></li>
             </ul>
         </nav>
     </div>
 </div>
 
 <script>
-    var myChart = echarts.init(document.getElementById('J_echartsPlot'));
-    option = {
-        legend: {
-            data: ["自由现金流/销售收入", '净利润率', '净资产收益率', '资产收益率'],
-        },
-        tooltip: {
-            trigger: 'axis',
-        },
-        xAxis: {
-            type: 'category',
-            boundaryGap: true,
-            data: ['2013', '2014', '2015', '2016', '2017', '2018', '2019']
-        },
-        yAxis: {
-            type: 'value'
-        },
-        series: [
-            {
-                name: '自由现金流/销售收入',
-                data: [0.15, 0.2, 0.18, 0.21, 0.16, 0.15, 0.22],
-                type: 'line',
-                smooth: true
-            },
-            {
-                name: '净利润率',
-                data: [0.10, 0.12, 0.125, 0.13, 0.11, 0.121, 0.125],
-                type: 'line',
-                smooth: true
-            },
-            {
-                name: '净资产收益率',
-                data: [0.09, 0.12, 0.123, 0.13, 0.107, 0.13, 0.125],
-                type: 'line',
-                smooth: true
-            },
-            {
-                name: '资产收益率',
-                data: [0.05, 0.062, 0.053, 0.061, 0.067, 0.069, 0.065],
-                type: 'line',
-                smooth: true
-            },
-        ]
-    };
-    myChart.setOption(option);
+    function getDataAndPlotIncome(url, domId){
+        $.getJSON(url, function(data){
+            plotIncomeMixLineBar(domId, data);
+        })
+    }
+
+    function getDataAndPlotLines(url, domId){
+        $.getJSON(url, function(data){
+            plotLines(domId, data);
+        })
+    }
+    
+    $(function () {
+        $('[data-toggle="popover"]').popover();   // 初始化bootstrap的弹出框
+
+        // 成长性相关曲线图
+        var income_url = "{{ url_for('stock.api_income', code=stock.code) }}";
+        var operating_profit_url = "{{ url_for('stock.api_operating_profit', code=stock.code) }}";
+        var net_profit_url = "{{ url_for('stock.api_net_profit', code=stock.code) }}";
+        
+        getDataAndPlotIncome(income_url, "J_growthIncomeChart");
+        getDataAndPlotIncome(operating_profit_url, "J_growthOperatingProfitChart");
+        getDataAndPlotIncome(net_profit_url, "J_growthNetProfitChart");
+
+        // 盈利能力相关曲线图
+        var profitability_url = "{{ url_for('stock.api_profitablity', code=stock.code) }}";
+        getDataAndPlotLines(profitability_url, "J_PlotPorfitablity");
+    });
+
 </script>
 
 {% endblock %}
