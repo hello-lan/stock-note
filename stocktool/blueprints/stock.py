@@ -1,6 +1,6 @@
 from flask import render_template, current_app, Blueprint, jsonify, flash, request, abort
 
-from stocktool.models import StockGroup, Stock, CashFlow
+from stocktool.models import StockGroup, Stock, StockIndicators
 from stocktool.extensions import db
 
 
@@ -18,44 +18,115 @@ def stock_detail():
     return render_template("_stock.html", stock=stock)
 
 
-@stock_bp.route("/income", methods=["GET"])
-def api_income():
+@stock_bp.route("/revenue", methods=["GET"])
+def api_revenue():
+    code = request.args.get("code")
+    indicators = StockIndicators.query \
+                .filter_by(code=code) \
+                .order_by(StockIndicators.account_date) \
+                .all()
+    x_labels = []
+    values = []
+    rates = []   # 同比
+    for item in indicators:
+        x_labels.append(item.account_date.strftime("%Y年报"))
+        values.append(float(item.total_revenue))
+        rate = item.operating_income_yoy
+        if rate:
+            rates.append(float(rate))
+        else:
+            rates.append(None)
+    
     income = {
-        "xLabels": ['2014年报', '2015年报', '2016年报', '2017年报', '2018年报', '2019年报'],
+        "xLabels": x_labels,
         "name": "营业收入",
-        "values": [2.6, 5.9, 9.0, 26.4, 28.7, 70.7]
+        "values": values,
+        "rates": rates
     }
     return jsonify(income)
 
 
-@stock_bp.route("/oprating-profit", methods=["GET"])
-def api_operating_profit():
+@stock_bp.route("/net-profit-nrgal", methods=["GET"])
+def api_net_profit_nrgal():
+    """扣非净利润
+    """
+    code = request.args.get("code")
+    indicators = StockIndicators.query \
+                .filter_by(code=code) \
+                .order_by(StockIndicators.account_date) \
+                .all()
+    x_labels = []
+    values = []
+    rates = []   # 同比
+    for item in indicators:
+        x_labels.append(item.account_date.strftime("%Y年报"))
+        values.append(float(item.net_profit_after_nrgal_atsolc))
+        rate = item.np_atsopc_nrgal_yoy
+        if rate:
+            rates.append(float(rate))
+        else:
+            rates.append(None)
+    
     income = {
-        "xLabels": ['2001月', '2月', '3月', '4月', '5月', '6月', '7月', '8月', '9月', '10月', '11月', '12月'],
-        "name": "营业利润",
-        "values": [2.6, 5.9, 9.0, 26.4, 28.7, 70.7, 175.6, 182.2, 48.7, 18.8, 6.0, 2.3]
+        "xLabels": x_labels,
+        "name": "扣非净利润",
+        "values": values,
+        "rates": rates
     }
     return jsonify(income)
 
 
 @stock_bp.route("/net-profit", methods=["GET"])
 def api_net_profit():
+    code = request.args.get("code")
+    indicators = StockIndicators.query \
+                .filter_by(code=code) \
+                .order_by(StockIndicators.account_date) \
+                .all()
+    x_labels = []
+    values = []
+    rates = []
+    for item in indicators:
+        x_labels.append(item.account_date.strftime("%Y年报"))
+        values.append(float(item.net_profit_atsopc))
+        rate = item.net_profit_atsopc_yoy
+        if rate:
+            rates.append(float(rate))
+        else:
+            rates.append(None)
+    
     income = {
-        "xLabels": ['2001月', '2月', '3月', '4月', '5月', '6月', '7月', '8月', '9月', '10月', '11月', '12月'],
+        "xLabels": x_labels,
         "name": "净利润",
-        "values": [6.6, 5.9, 9.0, 26.4, 28.7, 70.7, 175.6, 182.2, 148.7, 118.8, 16.0, 22.3]
+        "values": values,
+        "rates": rates
     }
     return jsonify(income)
     
 @stock_bp.route("/profitablity", methods=["GET"])
 def api_profitablity():
+    code = request.args.get("code")
+    indicators = StockIndicators.query \
+                .filter_by(code=code) \
+                .order_by(StockIndicators.account_date) \
+                .all()
+    x_labels = []
+    roe, mll, jll, roa = [], [], [], []
+    for item in indicators:
+        x_labels.append(item.account_date.strftime("%Y年报"))
+        roe.append(float(item.roe))
+        roa.append(float(item.net_interest_of_total_assets))
+        mll.append(float(item.gross_selling_rate))
+        jll.append(float(item.net_selling_rate))
+
     data = {
-            "xLabels": ['2013', '2014', '2015', '2016', '2017', '2018', '2019'],
+            "xLabels": x_labels,
             "items": [
-                {"name": "自由现金流/销售收入", "values": [0.15, 0.2, 0.18, 0.21, 0.16, 0.15, 0.22]},
-                {"name": "净利润率", "values": [0.10, 0.12, 0.125, 0.13, 0.11, 0.121, 0.125]},
-                {"name": "净资产收益率(ROE)", "values": [0.09, 0.12, 0.123, 0.13, 0.107, 0.13, 0.125]},
-                {"name": "资产收益率(ROA)", "values": [0.05, 0.062, 0.053, 0.061, 0.067, 0.069, 0.065]},
+                # {"name": "自由现金流/销售收入", "values": [0.15, 0.2, 0.18, 0.21, 0.16, 0.15, 0.22]},
+                {"name": "销售毛利率", "values": mll},
+                {"name": "销售净利率", "values": jll},
+                {"name": "净资产收益率(ROE)", "values": roe},
+                {"name": "总资产报酬率", "values": roa},
             ]
         }
     return jsonify(data)

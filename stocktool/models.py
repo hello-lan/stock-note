@@ -30,53 +30,47 @@ stock_group_log = db.Table("stock_group_log",
 )
 
 
-class BriefFinanceSheet(db.Model):
-    __tablename__ = "brief_finance_sheet"
-    id = db.Column(db.Integer, primary_key=True)
-    code = db.Column(db.String(10), index=True, nullable=False)
-    account_date = db.Column(db.Date, nullable=False, index=True, comment="报告期")
-
-
-class BriefProfitSheet(db.Model):
-    __tablename__ = "brief_profit_sheet"
+class StockIndicators(db.Model):
+    __tablename__ = "stock_indicators"
 
     id = db.Column(db.Integer, primary_key=True)
     code = db.Column(db.String(10), index=True, nullable=False)
     account_date = db.Column(db.Date, nullable=False, index=True, comment="报告期")
-    revenue = db.Column(db.Float, comment="营业收入")
-    oper_cost = db.Column(db.Float, comment="营业成本")
-    sell_exp = db.Column(db.Float, comment="销售费用")
-    admin_exp = db.Column(db.Float, comment="管理费用")
-    fin_exp = db.Column(db.Float, comment="财务费用")
-    operate_profit = db.Column(db.Float, comment="营业利润")
-    total_profit = db.Column(db.Float, comment="利润总额")
-    n_income = db.Column(db.Float, comment="净利润(含少数股东损益)")
-    n_income_attr_p = db.Column(db.Float, comment="净利润(不含少数股东损益)")
-
-
-class BriefBalanceSheet(db.Model):
-    __tablename__ = "brief_balance_sheet"
-    id = db.Column(db.Integer, primary_key=True)
-    code = db.Column(db.String(10), index=True, nullable=False)
-    account_date = db.Column(db.Date, nullable=False, index=True, comment="报告期")
-    money_cap = db.Column(db.Float(20, True), comment="货币资金")
-    trade_asset = db.Column(db.Float(20, True), comment="交易性金融资产")
-    notes_receiv = db.Column(db.Float(20, True), comment="应收票据")
-    accounts_receiv = db.Column(db.Float(20, True), comment="应收账款")
-    other_receiv = db.Column(db.Float(20, True), comment="其他应收款")
-    inventories = db.Column(db.Float(20, True), comment="存货")
-    lt_eqt_invest = db.Column(db.Float(20, True), comment="长期股权投资")
-    fix_assets = db.Column(db.Float(20, True), comment="固定资产")
-    cip = db.Column(db.Float(20, True), comment="在建工程")
-    intan_assets = db.Column(db.Float(20, True), comment="无形资产")
-    goodwill = db.Column(db.Float(20, True), comment="商誉")
-
-    st_borr = db.Column(db.Float(20, True), comment="短期借款")
-    lt_borr = db.Column(db.Float(20, True), comment="长期借款")
-    notes_payable = db.Column(db.Float(20, True), comment="应付票据")
-    accounts_payable = db.Column(db.Float(20, True), comment="应付账款")
-    adv_receipts =  db.Column(db.Float(20, True), comment="预收款")
-
+    total_revenue = db.Column(db.Float(20, True), comment="营业收入(元)")
+    operating_income_yoy = db.Column(db.Float(20, True), comment="营业收入同比增长(%)")
+    net_profit_atsopc = db.Column(db.Float(20, True), comment="净利润(元)")
+    net_profit_atsopc_yoy = db.Column(db.Float(20, True), comment="净利润同比增长(%)")
+    net_profit_after_nrgal_atsolc = db.Column(db.Float(20, True), comment="扣非净利润(元)")
+    np_atsopc_nrgal_yoy = db.Column(db.Float(20, True), comment="扣非净利润同比增长(%)")
+    basic_eps = db.Column(db.Float(20, True), comment="每股收益(元)")
+    np_per_share = db.Column(db.Float(20, True), comment="每股净资产(元)")
+    capital_reserve = db.Column(db.Float(20, True), comment="每股资本公积金(元)")
+    undistri_profit_ps = db.Column(db.Float(20, True), comment="每股未分配利润(元)")
+    operate_cash_flow_ps= db.Column(db.Float(20, True), comment="每股经营现金流(元)")
+    roe = db.Column(db.Float(20, True), comment="净资产收益率(%)")
+    roe_dlt = db.Column(db.Float(20, True), comment="净资产收益率-摊薄（%）")
+    net_interest_of_total_assets = db.Column(db.Float(20, True), comment="总资产报酬率(%)")
+    rop = db.Column(db.Float(20, True), comment="人力投入回报率(%)")
+    gross_selling_rate = db.Column(db.Float(20, True), comment="销售毛利率(%)")
+    net_selling_rate = db.Column(db.Float(20, True), comment="销售净利率(%)")
+    asset_liab_ratio = db.Column(db.Float(20, True), comment="资产负债率(%)")
+    current_ratio = db.Column(db.Float(20, True), comment="流动比率")
+    quick_ratio = db.Column(db.Float(20, True), comment="速动比率")
+    equity_multiplier = db.Column(db.Float(20, True), comment="权益乘数")
+    equity_ratio = db.Column(db.Float(20, True), comment="产权比率")
+    holder_equity = db.Column(db.Float(20, True), comment="股东权益比率")
+    ncf_from_oa_to_total_liab = db.Column(db.Float(20, True), comment="现金流量比率")
+    inventory_turnover_days = db.Column(db.Float(20, True), comment="存货周转天数")
+    receivable_turnover_days = db.Column(db.Float(20, True), comment="应收账款周转天数")
+    accounts_payable_turnover_days = db.Column(db.Float(20, True), comment="应付账款周转天数")
+    cash_cycle = db.Column(db.Float(20, True), comment="现金循环周期")
+    operating_cycle= db.Column(db.Float(20, True), comment="营业周期")
+    total_capital_turnover = db.Column(db.Float(20, True), comment="总资产周转率")
+    inventory_turnover= db.Column(db.Float(20, True), comment="存货周转率")
+    accounts_receivable_turnover = db.Column(db.Float(20, True), comment="应收账款周转率")
+    accounts_payable_turnover = db.Column(db.Float(20, True), comment="应付账款周转率")
+    current_asset_turnover_rate = db.Column(db.Float(20, True), comment="流动资产周转率")
+    fixed_asset_turnover_ratio = db.Column(db.Float(20, True), comment="固定资产周转率")
 
 
 class CashFlow(db.Model):

@@ -127,11 +127,14 @@ function plotIncomeMixLineBar(domId, data){
     var values = data.values;
     // 计算同比
     var rateName = "同比";
-    var size = values.length;
-    var rates = new Array(size);
-    rates[0] = null;
-    for (var i=1; i < size; i++) {
-        rates[i] = 100 * (values[i] - values[i-1]) / values[i-1];
+    var rates = data.rates;
+    if (typeof(rates) == "undefined") {
+        var size = values.length;
+        var rates = new Array(size);
+        rates[0] = null;
+        for (var i=1; i < size; i++) {
+            rates[i] = 100 * (values[i] - values[i-1]) / values[i-1];
+        }
     }
 
     var legendData = [valueName, rateName];
@@ -165,7 +168,6 @@ function plotIncomeMixLineBar(domId, data){
             {
                 type: 'value',
                 name: '百分比',
-                interval: 25,
                 splitLine: {
                     show: false,
                 },

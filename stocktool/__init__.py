@@ -87,9 +87,10 @@ def register_commands(app):
         """ 初始化股票列表
         """
         from stocktool.models import Stock
-        from stocktool.utils import get_stock_list
+        from stocktool.services.crawlers import StockDataCrawlerService
 
-        data = get_stock_list()
+        service = StockDataCrawlerService()
+        data = service.crawl_stock_list()
         for item in data:
             stock = Stock(**item)
             db.session.add(stock)
@@ -98,17 +99,16 @@ def register_commands(app):
     @app.cli.command()
     @click.option("--code", type=click.STRING, help="股票代码")
     @click.option("--account-date", type=click.DateTime(formats=["%Y-%m-%d",]), help="会计日期")
-    def add_crashflow(code, account_date):
+    def add_cashflow(code, account_date):
         """ 添加单只股票的现金流量数据
         """
         from stocktool.models import CashFlow
-        from stocktool.utils import get_cashflow
+        from stocktool.services.crawlers import StockDataCrawlerService
 
-        item = get_cashflow(code, account_date)
+        service = StockDataCrawlerService()
+        item = service.crawl_cashflow(code, account_date)
 
         cashflow = CashFlow(**item)
         db.session.add(cashflow)
         db.session.commit()
-        
-
 

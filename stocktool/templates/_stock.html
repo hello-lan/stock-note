@@ -32,21 +32,21 @@
             <div class="col-md-12">
                 <!-- Nav tabs -->
                 <ul class="nav nav-tabs" role="tablist">
-                    <li role="presentation" class="active"><a href="#i_growthIncome" aria-controls="i_growthIncome" role="tab" data-toggle="tab">营业收入</a></li>
-                    <li role="presentation"><a href="#i_growthOperatingProfit" aria-controls="i_growthOperatingProfit" role="tab" data-toggle="tab">营业利润</a></li>
+                    <li role="presentation" class="active"><a href="#i_growthRevenue" aria-controls="i_growthRevenue" role="tab" data-toggle="tab">营业收入</a></li>
                     <li role="presentation"><a href="#i_growthNetProfit" aria-controls="i_growthNetProfit" role="tab" data-toggle="tab">净利润</a></li>
+                    <li role="presentation"><a href="#i_growthNetProfitNrgal" aria-controls="i_growthNetProfitNrgal" role="tab" data-toggle="tab">扣非净利润</a></li>
                 </ul>
                 <br>
                 <!-- Tab panes -->
                 <div class="tab-content">
-                    <div role="tabpanel" class="tab-pane active" id="i_growthIncome">
-                        <div id="J_growthIncomeChart" style="width: 600px;height:300px;"></div>
-                    </div>
-                    <div role="tabpanel" class="tab-pane" id="i_growthOperatingProfit">
-                        <div id="J_growthOperatingProfitChart" style="width: 600px;height:300px;"></div>
+                    <div role="tabpanel" class="tab-pane active" id="i_growthRevenue">
+                        <div id="J_growthRevenueChart" style="width: 600px;height:300px;"></div>
                     </div>
                     <div role="tabpanel" class="tab-pane" id="i_growthNetProfit">
                         <div id="J_growthNetProfitChart" style="width: 600px;height:300px;"></div>
+                    </div>
+                    <div role="tabpanel" class="tab-pane" id="i_growthNetProfitNrgal">
+                        <div id="J_growthNetProfitNrgalChart" style="width: 600px;height:300px;"></div>
                     </div>
                 </div>
             </div>
@@ -146,12 +146,12 @@
         $('[data-toggle="popover"]').popover();   // 初始化bootstrap的弹出框
 
         // 成长性相关曲线图
-        var income_url = "{{ url_for('stock.api_income', code=stock.code) }}";
-        var operating_profit_url = "{{ url_for('stock.api_operating_profit', code=stock.code) }}";
+        var revenue_url = "{{ url_for('stock.api_revenue', code=stock.code) }}";
+        var net_profit_nrgal_url = "{{ url_for('stock.api_net_profit_nrgal', code=stock.code) }}";
         var net_profit_url = "{{ url_for('stock.api_net_profit', code=stock.code) }}";
         
-        getDataAndPlotIncome(income_url, "J_growthIncomeChart");
-        getDataAndPlotIncome(operating_profit_url, "J_growthOperatingProfitChart");
+        getDataAndPlotIncome(revenue_url, "J_growthRevenueChart");
+        getDataAndPlotIncome(net_profit_nrgal_url, "J_growthNetProfitNrgalChart");
         getDataAndPlotIncome(net_profit_url, "J_growthNetProfitChart");
 
         // 盈利能力相关曲线图

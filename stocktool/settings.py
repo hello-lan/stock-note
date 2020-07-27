@@ -7,8 +7,7 @@
 from os.path import abspath, dirname, join
 
 
-BASE_DIR = abspath(dirname(dirname(__name__)))
-
+BASE_DIR = dirname(dirname(abspath(__file__)))
 
 
 class BaseConfig:
