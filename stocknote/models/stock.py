@@ -1,4 +1,4 @@
-from stocktool.extensions import db
+from stocknote.extensions import db
 
 
 class Stock(db.Model):

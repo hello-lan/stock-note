@@ -1,2 +1,2 @@
-FLASK_APP=stocktool
+FLASK_APP=stocknote
 FLASK_ENV=development

@@ -37,8 +37,8 @@ if __name__ == "__main__":
 
     sys.path.append("..")
 
-    from stocktool import create_app
-    from stocktool.models.stock import db, Stock, StockIndicators
+    from stocknote import create_app
+    from stocknote.models.stock import db, Stock, StockIndicators
     
     app = create_app()
     app.app_context().push()   # 推入上下文
@@ -50,8 +50,8 @@ if __name__ == "__main__":
         sleep(1)
         code = stock.code
         print(i, code)
-        # if i > 10:
-        #     break
+        if i > 10:
+            break
         if code.startswith("6"):
             code_ = "SH" + code
         else:

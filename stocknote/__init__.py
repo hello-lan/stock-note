@@ -4,18 +4,18 @@ import os
 import click
 from flask import Flask, render_template, jsonify, request
 
-from stocktool.blueprints.home import home_bp
-from stocktool.blueprints.group import group_bp
-from stocktool.blueprints.stock import stock_bp
-from stocktool.extensions import db
-from stocktool.settings import config
+from stocknote.blueprints.home import home_bp
+from stocknote.blueprints.group import group_bp
+from stocknote.blueprints.stock import stock_bp
+from stocknote.extensions import db
+from stocknote.settings import config
 
 
 def create_app(config_name=None):
     if config_name is None:
         config_name = os.getenv("FLASK_CONFIG", "development")
 
-    app = Flask("stocktool")
+    app = Flask("stocknote")
     app.config.from_object(config[config_name])
 
     register_extensions(app)
@@ -86,8 +86,8 @@ def register_commands(app):
     def initstock():
         """ 初始化股票列表
         """
-        from stocktool.models.stock import Stock
-        from stocktool.services.crawlers import StockDataCrawlerService
+        from stocknote.models.stock import Stock
+        from stocknote.services.crawlers import StockDataCrawlerService
 
         service = StockDataCrawlerService()
         data = service.crawl_stock_list()
@@ -102,8 +102,8 @@ def register_commands(app):
     def add_cashflow(code, account_date):
         """ 添加单只股票的现金流量数据
         """
-        from stocktool.models.stock import CashFlow
-        from stocktool.services.crawlers import StockDataCrawlerService
+        from stocknote.models.stock import CashFlow
+        from stocknote.services.crawlers import StockDataCrawlerService
 
         service = StockDataCrawlerService()
         item = service.crawl_cashflow(code, account_date)

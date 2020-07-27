@@ -1,7 +1,7 @@
 from flask import render_template, current_app, Blueprint, jsonify, flash, request, abort
 
-from stocktool.models.stock import StockGroup, Stock, StockIndicators
-from stocktool.extensions import db
+from stocknote.models.stock import StockGroup, Stock, StockIndicators
+from stocknote.extensions import db
 
 
 stock_bp = Blueprint("stock", __name__)

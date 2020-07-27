@@ -1,7 +1,7 @@
 from flask import render_template, current_app, Blueprint, jsonify, flash, request
 
-from stocktool.models.stock import StockGroup, Stock
-from stocktool.extensions import db
+from stocknote.models.stock import StockGroup, Stock
+from stocknote.extensions import db
 
 
 group_bp = Blueprint("group", __name__)

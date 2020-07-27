@@ -3,7 +3,7 @@ from datetime import datetime, date, timedelta
 import requests
 from parsel import Selector
 
-from stocktool.utils.decorators import singleton
+from stocknote.utils.decorators import singleton
 
 
 @singleton
