@@ -1,6 +1,6 @@
 from flask import render_template, current_app, Blueprint, jsonify, flash, request
 
-from stocktool.models import StockGroup, Stock
+from stocktool.models.stock import StockGroup, Stock
 from stocktool.extensions import db
 
 

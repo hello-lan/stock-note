@@ -38,7 +38,7 @@ if __name__ == "__main__":
     sys.path.append("..")
 
     from stocktool import create_app
-    from stocktool.models import db, Stock, StockIndicators
+    from stocktool.models.stock import db, Stock, StockIndicators
     
     app = create_app()
     app.app_context().push()   # 推入上下文

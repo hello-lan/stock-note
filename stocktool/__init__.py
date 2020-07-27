@@ -86,7 +86,7 @@ def register_commands(app):
     def initstock():
         """ 初始化股票列表
         """
-        from stocktool.models import Stock
+        from stocktool.models.stock import Stock
         from stocktool.services.crawlers import StockDataCrawlerService
 
         service = StockDataCrawlerService()
@@ -102,7 +102,7 @@ def register_commands(app):
     def add_cashflow(code, account_date):
         """ 添加单只股票的现金流量数据
         """
-        from stocktool.models import CashFlow
+        from stocktool.models.stock import CashFlow
         from stocktool.services.crawlers import StockDataCrawlerService
 
         service = StockDataCrawlerService()
