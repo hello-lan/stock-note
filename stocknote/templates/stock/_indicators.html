@@ -1,0 +1,26 @@
+<table class="table table-bordered table-condensed">
+    <thead>
+        <tr>
+            <th class="text-center">报告期</th>
+            <th class="text-center">资产负债率</th>
+            <th class="text-center">权益乘数</th>
+            <th class="text-center">产权比率</i></th>
+            <th class="text-center">流动比率</th>
+            <th class="text-center">速动比率</th>
+            <th class="text-center">已获利息倍数</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for item in indicators%}
+        <tr class="text-center">
+            <td>{{ item.account_date }}</td>
+            <td>{{ item.asset_liab_ratio | round(2) }}%</td>
+            <td>{{ item.equity_multiplier | round(2) }}</td>
+            <td>{{ item.equity_ratio | round(2) }}</td>
+            <td>{{ item.current_ratio | round(2) }}</td>
+            <td>{{ item.quick_ratio | round(2) }}</td>
+            <td>{{ item.number_of_times_interest_earned }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>

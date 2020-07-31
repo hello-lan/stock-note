@@ -134,30 +134,7 @@
             <h5 class="text-success" id="health"><i class="glyphicon glyphicon-heart"></i> 财务健康</h5>
             <hr><br>
             <div class="col-md-12">
-                <table class="table table-bordered table-condensed">
-                    <thead>
-                        <tr>
-                            <th class="text-center">报告期</th>
-                            <th class="text-center">资产负债率</th>
-                            <th class="text-center">权益乘数</th>
-                            <th class="text-center">产权比率</i></th>
-                            <th class="text-center">流动比率</th>
-                            <th class="text-center">速动比率</th>
-                            <th class="text-center">已获利息倍数</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr class="text-center">
-                            <td>2019</td>
-                            <td>2019</td>
-                            <td>2019</td>
-                            <td>2019</td>
-                            <td>2019</td>
-                            <td>2019</td>
-                            <td>数据缺失</td>
-                        </tr>
-                    </tbody>
-                </table>
+                <div id="J_financialIndicators"></div>
             </div>
             <div class="col-md-12">
                 <div><a data-toggle="collapse" data-target="#i_finDesc">小贴士 <i class="ri-information-line"></i></a>
@@ -307,6 +284,16 @@
 
     $(function () {
         $('[data-toggle="popover"]').popover();   // 初始化bootstrap的弹出框
+
+        // 加载财务指标表格
+        var financial_indicator_url = "{{ url_for('stock.financial_indicators', code=stock.code)}}"
+        $.ajax({
+            type: 'GET',
+            url: financial_indicator_url,
+            success: function (data) {
+                $("#J_financialIndicators").html(data);
+            }
+        }) 
 
         // 成长性相关曲线图
         var revenue_url = "{{ url_for('stock.api_revenue', code=stock.code) }}";

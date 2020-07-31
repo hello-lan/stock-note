@@ -1,5 +1,7 @@
 from flask import render_template, current_app, Blueprint, jsonify, flash, request, abort
 
+from operator import itemgetter
+
 from stocknote.services.stock_data import get_stock_indicators
 from stocknote.models.stock import StockGroup, Stock, StockIndicators, CashFlow as StockCashFlow
 from stocknote.extensions import db
@@ -16,7 +18,7 @@ def stock_detail():
 
     code = data["code"]
     stock = Stock.query.filter_by(code=code).first_or_404()
-    return render_template("_stock.html", stock=stock)
+    return render_template("stock/_stock_index.html", stock=stock)
 
 
 @stock_bp.route("/valuation", methods=["GET"])
@@ -55,7 +57,26 @@ def valuation():
     # 永续年金折现价值
     data["present_value_of_perpetuity_value"] = int(data["perpetuity_value"] / pow(1 + discount_rate, len(cashflow_growths)))
     data["final_valuation"] = data["present_value_of_perpetuity_value"] + data["pv_total"]
-    return render_template("_valuation.html", params=params, data=data)
+    return render_template("stock/_valuation.html", params=params, data=data)
+
+
+@stock_bp.route("/financial-indicators", methods=["GET"])
+def financial_indicators():
+    code = request.args.get("code")
+    indicators = get_stock_indicators(code)
+    simple_indicators = []
+    for item in indicators:
+        new_item = dict()
+        new_item["account_date"] = item.account_date 
+        new_item["asset_liab_ratio"] = item.asset_liab_ratio   # 资产负债率
+        new_item["equity_multiplier"] = item.equity_multiplier    # 权益乘数
+        new_item["equity_ratio"] = item.equity_ratio      # 产权比率
+        new_item["current_ratio"] = item.current_ratio    # 流动比率
+        new_item["quick_ratio"] = item.quick_ratio        # 速动比率
+        new_item["number_of_times_interest_earned"] = "数据缺失"     # 已获利息倍数
+        simple_indicators.append(new_item)
+    simple_indicators.sort(key=itemgetter("account_date"), reverse=True)
+    return render_template("stock/_indicators.html", indicators=simple_indicators)
 
 
 @stock_bp.route("/revenue", methods=["GET"])
