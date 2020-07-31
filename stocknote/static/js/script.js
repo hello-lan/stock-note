@@ -208,6 +208,7 @@ function plotIncomeMixLineBar(domId, data){
 function plotLines(domId, data) {
     var xLabels = data.xLabels;
     var items = data.items;
+    var yName = data.yName;
 
     var size = items.length;
     var legendData = new Array(size);
@@ -232,12 +233,23 @@ function plotLines(domId, data) {
         tooltip: {
             trigger: 'axis',
         },
+        toolbox: {
+            show: true,
+            feature: {
+                dataView: {readOnly: false},
+                saveAsImage: {}
+            }
+        },
+        grid : {
+            top: '25%',
+        },
         xAxis: {
             type: 'category',
             boundaryGap: true,
             data: xLabels
         },
         yAxis: {
+            name: yName,
             type: 'value'
         },
         series: seriesData,

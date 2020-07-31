@@ -184,14 +184,18 @@ def api_profitablity():
         mll.append(float(item.gross_selling_rate))
         jll.append(float(item.net_selling_rate))
 
+    def map_round(data, n=2):
+        return list(map(lambda x: round(x, n), data))
+
     data = {
             "xLabels": x_labels,
+            "yName": "比率(%)",
             "items": [
-                {"name": "自由现金流/销售收入", "values": cashflow_revenue},
-                {"name": "销售毛利率", "values": mll},
-                {"name": "销售净利率", "values": jll},
-                {"name": "ROE", "values": roe},
-                {"name": "ROA", "values": roa},
+                {"name": "自由现金流/销售收入", "values": map_round(cashflow_revenue)},
+                {"name": "销售毛利率", "values": map_round(mll)},
+                {"name": "销售净利率", "values": map_round(jll)},
+                {"name": "ROE", "values": map_round(roe)},
+                {"name": "ROA", "values": map_round(roa)},
             ]
         }
     return jsonify(data)
