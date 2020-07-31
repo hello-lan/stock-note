@@ -110,6 +110,13 @@ $(document).ready(function () {
 
     $(document).on('click', '#i_addGroupStockButton', add_group_stock);
     $(document).on('click', '#i_rmGroupStockButton', rm_group_stock);
+
+    // 检查校正input输入框中的数值类型
+    function check_number() {
+        this.value = this.value.replace(/\D/g,'');
+    }
+
+    $(document).on('keyup', '.input-number', check_number);
 });
 
 
@@ -236,4 +243,16 @@ function plotLines(domId, data) {
         series: seriesData,
     };
     myChart.setOption(option);
+}
+
+
+// 验证
+function validate_required(value,alerttxt="输入为空"){
+    if (value==null||value==""){
+        alert(alerttxt);
+        return false;
+    }
+    else {
+        return true;
+    }
 }

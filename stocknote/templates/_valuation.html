@@ -1,0 +1,127 @@
+
+{% set years_count = (params.cashflow_growths | length) %}
+{% set col_total = 2 + years_count %}
+
+<small>
+    <table class="table table-bordered table-condensed">
+        <thead>
+            <tr>
+                <th class="text-center" colspan="{{ col_total }}">DCF估值结果</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <th colspan="{{ col_total }}"><span class="text-info">一、设置参数</span></th>
+            </tr>
+            <tr class="text-center">
+                <td colspan="2">总股本(TE)</td>
+                <td colspan="{{col_total - 2 }}">{{ params.total_equity if params.total_equity is number else '-' }}</td>
+            </tr>
+            <tr class="text-center">
+                <td colspan="2">最近一个年度自由现金流(FCF)</td>
+                <td colspan="{{col_total -2 }}">{{ params.initial_cashflow }}</td>
+            </tr>
+            <tr class="text-center">
+                <td rowspan="2" style="vertical-align: middle;">FCF增长率</td>
+                <td>年数</td>
+                {% for i in range(years_count) %}
+                <td>{{ i + 1 }}</td>
+                {% endfor %}
+            </tr>
+            <tr class="text-center">
+                <td>增长率</td>
+                {% for r in params.cashflow_growths %}
+                <td>{{ r }}</td>
+                {% endfor %}                
+            </tr>
+            <tr class="text-center">
+                <td colspan="2">折现率(R)</td>
+                <td colspan="{{ col_total - 2 }}">{{ params.discount_rate }}</td>
+            </tr>
+            <tr class="text-center">
+                <td colspan="2">永续年金增长率(g)</td>
+                <td colspan="{{ col_total - 2 }}">{{ params.g }}</td>
+            </tr>
+            <tr class="text-center">
+                <td colspan="2">安全边际(MOS)</td>
+                <td colspan="{{ col_total - 2 }}">{{ params.margin_of_safety }}</td>
+            </tr>
+            <tr>
+                <th colspan="{{ col_total }}"><span class="text-info">二、预测下一个{{years_count}}年的自由现金流</span></th>
+            </tr>
+            <tr class="text-center">
+                <td colspan="2">年数(N)</td>
+                {% for i in range(years_count) %}
+                    <td>{{ i + 1 }}</td>
+                {% endfor %}
+            </tr>
+            <tr class="text-center">
+                <td colspan="2">自由现金流(FCF)</td>
+                {% for cf in data.cashflows %}
+                <td>{{ cf }}</td>
+                {% endfor %}
+            </tr>
+            <tr class="text-center">
+                <td colspan="2"> &divide; (1 + R)<sup>N</sup></td>
+                {% for cf in data.cashflows %}
+                <td>{{ 1 + params.discount_rate }}<sup>{{loop.index}}</sup></td>
+                {% endfor %}
+            </tr>
+            <tr class="text-center">
+                <td colspan="2"> = 折现自由现金流</td>
+                {% for pv in data.present_values %}
+                <td>{{ pv | int }}</td>
+                {% endfor %}
+            </tr>
+            <tr class="text-center">
+                <td colspan="2">折现自由现金流总和</td>
+                <td colspan="{{ col_total - 2 }}">{{ data.pv_total | int }}</td>
+            </tr>
+            <tr>
+                <th colspan="{{ col_total }}"><span class="text-info">三、计算永续年金价值并把它折现成现值</span></th>
+            </tr>
+            <tr class="text-center">
+                <td colspan="2">计算公式</td>
+                <td colspan="{{ col_total - 2 }}">
+                    永续年金价值 = FCF<sub>last</sub> &times; (1 + g) &divide; (R - g)， 其中 FCF<sub>last</sub> 是第{{years_count}}年的自由现金流量
+                </td>
+            </tr>
+            <tr class="text-center">
+                <td colspan="2">永续年金价值</td>
+                <td colspan="{{ col_total - 2 }}">
+                    {{ "(%d × %.3f) ÷ ( %.3f - %.3f) = %d" | format(data.cashflows[-1], 1 + params.g, params.discount_rate, params.g, data.perpetuity_value)}}
+                </td>
+            </tr>
+            <tr class="text-center">
+                <td colspan="2">折现永续年金</td>
+                <td colspan="{{ col_total - 2 }}">
+                    {{ data.perpetuity_value }} &divide; {{1 + params.discount_rate}} <sup>{{ years_count }}</sup> = {{ data.present_value_of_perpetuity_value | int }}
+                </td>
+            </tr>
+            <tr >
+                <th colspan="{{ col_total }}"><span class="text-info">四、计算所有者权益合计 ({{years_count}}年折现现金流 + 永续年金的折现值)</span></th>
+            </tr>
+            <tr class="text-center">
+                <td colspan="2">所有者权益合计</td>
+                <td colspan="{{ col_total - 2 }}">
+                    {{"%d + %d = %d" | format(data.pv_total, data.present_value_of_perpetuity_value, data.final_valuation)}}
+                </td>
+            </tr>
+            <tr >
+                <th colspan="{{ col_total }}"><span class="text-info">五、计算每股价值</span></th>
+            </tr>
+            <tr class="text-center">
+                <td colspan="2">每股价值</td>
+                <td colspan="{{ col_total - 2 }}">
+                    {{ (data.final_valuation / params.total_equity) | round(2) if params.total_equity is number else '所有者权益合计 ÷ 总股本'}}
+                </td>
+            </tr>
+            <tr class="text-center">
+                <td colspan="2">安全边际价格</td>
+                <td colspan="{{ col_total - 2 }}">
+                    {{ ((1 - params.margin_of_safety) * data.final_valuation / params.total_equity) | round(2) if params.total_equity is number else '每股价值 × (1 - 安全边际)'}}
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</small>

@@ -32,9 +32,12 @@
             <div class="col-md-12">
                 <!-- Nav tabs -->
                 <ul class="nav nav-tabs" role="tablist">
-                    <li role="presentation" class="active"><a href="#i_growthRevenue" aria-controls="i_growthRevenue" role="tab" data-toggle="tab">营业收入</a></li>
-                    <li role="presentation"><a href="#i_growthNetProfit" aria-controls="i_growthNetProfit" role="tab" data-toggle="tab">净利润</a></li>
-                    <li role="presentation"><a href="#i_growthNetProfitNrgal" aria-controls="i_growthNetProfitNrgal" role="tab" data-toggle="tab">扣非净利润</a></li>
+                    <li role="presentation" class="active"><a href="#i_growthRevenue" aria-controls="i_growthRevenue"
+                            role="tab" data-toggle="tab">营业收入</a></li>
+                    <li role="presentation"><a href="#i_growthNetProfit" aria-controls="i_growthNetProfit" role="tab"
+                            data-toggle="tab">净利润</a></li>
+                    <li role="presentation"><a href="#i_growthNetProfitNrgal" aria-controls="i_growthNetProfitNrgal"
+                            role="tab" data-toggle="tab">扣非净利润</a></li>
                 </ul>
                 <br>
                 <!-- Tab panes -->
@@ -51,13 +54,24 @@
                 </div>
             </div>
             <div class="col-md-12">
-                <p>若公司表现出高增长，则需要注意，高增长的历史记录并不能保证公司未来还能继续保持高速增长，需要进一步分析其
-                    <a data-toggle="popover" data-placement="top" data-trigger="hover" data-html=true data-title="可能的成长来源" data-content="&lt;ul class=&quot;list-unstyled&quot;&gt;&lt;li&gt;1.销售更多的产品或服务&lt;/li&gt;&lt;li&gt;2.提高价格(凭借品牌或垄断)&lt;/li&gt;&lt;li&gt;3.销售新的产品或服务&lt;/li&gt;&lt;li&gt;4.购买其他公司&lt;/li&gt;&lt;/ul&gt;">成长率的来源<i class="ri-information-line"></i>
-                    </a>
-                    和是否具有
-                    <a data-toggle="popover" data-trigger="hover" data-placement="top" title="质询成长质量" data-content="通常，收购是个质量很低的增长途径；最直接的是销售增长，因为销售增长是很难伪造的；而盈利增长有可能伪造，所以一般而言，任何一家公司盈利增长超过销售增长持续一段时间(比如5~10年)，你就需要深挖这些数字(比如是不是有削减成本、税率降低、一次性损益等不可持续的行为)。">可持续性<i class="ri-information-line"></i>
-                    </a>。
-                </p>
+                <div class="alert alert-warning" role="alert">
+                    <p>若公司表现出高增长，则需要注意，高增长的历史记录并不能保证公司未来还能继续保持高速增长，需要进一步调查分析其
+                        <a data-toggle="popover" data-placement="top" data-trigger="hover" data-html=true
+                            data-title="可能的成长来源"
+                            data-content="&lt;ul class=&quot;list-unstyled&quot;&gt;&lt;li&gt;1.销售更多的产品或服务(销量增长或市场份额增加)&lt;/li&gt;&lt;li&gt;2.提高价格(凭借品牌或垄断地位)&lt;/li&gt;&lt;li&gt;3.销售新的产品或服务&lt;/li&gt;&lt;li&gt;4.购买其他公司&lt;/li&gt;&lt;/ul&gt;">成长性的来源<i
+                                class="ri-information-line"></i>
+                        </a>
+                        和该成长性是否具有
+                        <a data-toggle="popover" data-trigger="hover" data-placement="top" title="质询成长质量"
+                            data-content="销售增长和进入一个新市场带来的高质量成长，比单靠降价和会计作假带来的低质量成长更具有可持续性；销售增长是很难伪造的，而推进盈利增长的欺骗方法很多，所以一般而言，任何一家公司盈利增长超过销售增长持续一段时间(比如5~10年)，你就需要深挖这些数字(比如是不是有削减成本、税率降低、一次性损益等不可持续的行为)。另外，收购通常是个质量很低的增长途径。">可持续性<i
+                                class="ri-information-line"></i>
+                        </a>。
+                    </p>
+                </div>
+            </div>
+            <div class="col-md-12">
+                <br>
+                <p class="text-left text-default"><a><i class="ri-message-3-line"></i> 分析笔记</a></p>
             </div>
         </div>
         <br>
@@ -66,15 +80,34 @@
             <hr><br>
             <div class="col-md-12">
                 <div id="J_PlotPorfitablity" style="width: 600px;height:300px;"></div>
+                <div><a data-toggle="collapse" data-target="#i_thresholds">参考阈值<i class="ri-information-line"></i></a>
+                </div>
+                <div id="i_thresholds" class="collapse">
+                    <br>
+                    <ul class="text-muted">
+                        <li><small>自由现金流/销售收入 >= 5%</small></li>
+                        <li><small>净利润率 >= 15%</small></li>
+                        <li><small>ROA >= 6%</small></li>
+                        <li><small>ROE >= 10%</small></li>
+                    </ul>
+                </div>
+                <br>
             </div>
-            <div>
-                <p>通过调查公司的财务状况，寻找公司拥有竞争优势的确实证据，《股市真规则》中给出了以下指标的参考值: </p>
-                <ul>
-                    <li>自由现金流/销售收入 >= 5%</li>
-                    <li>净利润率 >= 15%</li>
-                    <li>ROE >= 15%</li>
-                    <li>ROA >= 6%</li>
-                </ul>
+            <div class="col-md-12">
+                <div class="alert alert-warning" role="alert">
+                    <p class="text-center text-muted">净资产收益率(ROE) = 销售净利率 &times; 资产周转率 &times; 财务杠杆比率</p>
+                    <br>
+                    <p>使用净资产收益率评估一家公司的时候，需要注意两个问题：</p>
+                    <ol>
+                        <li>银行的财务杠杆比率永远是巨大的，我们需要提高金融公司的衡量标准，寻找净资产收益率稳定在12%以上的公司；</li>
+                        <li>如果企业的ROE看上去太好了，有可能不真实。ROE在40%以上常常是没有意义的，因为它也许已经被公司的财务结构扭曲了，比如公司最近可能从母公司分拆出来、公司可能回购了而很多股票、或者公司进行了大规模的加价等。
+                        </li>
+                    </ol>
+                </div>
+            </div>
+            <div class="col-md-12">
+                <br>
+                <p class="text-left text-default"><a><i class="ri-message-3-line"></i> 分析笔记</a></p>
             </div>
         </div>
         <br>
@@ -91,21 +124,151 @@
                     <li>通过建立高进入壁垒把竞争者阻挡在外面</li>
                 </ul>
             </div>
+            <div class="col-md-12">
+                <br>
+                <p class="text-left text-info"><a><i class="ri-message-3-line"></i> 分析笔记</a></p>
+            </div>
         </div>
         <br>
         <div class="row">
             <h5 class="text-success" id="health"><i class="glyphicon glyphicon-heart"></i> 财务健康</h5>
             <hr><br>
+            <div class="col-md-12">
+                <table class="table table-bordered table-condensed">
+                    <thead>
+                        <tr>
+                            <th class="text-center">报告期</th>
+                            <th class="text-center">资产负债率</th>
+                            <th class="text-center">权益乘数</th>
+                            <th class="text-center">产权比率</i></th>
+                            <th class="text-center">流动比率</th>
+                            <th class="text-center">速动比率</th>
+                            <th class="text-center">已获利息倍数</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="text-center">
+                            <td>2019</td>
+                            <td>2019</td>
+                            <td>2019</td>
+                            <td>2019</td>
+                            <td>2019</td>
+                            <td>2019</td>
+                            <td>数据缺失</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="col-md-12">
+                <div><a data-toggle="collapse" data-target="#i_finDesc">小贴士 <i class="ri-information-line"></i></a>
+                </div>
+                <div class="alert alert-info collapse" role="alert" id="i_finDesc">
+                    <small>
+                        <p>对于财务健康状况来说，当公司增加负债时，同时也增加了公司的固定费用，它占总费用一定的百分比，在公司生意好的年份里，高固定费用的公司盈利非常好，因为一旦支付完这些费用，所有额外的销售收入就直接计入自己的账上了；而当生意不好的时候，债务的固定费用会把盈利降得相当低。
+                        </p>
+                        <p>通过已获利息倍数这个指标，就可以知道公司可以为它的债务支付多少倍的利息费用。已获利息倍数越高越好，业务不稳定的公司行业稳定的公司应该有更好的已获利息倍数。计算观察近5年的比率，可以看到公司已获利息倍数是否真该逐渐下降，公司是否变得风险越来越大，或者公司的财务健康状况是否正在改善。
+                        </p>
+                        <p>低流动比率意味着公司没有足够的现金来源来偿还即将到期的债务，这就迫使公司在外面寻找融资，或者把营业收入用于偿债。一般而言，流动比率保持在 1.5
+                            左右的公司能够应对正常运营之需，不会遇到太大的麻烦。</p>
+                        <p>速动比率对制造业和零售业公司特别有用，因为这两类公司中存货占用了大量资金，这些存货也许没有它们在资产负债表上的价值值钱。通常速动比率高于 1.0
+                            被视为公司处于比较好的状态，但是一定要对照看一下同行业其他公司的实际情况。</p>
+                    </small>
+                </div>
+            </div>
+            <div class="col-md-12">
+                <br>
+                <p class="text-left text-default"><a><i class="ri-message-3-line"></i> 分析笔记</a></p>
+            </div>
         </div>
         <br>
         <div class="row">
             <h5 class="text-success" id="risk"><i class="glyphicon glyphicon-warning-sign"></i> 潜在风险</h5>
             <hr><br>
+            <div class="col-md-12">
+                <p>买入股票之前，思考所有潜在的负面因素，这能帮助你在坏消息的苗头显露出来时做出更明智的决定。试着思考下：当你想买入的时候，为什么某些人更愿意卖出？</p>
+            </div>
+            <div class="col-md-12">
+                <br>
+                <p class="text-left text-default"><a role="button"><i class="ri-message-3-line"></i> 分析笔记</a></p>
+            </div>
         </div>
         <br>
         <div class="row">
-            <h5 class="text-success" id="valuation"><i class="glyphicon glyphicon-scale"></i> 安全边际</h5>
+            <h5 class="text-success" id="valuation"><i class="ri-scales-3-fill"></i> 估值</h5>
             <hr><br>
+            <div class="col-md-10 col-md-offset-1">
+                <div class="table-responsive">
+                    <table class="table table-condensed">
+                        <thead>
+                            <tr class="active">
+                                <th class="text-center" width="30%">参数名</th>
+                                <th class="text-center">参数值</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr class="text-center">
+                                <td>总股本</td>
+                                <td><input type="text" class="form-control input-sm input-number" id="inputTotalEquity"
+                                        placeholder="可选"></td>
+                            </tr>
+                            <tr class="text-center">
+                                <td>初始自由现金流</td>
+                                <td><input type="text" class="form-control input-sm input-number"
+                                        id="inputInitialFreeCashFlow" placeholder="一般取最近一个年度报告期的自由现金流"></td>
+                            </tr>
+                            <tr class="text-center">
+                                <td>
+                                    <a data-toggle="popover" data-trigger="hover" data-placement="top"
+                                        title="估算自由现金流增长有多快"
+                                        data-content="参考过去的自由现金增长率，考虑公司成长有多快、竞争对手公司的实力、公司的资本需求等等。只有已经具有很强竞争优势和低资本需求的公司才能长期保持增长率在平均水平之上。如果公司是周期性的，别忘了加入表现不好的年份。">自由现金流增长率<i
+                                            class="ri-information-line"></i></a>
+                                </td>
+                                <td><input type="text" class="form-control input-sm" id="inputFreeCashFlowGrowth"
+                                        onkeyup="value=value.replace(/[^\d\.,]/g,'')" placeholder="逗号分隔，依次为第1年、第2年、第3年...的自由现金流增长率"></td>
+                            </tr>
+                            <tr class="text-center">
+                                <td>
+                                    <a data-toggle="popover" data-trigger="hover" data-placement="top" title="估算折现率"
+                                        data-content="机会成本+风险溢价。机会成本采用十年国债收益率(3.5%左右)；风险溢价一般取两倍的机会成本，具体根据公司产生自由现金流的可能性，作一定的调整。公司产生自由现金流的可能性与公司的规模、财务杠杆、周期性、经营与管理、竞争优势、复杂性等有关。">
+                                        折现率
+                                        <i class="ri-information-line"></i>
+                                    </a>
+                                </td>
+                                <td><input type="number" class="form-control input-sm" id="inputDiscountRate" min="0.01"
+                                        max="0.4" step="0.01" value="0.105"></td>
+                            </tr>
+                            <tr class="text-center">
+                                <td>
+                                    <a data-toggle="popover" data-trigger="hover" data-placement="top" title="估算长期增长率"
+                                        data-content="可以取GDP平均增长率(假设未来到5%)作为长期增长率，对于处于衰退行业中的公司，可以在这个值的基础上再进一步下调。">
+                                        永续年金增长率
+                                        <i class="ri-information-line"></i>
+                                </td>
+                                <td><input type="number" class="form-control input-sm" id="inputPerpetuityValueGrowth"
+                                        min="0.01" max="0.2" step="0.01" value="0.05"></td>
+                            </tr>
+                            <tr class="text-center">
+                                <td>
+                                    <a data-toggle="popover" data-trigger="hover" data-placement="top" title="估算安全边际"
+                                        data-content="通常，对有较大竞争优势的稳定公司取20%，没有竞争优势的高风险的公司取60%。">
+                                        安全边际
+                                        <i class="ri-information-line"></i>
+                                    </a>
+                                </td>
+                                <td><input type="number" class="form-control input-sm" id="inputMOS" min="0.01"
+                                        max="0.5" step="0.01" value="0.35"></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <br>
+                <button type="button" class="btn btn-primary btn-sm" onclick="calStockValuation()">计算估值</button>
+                <br>
+            </div>
+            <div class="col-md-12">
+                <br>
+                <div id="J_valuation"></div>
+            </div>
         </div>
         <br>
         <div class="row">
@@ -122,7 +285,7 @@
                 <li><a href="#advantage"> - 竞争优势</a></li>
                 <li><a href="#health"> - 财务健康</a></li>
                 <li><a href="#risk"> - 潜在风险</a></li>
-                <li><a href="#valuation"> - 安全边际</a></li>
+                <li><a href="#valuation"> - 估值</a></li>
                 <li><a href="#note"> - 我的笔记</a></li>
             </ul>
         </nav>
@@ -130,18 +293,18 @@
 </div>
 
 <script>
-    function getDataAndPlotIncome(url, domId){
-        $.getJSON(url, function(data){
+    function getDataAndPlotIncome(url, domId) {
+        $.getJSON(url, function (data) {
             plotIncomeMixLineBar(domId, data);
         })
     }
 
-    function getDataAndPlotLines(url, domId){
-        $.getJSON(url, function(data){
+    function getDataAndPlotLines(url, domId) {
+        $.getJSON(url, function (data) {
             plotLines(domId, data);
         })
     }
-    
+
     $(function () {
         $('[data-toggle="popover"]').popover();   // 初始化bootstrap的弹出框
 
@@ -149,7 +312,7 @@
         var revenue_url = "{{ url_for('stock.api_revenue', code=stock.code) }}";
         var net_profit_nrgal_url = "{{ url_for('stock.api_net_profit_nrgal', code=stock.code) }}";
         var net_profit_url = "{{ url_for('stock.api_net_profit', code=stock.code) }}";
-        
+
         getDataAndPlotIncome(revenue_url, "J_growthRevenueChart");
         getDataAndPlotIncome(net_profit_nrgal_url, "J_growthNetProfitNrgalChart");
         getDataAndPlotIncome(net_profit_url, "J_growthNetProfitChart");
@@ -158,6 +321,40 @@
         var profitability_url = "{{ url_for('stock.api_profitablity', code=stock.code) }}";
         getDataAndPlotLines(profitability_url, "J_PlotPorfitablity");
     });
+
+
+    function calStockValuation() {
+        var valuation_url = "{{ url_for('stock.valuation') }}"
+
+        var initial_free_cashflow = $("#inputInitialFreeCashFlow").val().trim();
+        var free_cashflow_growth = $("#inputFreeCashFlowGrowth").val().trim();
+        var discount_rate = $("#inputDiscountRate").val();
+        var perpetuity_value_growth = $("#inputPerpetuityValueGrowth").val();
+        var total_equity = $("#inputTotalEquity").val();
+        var mos = $("#inputMOS").val();
+
+        var a = validate_required(initial_free_cashflow, "初始现金流不能为空");
+        var b = validate_required(free_cashflow_growth, "现金流增长率不能为空");
+        if (!(a & b)) { return }
+
+        var params = {
+            initialCashFlow: initial_free_cashflow,
+            cashFlowGrowths: free_cashflow_growth,
+            totalEquity: total_equity,
+            g: perpetuity_value_growth,
+            discountRate: discount_rate,
+            mos: mos
+        }
+
+        $.ajax({
+            type: 'GET',
+            url: valuation_url,
+            data: params,
+            success: function (data) {
+                $("#J_valuation").hide().html(data).fadeIn(800);
+            }
+        })
+    }
 
 </script>
 
