@@ -3,11 +3,8 @@ from datetime import datetime, date, timedelta
 import requests
 from parsel import Selector
 
-from stocknote.utils.decorators import singleton
 
-
-@singleton
-class StockDataCrawlerService:
+class HexunCrawler:
     """ 股票数据爬虫服务
     """
     headers = {"User-Agent":"Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:77.0) Gecko/20100101 Firefox/77.0"}
@@ -17,19 +14,6 @@ class StockDataCrawlerService:
     lr_url = "http://stockdata.stock.hexun.com/2008/lr.aspx"
 
     # url = "http://basic.10jqka.com.cn/api/stock/export.php?export=main&type=year&code=600196"
-
-    def crawl_stock_list(self):
-        """ 获取股票列表
-        """
-        url = "http://file.tushare.org/tsdata/all.csv"
-        resp = requests.get(url)
-        resp.encoding="gbk"
-        text = resp.text.strip()
-        data = []
-        for line in text.split("\r\n")[1:]:
-            code, name, *_ = line.split(",")
-            data.append({"code":code, "name":name})
-        return data
 
     def _get_selector(self, url, params=None):
         if params is None:
@@ -103,5 +87,4 @@ class StockDataCrawlerService:
         item = {"code": code, "account_date": account_date}
         item["net_asset"]
         item["net_profit"] = selector.xpath("//div[@class='tishi']/strong[contains(text(),'所有者权益（或股东权益）合计')]/../../following-sibling::td/div/text()").get("").replace(",","")
-
         return item

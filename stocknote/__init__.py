@@ -81,34 +81,3 @@ def register_commands(app):
             click.echo('Drop tables.')
         db.create_all()
         click.echo('Initialized database.')
-
-    @app.cli.command()
-    def initstock():
-        """ 初始化股票列表
-        """
-        from stocknote.models.stock import Stock
-        from stocknote.services.crawlers import StockDataCrawlerService
-
-        service = StockDataCrawlerService()
-        data = service.crawl_stock_list()
-        for item in data:
-            stock = Stock(**item)
-            db.session.add(stock)
-        db.session.commit()
-
-    @app.cli.command()
-    @click.option("--code", type=click.STRING, help="股票代码")
-    @click.option("--account-date", type=click.DateTime(formats=["%Y-%m-%d",]), help="会计日期")
-    def add_cashflow(code, account_date):
-        """ 添加单只股票的现金流量数据
-        """
-        from stocknote.models.stock import CashFlow
-        from stocknote.services.crawlers import StockDataCrawlerService
-
-        service = StockDataCrawlerService()
-        item = service.crawl_cashflow(code, account_date)
-
-        cashflow = CashFlow(**item)
-        db.session.add(cashflow)
-        db.session.commit()
-
