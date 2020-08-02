@@ -36,7 +36,8 @@ class StockIndicators(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     code = db.Column(db.String(10), index=True, nullable=False)
     account_date = db.Column(db.Date, nullable=False, index=True, comment="报告期")
-    total_revenue = db.Column(db.Float(20, True), comment="营业收入(元)")
+    total_revenue = db.Column(db.Float(20, True), comment="营业总收入(元)")
+    revenue = db.Column(db.Float(20, True), comment="营业收入(元)")
     operating_income_yoy = db.Column(db.Float(20, True), comment="营业收入同比增长(%)")
     net_profit_atsopc = db.Column(db.Float(20, True), comment="净利润(元)")
     net_profit_atsopc_yoy = db.Column(db.Float(20, True), comment="净利润同比增长(%)")
@@ -73,11 +74,37 @@ class StockIndicators(db.Model):
     fixed_asset_turnover_ratio = db.Column(db.Float(20, True), comment="固定资产周转率")
 
 
+class IncomeStatement(db.Model):
+    __tablename__ = "income_statement"
+
+    id = db.Column(db.Integer, primary_key=True)
+    code = db.Column(db.String(10), index=True, nullable=False)
+    account_date = db.Column(db.Date, nullable=False, index=True, comment="报告期")
+    total_revenue = db.Column(db.Float, comment="营业总收入")
+    revenue = db.Column(db.Float, comment="其中:营业收入")
+    operating_costs = db.Column(db.Float, comment="营业总成本")
+    operating_cost = db.Column(db.Float, comment="其中:营业成本")
+    sales_fee = db.Column(db.Float, comment="销售费用")
+    manage_fee = db.Column(db.Float, comment="管理费用")
+    rad_cost = db.Column(db.Float, comment="研发费用")
+    financing_expenses = db.Column(db.Float, comment="财务费用")
+    finance_cost_interest_fee = db.Column(db.Float, comment="其中:利息费用")
+    asset_impairment_loss = db.Column(db.Float, comment="资产减值损失")
+    credit_impairment_loss = db.Column(db.Float, comment="信用减值损失")
+    invest_income = db.Column(db.Float, comment="投资收益")
+    invest_incomes_from_rr = db.Column(db.Float, comment="其中：对联营企业和合营企业的投资收益")
+    net_profit = db.Column(db.Float, comment="净利润") 
+    net_profit_atsopc = db.Column(db.Float, comment="归属于母公司所有者的净利润") 
+    operating_taxes_and_surcharge = db.Column(db.Float, comment="营业税金及附加")
+
+
 class CashFlow(db.Model):
     __tablename__ = "cash_flow"
+
     id = db.Column(db.Integer, primary_key=True)
     code = db.Column(db.String(10), index=True, nullable=False)
     net_operating_cashflow = db.Column(db.Float(20, True), comment="经营活动产生的现金流量净额")
     net_investing_cashflow = db.Column(db.Float(20, True), comment="投资活动产生的现金流量净额")
     net_financing_cashflow = db.Column(db.Float(20, True), comment="筹资活动产生的现金流量净额")
     account_date = db.Column(db.Date, nullable=False, index=True, comment="报告期")
+    
