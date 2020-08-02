@@ -30,20 +30,36 @@
             <h5 class="text-success" id="competitiveEdge"><i class="glyphicon glyphicon-star"></i> 竞争优势</h5>
             <hr><br>
             <div class="col-md-12">
-                <h5 class="text-center">盈利能力指标</h5>
-                <div id="J_PlotPorfitablity" style="width: 600px;height:300px;"></div>
-                <div><a data-toggle="collapse" data-target="#i_thresholds">参考阈值<i class="ri-information-line"></i></a>
-                </div>
-                <div id="i_thresholds" class="collapse">
-                    <br>
-                    <ul class="text-muted">
-                        <li><small>自由现金流/销售收入 >= 5%</small></li>
-                        <li><small>净利润率 >= 15%</small></li>
-                        <li><small>ROA >= 6%</small></li>
-                        <li><small>ROE >= 10%</small></li>
-                    </ul>
-                </div>
+                <!-- Nav tabs -->
+                <ul class="nav nav-tabs" role="tablist">
+                    <li role="presentation" class="active"><a href="#i_profitabilityIndicators"
+                            aria-controls="i_profitabilityIndicators" role="tab" data-toggle="tab">盈利能力指标</a></li>
+                    <li role="presentation"><a href="#i_freeCashFlow" aria-controls="i_freeCashFlow" role="tab"
+                            data-toggle="tab">历史自由现金流</a></li>
+                </ul>
                 <br>
+                <!-- Tab panes -->
+                <div class="tab-content">
+                    <div role="tabpanel" class="tab-pane active" id="i_profitabilityIndicators">
+                        <div id="J_profitabilityIndicatorsChart" style="width: 600px;height:300px;"></div>
+                        <div><a data-toggle="collapse" data-target="#i_thresholds">参考阈值<i
+                                    class="ri-information-line"></i></a>
+                        </div>
+                        <div id="i_thresholds" class="collapse">
+                            <br>
+                            <ul class="text-muted">
+                                <li><small>自由现金流/销售收入 >= 5%</small></li>
+                                <li><small>净利润率 >= 15%</small></li>
+                                <li><small>ROA >= 6%</small></li>
+                                <li><small>ROE >= 10%</small></li>
+                            </ul>
+                        </div>
+                        <br>
+                    </div>
+                    <div role="tabpanel" class="tab-pane" id="i_freeCashFlow">
+                        <div id="J_freeCashFlowTable"></div>
+                    </div>
+                </div>
             </div>
             <div class="col-md-12">
                 <div class="alert alert-warning" role="alert">
@@ -56,8 +72,6 @@
                         </li>
                     </ol>
                 </div>
-            </div>
-            <div class="col-md-12">
                 <p>通过分析公司自由现金流、毛利率、净资产收益率、资产收益率来检验公司过去的盈利能力怎样，寻找竞争优势的证据。若公司显示较强的盈利能力，则进一步分析公司是否某方面的竞争优势，这些竞争优势有可能是:</p>
                 <ul>
                     <li>通过出众的技术或特色创造真实的差异化产品</li>
@@ -298,7 +312,7 @@
             success: function (data) {
                 $("#" + domId).html(data);
             }
-        }) 
+        })
     }
 
     $(function () {
@@ -308,9 +322,12 @@
         var financial_indicator_url = "{{ url_for('stock.financial_indicators', code=stock.code) }}";
         // 百分率利润表
         var income_percentage_url = "{{ url_for('stock.income_percentage', code=stock.code) }}";
-        
+        // 自由现金流量表
+        var free_cashflow_url = "{{ url_for('stock.free_cashflow', code=stock.code) }}";
+
         loadTable(financial_indicator_url, "J_financialIndicatorsTable");
         loadTable(income_percentage_url, "J_incomePercentageTable");
+        loadTable(free_cashflow_url, "J_freeCashFlowTable");
 
         // 成长性相关曲线图
         var revenue_url = "{{ url_for('stock.api_revenue', code=stock.code) }}";
@@ -323,7 +340,7 @@
 
         // 盈利能力相关曲线图
         var profitability_url = "{{ url_for('stock.api_profitablity', code=stock.code) }}";
-        getDataAndPlotLines(profitability_url, "J_PlotPorfitablity");
+        getDataAndPlotLines(profitability_url, "J_profitabilityIndicatorsChart");
     });
 
 

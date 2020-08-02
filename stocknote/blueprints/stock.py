@@ -21,6 +21,28 @@ def stock_detail():
     return render_template("stock/_stock_index.html", stock=stock)
 
 
+@stock_bp.route("/free-cashflow", methods=["GET"])
+def free_cashflow():
+    code = request.args.get("code")
+    cfr_ratios = get_cashflow_revenue_ratios(code)
+    q = CashFlow.query.filter_by(code=code).order_by(CashFlow.account_date).all()
+    data = []
+    pre_cf = None
+    for item in q:
+        new_item = dict()
+        new_item["cfr_ratio"] = cfr_ratios.get(item.account_date)
+        new_item["account_date"] = item.account_date
+        new_item["net_operating_cashflow"] = item.net_operating_cashflow
+        if pre_cf is None:
+            new_item["nocf_yoy"] = None
+        else:
+            new_item["nocf_yoy"] = 100 * (item.net_operating_cashflow - pre_cf) / pre_cf
+        pre_cf = item.net_operating_cashflow
+        data.append(new_item)
+    data.sort(key=itemgetter("account_date"), reverse=True)
+    return render_template("stock/_cashflow_table.html", cashflows=data)
+
+
 @stock_bp.route("/income-percentage", methods=["GET"])
 def income_percentage():
     """百分率利润表
