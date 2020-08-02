@@ -27,6 +27,52 @@
         </div>
         <br>
         <div class="row">
+            <h5 class="text-success" id="competitiveEdge"><i class="glyphicon glyphicon-star"></i> 竞争优势</h5>
+            <hr><br>
+            <div class="col-md-12">
+                <div id="J_PlotPorfitablity" style="width: 600px;height:300px;"></div>
+                <div><a data-toggle="collapse" data-target="#i_thresholds">参考阈值<i class="ri-information-line"></i></a>
+                </div>
+                <div id="i_thresholds" class="collapse">
+                    <br>
+                    <ul class="text-muted">
+                        <li><small>自由现金流/销售收入 >= 5%</small></li>
+                        <li><small>净利润率 >= 15%</small></li>
+                        <li><small>ROA >= 6%</small></li>
+                        <li><small>ROE >= 10%</small></li>
+                    </ul>
+                </div>
+                <br>
+            </div>
+            <div class="col-md-12">
+                <div class="alert alert-warning" role="alert">
+                    <p class="text-center text-muted">净资产收益率(ROE) = 销售净利率 &times; 资产周转率 &times; 财务杠杆比率</p>
+                    <br>
+                    <p>使用净资产收益率评估一家公司的时候，需要注意两个问题：</p>
+                    <ol>
+                        <li>银行的财务杠杆比率永远是巨大的，我们需要提高金融公司的衡量标准，寻找净资产收益率稳定在12%以上的公司；</li>
+                        <li>如果企业的ROE看上去太好了，有可能不真实。ROE在40%以上常常是没有意义的，因为它也许已经被公司的财务结构扭曲了，比如公司最近可能从母公司分拆出来、公司可能回购了而很多股票、或者公司进行了大规模的加价等。
+                        </li>
+                    </ol>
+                </div>
+            </div>
+            <div class="col-md-12">
+                <p>通过分析公司自由现金流、毛利率、净资产收益率、资产收益率来检验公司过去的盈利能力怎样，寻找竞争优势的证据。若公司显示较强的盈利能力，则进一步分析公司是否某方面的竞争优势，这些竞争优势有可能是:</p>
+                <ul>
+                    <li>通过出众的技术或特色创造真实的差异化产品</li>
+                    <li>通过一个信任的品牌或声誉创造可感知的差异化产品</li>
+                    <li>降低成本并以更低的价格提供相似的产品和服务</li>
+                    <li>通过创造高的转换成本锁定消费者</li>
+                    <li>通过建立高进入壁垒把竞争者阻挡在外面</li>
+                </ul>
+            </div>
+            <div class="col-md-12">
+                <br>
+                <p class="text-left text-default"><a><i class="ri-message-3-line"></i> 分析笔记</a></p>
+            </div>
+        </div>
+        <br>
+        <div class="row">
             <h5 class="text-success" id="growth"><i class="glyphicon glyphicon-signal"></i> 成长性</h5>
             <hr><br>
             <div class="col-md-12">
@@ -76,34 +122,14 @@
         </div>
         <br>
         <div class="row">
-            <h5 class="text-success" id="profitability"><i class="glyphicon glyphicon-piggy-bank"></i> 盈利能力</h5>
+            <h5 class="text-success" id="profitability"><i class="glyphicon glyphicon-piggy-bank"></i> 收益性</h5>
             <hr><br>
             <div class="col-md-12">
-                <div id="J_PlotPorfitablity" style="width: 600px;height:300px;"></div>
-                <div><a data-toggle="collapse" data-target="#i_thresholds">参考阈值<i class="ri-information-line"></i></a>
-                </div>
-                <div id="i_thresholds" class="collapse">
-                    <br>
-                    <ul class="text-muted">
-                        <li><small>自由现金流/销售收入 >= 5%</small></li>
-                        <li><small>净利润率 >= 15%</small></li>
-                        <li><small>ROA >= 6%</small></li>
-                        <li><small>ROE >= 10%</small></li>
-                    </ul>
-                </div>
-                <br>
+                <h5 class="text-center">百分率利润表 - {{stock.name}}</h5>
+                <div id="J_incomePercentageTable"></div>
             </div>
             <div class="col-md-12">
-                <div class="alert alert-warning" role="alert">
-                    <p class="text-center text-muted">净资产收益率(ROE) = 销售净利率 &times; 资产周转率 &times; 财务杠杆比率</p>
-                    <br>
-                    <p>使用净资产收益率评估一家公司的时候，需要注意两个问题：</p>
-                    <ol>
-                        <li>银行的财务杠杆比率永远是巨大的，我们需要提高金融公司的衡量标准，寻找净资产收益率稳定在12%以上的公司；</li>
-                        <li>如果企业的ROE看上去太好了，有可能不真实。ROE在40%以上常常是没有意义的，因为它也许已经被公司的财务结构扭曲了，比如公司最近可能从母公司分拆出来、公司可能回购了而很多股票、或者公司进行了大规模的加价等。
-                        </li>
-                    </ol>
-                </div>
+                <p>深入挖掘公司是怎么赚钱的</p>
             </div>
             <div class="col-md-12">
                 <br>
@@ -112,29 +138,10 @@
         </div>
         <br>
         <div class="row">
-            <h5 class="text-success" id="advantage"><i class="glyphicon glyphicon-star"></i> 竞争优势</h5>
-            <hr><br>
-            <div class="col-md-12">
-                <p>若公司显示较强的盈利能力，则进一步分析公司是否某方面的竞争优势，这些竞争优势有可能是:</p>
-                <ul>
-                    <li>通过出众的技术或特色创造真实的差异化产品</li>
-                    <li>通过一个信任的品牌或声誉创造可感知的差异化产品</li>
-                    <li>降低成本并以更低的价格提供相似的产品和服务</li>
-                    <li>通过创造高的转换成本锁定消费者</li>
-                    <li>通过建立高进入壁垒把竞争者阻挡在外面</li>
-                </ul>
-            </div>
-            <div class="col-md-12">
-                <br>
-                <p class="text-left text-info"><a><i class="ri-message-3-line"></i> 分析笔记</a></p>
-            </div>
-        </div>
-        <br>
-        <div class="row">
             <h5 class="text-success" id="health"><i class="glyphicon glyphicon-heart"></i> 财务健康</h5>
             <hr><br>
             <div class="col-md-12">
-                <div id="J_financialIndicators"></div>
+                <div id="J_financialIndicatorsTable"></div>
             </div>
             <div class="col-md-12">
                 <div><a data-toggle="collapse" data-target="#i_finDesc">小贴士 <i class="ri-information-line"></i></a>
@@ -201,7 +208,8 @@
                                             class="ri-information-line"></i></a>
                                 </td>
                                 <td><input type="text" class="form-control input-sm" id="inputFreeCashFlowGrowth"
-                                        onkeyup="value=value.replace(/[^\d\.,]/g,'')" placeholder="逗号分隔，依次为第1年、第2年、第3年...的自由现金流增长率"></td>
+                                        onkeyup="value=value.replace(/[^\d\.,]/g,'')"
+                                        placeholder="逗号分隔，依次为第1年、第2年、第3年...的自由现金流增长率"></td>
                             </tr>
                             <tr class="text-center">
                                 <td>
@@ -257,9 +265,9 @@
         <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix bg-info">
             <ul class="nav bs-docs-sidenav">
                 <li class="active"><a href="#annualReport"> - 年度报告</a></li>
+                <li><a href="#competitiveEdge"> - 竞争优势</a></li>
                 <li><a href="#growth"> - 成长性</a></li>
-                <li><a href="#profitability"> - 盈利能力</a></li>
-                <li><a href="#advantage"> - 竞争优势</a></li>
+                <li><a href="#profitability"> - 收益性</a></li>
                 <li><a href="#health"> - 财务健康</a></li>
                 <li><a href="#risk"> - 潜在风险</a></li>
                 <li><a href="#valuation"> - 估值</a></li>
@@ -286,14 +294,24 @@
         $('[data-toggle="popover"]').popover();   // 初始化bootstrap的弹出框
 
         // 加载财务指标表格
-        var financial_indicator_url = "{{ url_for('stock.financial_indicators', code=stock.code)}}"
+        var financial_indicator_url = "{{ url_for('stock.financial_indicators', code=stock.code) }}"
         $.ajax({
             type: 'GET',
             url: financial_indicator_url,
             success: function (data) {
-                $("#J_financialIndicators").html(data);
+                $("#J_financialIndicatorsTable").html(data);
             }
-        }) 
+        })
+
+        // 百分率利润表
+        var income_percentage_url = "{{ url_for('stock.income_percentage', code=stock.code) }}"
+        $.ajax({
+            type: 'GET',
+            url: income_percentage_url,
+            success: function (data) {
+                $("#J_incomePercentageTable").html(data);
+            }
+        })
 
         // 成长性相关曲线图
         var revenue_url = "{{ url_for('stock.api_revenue', code=stock.code) }}";

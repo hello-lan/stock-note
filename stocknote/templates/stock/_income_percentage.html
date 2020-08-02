@@ -1,0 +1,32 @@
+<table class="table table-bordered table-condensed">
+    <thead>
+        <tr>
+            <th class="text-center">报告期</th>
+            <th class="text-center">营业收入</th>
+            <th class="text-center">营业成本</th>
+            <th class="text-center">营业毛利率</th>
+            <th class="text-center">管理费用</th>
+            <th class="text-center">销售费用</th>
+            <th class="text-center">财务费用</th>
+            <th class="text-center">研发费用</th>
+            <th class="text-center">其他</th>
+            <th class="text-center">营业利润</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for item in data%}
+        <tr class="text-center">
+            <td>{{ item.account_date }}</td>
+            <td>{{ item.revenue | round(2) }}%</td>
+            <td>{{ item.operating_cost | round(2) }}%</td>
+            <td>{{ item.gross_rofit_margin | round(2) }}%</td>
+            <td>{{ item.manage_fee | round(2) }}%</td>
+            <td>{{ item.sales_fee | round(2) }}%</td>
+            <td>{{ item.financing_expenses | round(2) }}%</td>
+            <td>{{ item.rad_cost | round(2) }}%</td>
+            <td>{{ item.others | round(2) }}%</td>
+            <td>{{ item.op | round(2) }}%</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>

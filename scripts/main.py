@@ -182,7 +182,9 @@ def add_income(code):
                 asset_disposal_income = item["asset_disposal_income"][0],
                 net_profit = item["net_profit"][0],
                 net_profit_atsopc = item["net_profit_atsopc"][0],
-                operating_taxes_and_surcharge = item["operating_taxes_and_surcharge"][0]
+                operating_taxes_and_surcharge = item["operating_taxes_and_surcharge"][0],
+                op = item["op"][0],
+                profit_total_amt = item["profit_total_amt"][0]
             )
             db.session.add(income)
         db.session.commit()

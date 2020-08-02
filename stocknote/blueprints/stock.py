@@ -21,6 +21,31 @@ def stock_detail():
     return render_template("stock/_stock_index.html", stock=stock)
 
 
+@stock_bp.route("/income-percentage", methods=["GET"])
+def income_percentage():
+    """百分率利润表
+    """
+    code = request.args.get("code")
+
+    q = IncomeStatement.query.filter_by(code=code).order_by(IncomeStatement.account_date.desc())
+    data = []
+    for item in q:
+        revenue = item.revenue
+        new_item = dict()
+        new_item["account_date"] = item.account_date
+        new_item["revenue"] = 100
+        new_item["operating_cost"] = 100 * item.operating_cost/revenue
+        new_item["gross_rofit_margin"] = 100 - new_item["operating_cost"]
+        new_item["manage_fee"] = 100 * item.manage_fee / revenue
+        new_item["rad_cost"] = 100 * item.rad_cost / revenue if item.rad_cost is not None else 0
+        new_item["sales_fee"] = 100 * item.sales_fee / revenue
+        new_item["financing_expenses"] = 100 * item.financing_expenses / revenue if item.financing_expenses is not None else 0
+        new_item["op"] = 100 * item.op / revenue
+        new_item["others"] = new_item["gross_rofit_margin"] - new_item["manage_fee"] -  new_item["rad_cost"] - new_item["sales_fee"] - new_item["financing_expenses"] - new_item["op"]
+        data.append(new_item)
+    return render_template("stock/_income_percentage.html", data=data)
+
+
 @stock_bp.route("/valuation", methods=["GET"])
 def valuation():
     margin_of_safety = request.args.get("mos", default=0.2, type=float)    # 安全边际

@@ -93,8 +93,10 @@ class IncomeStatement(db.Model):
     invest_income = db.Column(db.Float, comment="投资收益")
     invest_incomes_from_rr = db.Column(db.Float, comment="其中：对联营企业和合营企业的投资收益")
     asset_disposal_income = db.Column(db.Float, comment="资产处置收益")
-    net_profit = db.Column(db.Float, comment="净利润") 
-    net_profit_atsopc = db.Column(db.Float, comment="归属于母公司所有者的净利润") 
+    op = db.Column(db.Float, comment="营业利润")
+    profit_total_amt = db.Column(db.Float, comment="利润总额")
+    net_profit = db.Column(db.Float, comment="净利润")
+    net_profit_atsopc = db.Column(db.Float, comment="归属于母公司所有者的净利润")
     operating_taxes_and_surcharge = db.Column(db.Float, comment="营业税金及附加")
 
 
