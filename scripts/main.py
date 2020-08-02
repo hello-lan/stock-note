@@ -8,7 +8,7 @@ import click
 
 sys.path.append("..")
 from stocknote import create_app
-from stocknote.models.stock import db, Stock, StockIndicators
+from stocknote.models.stock import db, Stock, Indicators
 
 
 app = create_app()
@@ -78,11 +78,10 @@ def indicators(code):
         data = crawler.crawl_indicator(code_)
         # 解析
         for item in data["data"]["list"]:
-            indicators = StockIndicators(
+            indicators = Indicators(
                 code = code,
                 account_date = date.fromtimestamp(item["report_date"]/1000),
                 total_revenue = item["total_revenue"][0],
-                revenue = item["revenue"][0],
                 operating_income_yoy = item["operating_income_yoy"][0],
                 net_profit_atsopc = item["net_profit_atsopc"][0],
                 net_profit_atsopc_yoy = item["net_profit_atsopc_yoy"][0],

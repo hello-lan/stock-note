@@ -3,7 +3,7 @@ from flask import render_template, current_app, Blueprint, jsonify, flash, reque
 from operator import itemgetter
 
 from stocknote.services.stock_data import get_stock_indicators
-from stocknote.models.stock import StockGroup, Stock, StockIndicators, CashFlow as StockCashFlow
+from stocknote.models.stock import StockGroup, Stock, Indicators, CashFlow
 from stocknote.extensions import db
 
 
@@ -82,10 +82,7 @@ def financial_indicators():
 @stock_bp.route("/revenue", methods=["GET"])
 def api_revenue():
     code = request.args.get("code")
-    indicators = StockIndicators.query \
-                .filter_by(code=code) \
-                .order_by(StockIndicators.account_date) \
-                .all()
+    indicators = get_stock_indicators(code)
     x_labels = []
     values = []
     rates = []   # 同比
@@ -112,10 +109,7 @@ def api_net_profit_nrgal():
     """扣非净利润
     """
     code = request.args.get("code")
-    indicators = StockIndicators.query \
-                .filter_by(code=code) \
-                .order_by(StockIndicators.account_date) \
-                .all()
+    indicators = get_stock_indicators(code)
     x_labels = []
     values = []
     rates = []   # 同比
@@ -140,10 +134,7 @@ def api_net_profit_nrgal():
 @stock_bp.route("/net-profit", methods=["GET"])
 def api_net_profit():
     code = request.args.get("code")
-    indicators = StockIndicators.query \
-                .filter_by(code=code) \
-                .order_by(StockIndicators.account_date) \
-                .all()
+    indicators = get_stock_indicators(code)
     x_labels = []
     values = []
     rates = []
@@ -167,12 +158,12 @@ def api_net_profit():
 @stock_bp.route("/profitablity", methods=["GET"])
 def api_profitablity():
     code = request.args.get("code")
-    indicators = db.session.query(StockIndicators.account_date, StockIndicators.roe, StockIndicators.total_revenue,
-                                  StockIndicators.net_interest_of_total_assets, StockIndicators.gross_selling_rate,
-                                  StockIndicators.net_selling_rate, StockCashFlow.net_operating_cashflow) \
-                .filter(StockIndicators.code==StockCashFlow.code, StockIndicators.account_date==StockCashFlow.account_date)   \
-                .filter(StockIndicators.code==code) \
-                .order_by(StockIndicators.account_date) \
+    indicators = db.session.query(Indicators.account_date, Indicators.roe, Indicators.total_revenue,
+                                  Indicators.net_interest_of_total_assets, Indicators.gross_selling_rate,
+                                  Indicators.net_selling_rate, CashFlow.net_operating_cashflow) \
+                .filter(Indicators.code==CashFlow.code, Indicators.account_date==CashFlow.account_date)   \
+                .filter(Indicators.code==code) \
+                .order_by(Indicators.account_date) \
                 .all()
     x_labels = []
     cashflow_revenue, mll, jll, roa, roe = [], [], [], [], []

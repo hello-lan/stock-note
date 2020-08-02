@@ -1,11 +1,11 @@
-from stocknote.models.stock import StockGroup, Stock, StockIndicators, CashFlow as StockCashFlow
+from stocknote.models.stock import StockGroup, Stock, Indicators, CashFlow
 from stocknote.extensions import db
 
 
 
 def get_stock_indicators(code):
-    indicators = StockIndicators.query \
+    indicators = Indicators.query \
                 .filter_by(code=code) \
-                .order_by(StockIndicators.account_date) \
+                .order_by(Indicators.account_date) \
                 .all()
     return indicators
