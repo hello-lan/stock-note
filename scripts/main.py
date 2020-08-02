@@ -35,26 +35,43 @@ def init_stock():
 
 @cli.command()
 @click.option("-c", "--code", type=click.STRING, help="股票代码")
-@click.option("-d", "--account-date", type=click.DateTime(formats=["%Y-%m-%d",]), help="会计日期")
-def add_cashflow(code, account_date):
+def add_cashflow(code):
     """ 添加单只股票的现金流量数据
     """
-    from crawlers.hexun import HexunCrawler
-
+    from crawlers.xueqiu import XueQiuCrawler
     from stocknote.models.stock import CashFlow
 
-    crawler = HexunCrawler()
+    if code is None:
+        codes = map(attrgetter("code"), Stock.query.all())
+    else:
+        codes = [code]
 
-    item = crawler.crawl_cashflow(code, account_date)
+    crawler = XueQiuCrawler()
+    for i, code in enumerate(codes):
+        sleep(1)
+        print(i, code)
+        if code.startswith("6"):
+            code_ = "SH" + code
+        else:
+            # 0、3开头
+            code_ = "SZ" + code
 
-    cashflow = CashFlow(**item)
-    db.session.add(cashflow)
-    db.session.commit()
+        data = crawler.crawl_cashflow(code_)
+        for item in data["data"]["list"]:
+            cashflow = CashFlow(
+                code = code,
+                account_date = date.fromtimestamp(item["report_date"]/1000),
+                net_operating_cashflow = item["ncf_from_oa"][0],
+                net_investing_cashflow = item["ncf_from_ia"][0],
+                net_financing_cashflow = item["ncf_from_fa"][0]
+                )
+            db.session.add(cashflow)
+        db.session.commit()
 
 
 @cli.command()
 @click.option("-c", "--code", default=None, help="股票代码")
-def indicators(code):
+def add_indicators(code):
     """ 个股的主要财务指标
     """
     from crawlers.xueqiu import XueQiuCrawler
@@ -123,7 +140,7 @@ def indicators(code):
 
 @cli.command()
 @click.option("-c", "--code", default=None, help="股票代码")
-def income(code):
+def add_income(code):
     """ 利润表
     """
     from stocknote.models.stock import IncomeStatement

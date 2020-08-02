@@ -43,3 +43,18 @@ class XueQiuCrawler:
         resp = self.session.get(url, params=params)
         data = resp.json()
         return data
+
+    def crawl_cashflow(self, code, count=10):
+        """爬取现金流量表
+        """
+        url = "https://stock.xueqiu.com/v5/stock/finance/cn/cash_flow.json"
+        params = {
+            "symbol": code,
+            "type": "Q4",
+            "is_detail": "true",
+            "count":count,
+            "timestamp":""
+        }
+        resp = self.session.get(url, params=params)
+        data = resp.json()
+        return data

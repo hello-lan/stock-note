@@ -2,9 +2,9 @@ from flask import render_template, current_app, Blueprint, jsonify, flash, reque
 
 from operator import itemgetter
 
-from stocknote.services.stock_data import get_stock_indicators
-from stocknote.models.stock import StockGroup, Stock, Indicators, CashFlow
+from stocknote.models.stock import StockGroup, Stock, Indicators, CashFlow, IncomeStatement
 from stocknote.extensions import db
+from stocknote.services.stock_data import get_stock_indicators, get_cashflow_revenue_ratios
 
 
 stock_bp = Blueprint("stock", __name__)
@@ -154,26 +154,23 @@ def api_net_profit():
         "rates": rates
     }
     return jsonify(income)
-    
+
+
 @stock_bp.route("/profitablity", methods=["GET"])
 def api_profitablity():
     code = request.args.get("code")
-    indicators = db.session.query(Indicators.account_date, Indicators.roe, Indicators.total_revenue,
-                                  Indicators.net_interest_of_total_assets, Indicators.gross_selling_rate,
-                                  Indicators.net_selling_rate, CashFlow.net_operating_cashflow) \
-                .filter(Indicators.code==CashFlow.code, Indicators.account_date==CashFlow.account_date)   \
-                .filter(Indicators.code==code) \
-                .order_by(Indicators.account_date) \
-                .all()
+    cfr_ratios = get_cashflow_revenue_ratios(code)
+    indicators = get_stock_indicators(code)
     x_labels = []
     cashflow_revenue, mll, jll, roa, roe = [], [], [], [], []
     for item in indicators:
-        x_labels.append(item.account_date.strftime("%Y年报"))
-        cashflow_revenue.append(float(item.net_operating_cashflow/item.total_revenue) * 100)
-        roe.append(float(item.roe))
-        roa.append(float(item.net_interest_of_total_assets))
-        mll.append(float(item.gross_selling_rate))
-        jll.append(float(item.net_selling_rate))
+        account_date = item.account_date
+        x_labels.append(account_date.strftime("%Y年报"))
+        roe.append(item.roe)
+        roa.append(item.net_interest_of_total_assets)
+        mll.append(item.gross_selling_rate)
+        jll.append(item.net_selling_rate)
+        cashflow_revenue.append(cfr_ratios.get(account_date))
 
     def map_round(data, n=2):
         return list(map(lambda x: round(x, n), data))
@@ -182,7 +179,7 @@ def api_profitablity():
             "xLabels": x_labels,
             "yName": "比率(%)",
             "items": [
-                {"name": "自由现金流/销售收入", "values": map_round(cashflow_revenue)},
+                {"name": "自由现金流/营业收入", "values": map_round(cashflow_revenue)},
                 {"name": "销售毛利率", "values": map_round(mll)},
                 {"name": "销售净利率", "values": map_round(jll)},
                 {"name": "ROE", "values": map_round(roe)},

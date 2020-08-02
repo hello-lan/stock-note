@@ -103,8 +103,8 @@ class CashFlow(db.Model):
 
     id = db.Column(db.Integer, primary_key=True)
     code = db.Column(db.String(10), index=True, nullable=False)
-    net_operating_cashflow = db.Column(db.Float(20, True), comment="经营活动产生的现金流量净额")
-    net_investing_cashflow = db.Column(db.Float(20, True), comment="投资活动产生的现金流量净额")
-    net_financing_cashflow = db.Column(db.Float(20, True), comment="筹资活动产生的现金流量净额")
+    net_operating_cashflow = db.Column(db.Float, comment="经营活动产生的现金流量净额")
+    net_investing_cashflow = db.Column(db.Float, comment="投资活动产生的现金流量净额")
+    net_financing_cashflow = db.Column(db.Float, comment="筹资活动产生的现金流量净额")
     account_date = db.Column(db.Date, nullable=False, index=True, comment="报告期")
     
