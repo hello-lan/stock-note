@@ -30,6 +30,7 @@
             <h5 class="text-success" id="competitiveEdge"><i class="glyphicon glyphicon-star"></i> 竞争优势</h5>
             <hr><br>
             <div class="col-md-12">
+                <h5 class="text-center">盈利能力指标</h5>
                 <div id="J_PlotPorfitablity" style="width: 600px;height:300px;"></div>
                 <div><a data-toggle="collapse" data-target="#i_thresholds">参考阈值<i class="ri-information-line"></i></a>
                 </div>
@@ -290,28 +291,26 @@
         })
     }
 
+    function loadTable(url, domId) {
+        $.ajax({
+            type: 'GET',
+            url: url,
+            success: function (data) {
+                $("#" + domId).html(data);
+            }
+        }) 
+    }
+
     $(function () {
         $('[data-toggle="popover"]').popover();   // 初始化bootstrap的弹出框
 
-        // 加载财务指标表格
-        var financial_indicator_url = "{{ url_for('stock.financial_indicators', code=stock.code) }}"
-        $.ajax({
-            type: 'GET',
-            url: financial_indicator_url,
-            success: function (data) {
-                $("#J_financialIndicatorsTable").html(data);
-            }
-        })
-
+        // 财务指标表格
+        var financial_indicator_url = "{{ url_for('stock.financial_indicators', code=stock.code) }}";
         // 百分率利润表
-        var income_percentage_url = "{{ url_for('stock.income_percentage', code=stock.code) }}"
-        $.ajax({
-            type: 'GET',
-            url: income_percentage_url,
-            success: function (data) {
-                $("#J_incomePercentageTable").html(data);
-            }
-        })
+        var income_percentage_url = "{{ url_for('stock.income_percentage', code=stock.code) }}";
+        
+        loadTable(financial_indicator_url, "J_financialIndicatorsTable");
+        loadTable(income_percentage_url, "J_incomePercentageTable");
 
         // 成长性相关曲线图
         var revenue_url = "{{ url_for('stock.api_revenue', code=stock.code) }}";
