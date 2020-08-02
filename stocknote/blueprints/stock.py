@@ -43,7 +43,7 @@ def income_percentage():
         new_item["op"] = 100 * item.op / revenue
         new_item["others"] = new_item["gross_rofit_margin"] - new_item["manage_fee"] -  new_item["rad_cost"] - new_item["sales_fee"] - new_item["financing_expenses"] - new_item["op"]
         data.append(new_item)
-    return render_template("stock/_income_percentage.html", data=data)
+    return render_template("stock/_income_percentage_table.html", data=data)
 
 
 @stock_bp.route("/valuation", methods=["GET"])
@@ -82,7 +82,7 @@ def valuation():
     # 永续年金折现价值
     data["present_value_of_perpetuity_value"] = int(data["perpetuity_value"] / pow(1 + discount_rate, len(cashflow_growths)))
     data["final_valuation"] = data["present_value_of_perpetuity_value"] + data["pv_total"]
-    return render_template("stock/_valuation.html", params=params, data=data)
+    return render_template("stock/_valuation_table.html", params=params, data=data)
 
 
 @stock_bp.route("/financial-indicators", methods=["GET"])
@@ -101,7 +101,7 @@ def financial_indicators():
         new_item["number_of_times_interest_earned"] = "数据缺失"     # 已获利息倍数
         simple_indicators.append(new_item)
     simple_indicators.sort(key=itemgetter("account_date"), reverse=True)
-    return render_template("stock/_indicators.html", indicators=simple_indicators)
+    return render_template("stock/_indicators_table.html", indicators=simple_indicators)
 
 
 @stock_bp.route("/revenue", methods=["GET"])
