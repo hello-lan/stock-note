@@ -1,7 +1,8 @@
 {% extends 'base.html' %}
 
 {% block breadcrumb %}
-    <li class="text-muted">group</li>
+    <li class="text-muted">首页</li>
+    <li><a class="load-content-btn" id="i_groupIndexPage" role="button" data-href="{{ url_for('group.index') }}">竞争分析</a></li>
     <li class="active" id="i_groupDetailUrl" data-href="{{ url_for('group.group_detail', group_id=group.id) }}">{{group.name}}</li>
 {% endblock %}
 
@@ -14,7 +15,7 @@
 <div class="row">
     <h4>
         {% for stock in group.stocks %}
-        <span class="label label-success load-content-btn" data-href="{{ url_for('stock.stock_detail', code=stock.code) }}" style="display: inline-block;">
+        <span class="label label-success" style="display: inline-block;">
             {{stock.code ~ ' ' ~stock.name}} &nbsp;
             <button type="button" class="close" onclick="show_rm_modal('{{ stock.code }}','{{ stock.name }}')">&times;</button>
         </span>

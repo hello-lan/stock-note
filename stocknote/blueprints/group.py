@@ -10,7 +10,7 @@ group_bp = Blueprint("group", __name__)
 @group_bp.route("/index")
 def index():
     groups = StockGroup.query.all()
-    return render_template("_group_index.html", groups=groups)
+    return render_template("group/_group_index.html", groups=groups)
 
 
 @group_bp.route("/create-group", methods=["POST"])
@@ -49,7 +49,7 @@ def remove_group():
 @group_bp.route("/<int:group_id>/detail")
 def group_detail(group_id):
     group = StockGroup.query.get_or_404(group_id)
-    return render_template("_group.html", group=group)
+    return render_template("group/_group.html", group=group)
 
 
 @group_bp.route("/<int:group_id>/add-stock", methods=["POST"])

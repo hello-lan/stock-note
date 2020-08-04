@@ -1,6 +1,13 @@
-<div class="row">
-    <h3 class="text-center text-primary">对比分析</h3>
-</div>
+{% extends 'base.html' %}
+
+{% block breadcrumb %}
+<li>首页</li>
+<li class="active"><a class="load-content-btn" id="i_groupIndexPage" role="button" data-href="{{ url_for('group.index') }}">竞争分析</a></li>
+{% endblock %}
+
+{% block content_title %} 竞争分析 {% endblock %}
+
+{% block content %}
 <br><br><br>
 <div class="text-center">
     <button type="button" class="btn btn-info btn-circle btn-huge" data-toggle="modal" data-target="#i_createGroupModal"><i style="font-weight: lighter;">&plus;</i></button>
@@ -86,7 +93,7 @@
             $(".to-group-btn").removeClass("disabled");
             $(".rm-group-btn").addClass("hidden");
             $("#i_manageGroups").text("管理");
-            $(window).trigger('hashchange');
+            // document.getElementById("i_groupIndexPage").click();
         }
         count++;
     }
@@ -97,3 +104,4 @@
         $('#i_removeGroupModal').modal("show");
     }
 </script>
+{% endblock %}

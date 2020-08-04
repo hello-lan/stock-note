@@ -8,10 +8,10 @@ $(document).ready(function () {
             type: 'GET',
             url: url,
             success: function (data) {
-                $('#main').hide().html(data).fadeIn(800);
+                $('#main').html(data);
             },
             error:function (jqXHR, textStatus, errorThrown) {
-                $('#main').hide().html(jqXHR.responseText).fadeIn(800);
+                $('#main').html(jqXHR.responseText);
             },
         });
     }
@@ -39,6 +39,7 @@ $(document).ready(function () {
 
     // 创建分组
     function create_group() {
+        var group_index_url = $("#i_groupIndexPage").attr("data-href");
         var name = $("#i_createGroupInput").val();
         $.ajax({
             type: 'POST',
@@ -47,13 +48,14 @@ $(document).ready(function () {
             contentType: 'application/json;charset=UTF-8',
             success: function (data) {
                 alert(data["message"]);
-                $(window).trigger('hashchange');
+                load_content_page(group_index_url);    // 重新加载该页面
             }
         });
     }
 
     // 移除分组
     function remove_group() {
+        var group_index_url = $("#i_groupIndexPage").attr("data-href");
         var group_id = $("#i_removeGroupInfo").attr("data-group");
         $.ajax({
             type: 'DELETE',
@@ -62,7 +64,7 @@ $(document).ready(function () {
             contentType: 'application/json;charset=UTF-8',
             success: function (data) {
                 alert(data["message"]);
-                // $(window).trigger('hashchange');
+                load_content_page(group_index_url);    // 重新加载该页面
             }
         });
     }
