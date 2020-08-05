@@ -200,11 +200,11 @@ def api_data_net_profit(code):
 def api_data_profitablity(code):
     cfr_ratios = get_cashflow_revenue_ratios(code)
     indicators = get_stock_indicators(code)
-    x_labels = []
+    x_ticks = []
     cashflow_revenue, mll, jll, roa, roe = [], [], [], [], []
     for item in indicators:
         account_date = item.account_date
-        x_labels.append(account_date.strftime("%Y年报"))
+        x_ticks.append(account_date.strftime("%Y年报"))
         roe.append(item.roe)
         roa.append(item.net_interest_of_total_assets)
         mll.append(item.gross_selling_rate)
@@ -214,15 +214,28 @@ def api_data_profitablity(code):
     def map_round(data, n=2):
         return list(map(lambda x: round(x, n), data))
 
+    # data = {
+    #         "xLabels": x_labels,
+    #         "yName": "比率(%)",
+    #         "items": [
+    #             {"name": "自由现金流/营业收入", "values": map_round(cashflow_revenue)},
+    #             {"name": "销售毛利率", "values": map_round(mll)},
+    #             {"name": "销售净利率", "values": map_round(jll)},
+    #             {"name": "ROE", "values": map_round(roe)},
+    #             {"name": "ROA", "values": map_round(roa)},
+    #         ]
+    #     }
+
     data = {
-            "xLabels": x_labels,
-            "yName": "比率(%)",
-            "items": [
-                {"name": "自由现金流/营业收入", "values": map_round(cashflow_revenue)},
-                {"name": "销售毛利率", "values": map_round(mll)},
-                {"name": "销售净利率", "values": map_round(jll)},
-                {"name": "ROE", "values": map_round(roe)},
-                {"name": "ROA", "values": map_round(roa)},
-            ]
+        "y_label": "比率(%)",
+        "x_ticks": x_ticks,
+        "values": {
+            "自由现金流/营业收入": map_round(cashflow_revenue),
+            "销售毛利率": map_round(mll),
+            "销售净利率": map_round(jll),
+            "ROE": map_round(roe),
+            "ROA": map_round(roa)
+            }
         }
-    return jsonify(data)
+
+    return jsonify(code=200, message="success", data=data)

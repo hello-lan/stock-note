@@ -205,68 +205,11 @@ function plotIncomeMixLineBar(domId, data){
 /**
  * 绘制曲线图
  * @param {*} domId : htm中的id,曲线图将被绑定到该id下
- * @param {*} data 
+ * @param {*} xTicks
+ * @param {*} yLabel
+ * @param {*} seriesData
  */
-function plotLines(domId, data) {
-    var xLabels = data.xLabels;
-    var items = data.items;
-    var yName = data.yName;
-
-    var size = items.length;
-    var legendData = new Array(size);
-    var seriesData = new Array(size);
-
-    items.forEach(function(item){
-        legendData.push(item.name);
-        seriesData.push({
-            name: item.name,
-            data: item.values,
-            type: 'line',
-            smooth: true
-        });
-    })
-
-    // 构造echarts的option
-    var myChart = echarts.init(document.getElementById(domId));
-    var option = {
-        legend: {
-            data: legendData,
-        },
-        tooltip: {
-            trigger: 'axis',
-        },
-        toolbox: {
-            show: true,
-            feature: {
-                dataView: {readOnly: false},
-                saveAsImage: {}
-            }
-        },
-        grid : {
-            top: '25%',
-        },
-        xAxis: {
-            type: 'category',
-            boundaryGap: true,
-            data: xLabels
-        },
-        yAxis: {
-            name: yName,
-            type: 'value'
-        },
-        series: seriesData,
-    };
-    myChart.setOption(option);
-}
-
-/**
- * 
- * @param {*} domId 
- * @param {*} xTicks 
- * @param {*} yLabel 
- * @param {*} seriesData 
- */
-function plotBars(domId, xTicks, yLabel, seriesData) {
+function plotLines(domId, xTicks, yLabel, seriesData) {
     var legends = seriesData.map(function(v, i, arr){return v.name});
     
     var seriesData2 = seriesData.map(function(v, i, arr){
@@ -322,7 +265,6 @@ function plotBars(domId, xTicks, yLabel, seriesData) {
 
 //==================读取url返回数据并绘图===========================
 
-
 function getDataAndPlotLines(data_url, domId){
     $.ajax({
         type: 'GET',
@@ -340,7 +282,7 @@ function getDataAndPlotLines(data_url, domId){
                 series.push({"name":key, "data": values[key]})
             };
 
-            plotBars(domId, xTicks, yLabel, series);
+            plotLines(domId, xTicks, yLabel, series);
         }
     });
 }

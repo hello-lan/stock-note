@@ -300,12 +300,6 @@
         })
     }
 
-    function getDataAndPlotLines(url, domId) {
-        $.getJSON(url, function (data) {
-            plotLines(domId, data);
-        })
-    }
-
     function loadTable(url, domId) {
         $.ajax({
             type: 'GET',
