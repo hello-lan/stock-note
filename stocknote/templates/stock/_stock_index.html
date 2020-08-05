@@ -331,16 +331,16 @@
         loadTable(free_cashflow_url, "J_freeCashFlowTable");
 
         // 成长性相关曲线图
-        var revenue_url = "{{ url_for('stock.api_revenue', code=stock.code) }}";
-        var net_profit_nrgal_url = "{{ url_for('stock.api_net_profit_nrgal', code=stock.code) }}";
-        var net_profit_url = "{{ url_for('stock.api_net_profit', code=stock.code) }}";
+        var revenue_url = "{{ url_for('stock.api_data_revenue', code=stock.code) }}";
+        var net_profit_nrgal_url = "{{ url_for('stock.api_data_net_profit_nrgal', code=stock.code) }}";
+        var net_profit_url = "{{ url_for('stock.api_data_net_profit', code=stock.code) }}";
 
         getDataAndPlotIncome(revenue_url, "J_growthRevenueChart");
         getDataAndPlotIncome(net_profit_nrgal_url, "J_growthNetProfitNrgalChart");
         getDataAndPlotIncome(net_profit_url, "J_growthNetProfitChart");
 
         // 盈利能力相关曲线图
-        var profitability_url = "{{ url_for('stock.api_profitablity', code=stock.code) }}";
+        var profitability_url = "{{ url_for('stock.api_data_profitablity', code=stock.code) }}";
         getDataAndPlotLines(profitability_url, "J_profitabilityIndicatorsChart");
     });
 

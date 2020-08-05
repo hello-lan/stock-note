@@ -21,9 +21,8 @@ def stock_detail():
     return render_template("stock/_stock_index.html", stock=stock)
 
 
-@stock_bp.route("/free-cashflow", methods=["GET"])
-def free_cashflow():
-    code = request.args.get("code")
+@stock_bp.route("/<code>/free-cashflow", methods=["GET"])
+def free_cashflow(code):
     cfr_ratios = get_cashflow_revenue_ratios(code)
     q = CashFlow.query.filter_by(code=code).order_by(CashFlow.account_date).all()
     data = []
@@ -43,12 +42,10 @@ def free_cashflow():
     return render_template("stock/_cashflow_table.html", cashflows=data)
 
 
-@stock_bp.route("/income-percentage", methods=["GET"])
-def income_percentage():
+@stock_bp.route("/<code>/income-percentage", methods=["GET"])
+def income_percentage(code):
     """百分率利润表
     """
-    code = request.args.get("code")
-
     q = IncomeStatement.query.filter_by(code=code).order_by(IncomeStatement.account_date.desc())
     data = []
     for item in q:
@@ -107,9 +104,8 @@ def valuation():
     return render_template("stock/_valuation_table.html", params=params, data=data)
 
 
-@stock_bp.route("/financial-indicators", methods=["GET"])
-def financial_indicators():
-    code = request.args.get("code")
+@stock_bp.route("/<code>/financial-indicators", methods=["GET"])
+def financial_indicators(code):
     indicators = get_stock_indicators(code)
     simple_indicators = []
     for item in indicators:
@@ -126,9 +122,8 @@ def financial_indicators():
     return render_template("stock/_indicators_table.html", indicators=simple_indicators)
 
 
-@stock_bp.route("/revenue", methods=["GET"])
-def api_revenue():
-    code = request.args.get("code")
+@stock_bp.route("/<code>/data/revenue", methods=["GET"])
+def api_data_revenue(code):
     indicators = get_stock_indicators(code)
     x_labels = []
     values = []
@@ -151,11 +146,10 @@ def api_revenue():
     return jsonify(income)
 
 
-@stock_bp.route("/net-profit-nrgal", methods=["GET"])
-def api_net_profit_nrgal():
+@stock_bp.route("/<code>/data/net-profit-nrgal", methods=["GET"])
+def api_data_net_profit_nrgal(code):
     """扣非净利润
     """
-    code = request.args.get("code")
     indicators = get_stock_indicators(code)
     x_labels = []
     values = []
@@ -178,9 +172,8 @@ def api_net_profit_nrgal():
     return jsonify(income)
 
 
-@stock_bp.route("/net-profit", methods=["GET"])
-def api_net_profit():
-    code = request.args.get("code")
+@stock_bp.route("/<code>/data/net-profit", methods=["GET"])
+def api_data_net_profit(code):
     indicators = get_stock_indicators(code)
     x_labels = []
     values = []
@@ -203,9 +196,8 @@ def api_net_profit():
     return jsonify(income)
 
 
-@stock_bp.route("/profitablity", methods=["GET"])
-def api_profitablity():
-    code = request.args.get("code")
+@stock_bp.route("/<code>/data/profitablity", methods=["GET"])
+def api_data_profitablity(code):
     cfr_ratios = get_cashflow_revenue_ratios(code)
     indicators = get_stock_indicators(code)
     x_labels = []
