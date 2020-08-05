@@ -46,6 +46,46 @@
         </div>
     </div>
 </div>
+<br><br><br>
+<div class="row">
+    <div class="col-md-12">
+        <h5 class="text-success">盈利性</h5>
+        <hr>
+        <div class="col-md-12">
+            <!-- Nav tabs -->
+            <ul class="nav nav-tabs" role="tablist">
+                <li role="presentation" class="active"><a href="#i_groupRevenues" aria-controls="i_groupRevenues" role="tab" data-toggle="tab">营业收入</a></li>
+                <li role="presentation"><a href="#i_groupGrossProfitMargins" aria-controls="i_groupGrossProfitMargins" role="tab" data-toggle="tab">毛利率</a></li>
+                <li role="presentation"><a href="#i_groupNetProfitMargins" aria-controls="i_groupNetProfitMargins" role="tab" data-toggle="tab">净利润率</a></li>
+                <li role="presentation"><a href="#i_groupFreeCashFlows" aria-controls="i_groupFreeCashFlows" role="tab" data-toggle="tab">自由现金流 / 营收</a></li>
+                <li role="presentation"><a href="#i_groupROE" aria-controls="i_groupROE" role="tab" data-toggle="tab">ROE</a></li>
+                <li role="presentation"><a href="#i_groupROA" aria-controls="i_groupROA" role="tab" data-toggle="tab">ROA</a></li>
+            </ul>
+            <br><br>
+            <!-- Tab panes -->
+            <div class="tab-content">
+                <div role="tabpanel" class="tab-pane active" id="i_groupRevenues">
+                    <div id="J_groupRevenuesChart" style="width:800px;height:400px;"></div>
+                </div>
+                <div role="tabpanel" class="tab-pane" id="i_groupGrossProfitMargins">
+                    <div id="J_groupGrossProfitMarginsChart" style="width:800px;height:400px;"></div>
+                </div>
+                <div role="tabpanel" class="tab-pane" id="i_groupNetProfitMargins">
+                    <div id="J_groupNetProfitMarginsChart" style="width:800px;height:400px;"></div>
+                </div>
+                <div role="tabpanel" class="tab-pane" id="i_groupFreeCashFlows">
+                    <div id="J_groupFreeCashFlowsChart" style="width:800px;height:400px;"></div>
+                </div>
+                <div role="tabpanel" class="tab-pane" id="i_groupROE">
+                    <div id="J_groupROEChart" style="width:800px;height:400px;"></div>
+                </div>
+                <div role="tabpanel" class="tab-pane" id="i_groupROA">
+                    <div id="J_groupROAChart" style="width:800px;height:400px;"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 
 
 <!-- Modal for remove stock -->
@@ -74,5 +114,24 @@
         $("#i_rmGroupStockInfo").text(code + " " + name);
         $('#i_rmGroupStockModal').modal("show");
     }
+
+    $(function () {
+        var group_revenues_url = "{{ url_for('group.api_data_revenues', group_id=group.id) }}";
+        var group_gross_profit_margins_url = "{{ url_for('group.api_data_gross_profit_margins', group_id=group.id) }}";
+        var group_net_profit_margins_url = "{{ url_for('group.api_data_net_profit_margins', group_id=group.id) }}";
+        var group_freecashflow_to_revenue_url = "{{ url_for('group.api_data_free_cashflow_to_revenue', group_id=group.id) }}";
+        var group_roe_url = "{{ url_for('group.api_data_roe', group_id=group.id) }}";
+        var group_roa_url = "{{ url_for('group.api_data_roa', group_id=group.id) }}";
+
+        getDataAndPlotLines(group_revenues_url, "J_groupRevenuesChart");
+        getDataAndPlotLines(group_gross_profit_margins_url, "J_groupGrossProfitMarginsChart");
+        getDataAndPlotLines(group_net_profit_margins_url, "J_groupNetProfitMarginsChart");
+        getDataAndPlotLines(group_freecashflow_to_revenue_url, "J_groupFreeCashFlowsChart");
+        getDataAndPlotLines(group_roe_url, "J_groupROEChart");
+        getDataAndPlotLines(group_roa_url, "J_groupROAChart");
+    })
+
+
+
 </script>
 {% endblock %}

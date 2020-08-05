@@ -1,6 +1,8 @@
 from flask import render_template, current_app, Blueprint, jsonify, flash, request
 
-from stocknote.models.stock import StockGroup, Stock
+from collections import defaultdict
+
+from stocknote.models.stock import StockGroup, Stock, IncomeStatement, Indicators, CashFlow
 from stocknote.extensions import db
 
 
@@ -52,7 +54,7 @@ def group_detail(group_id):
     return render_template("group/_group.html", group=group)
 
 
-@group_bp.route("/<int:group_id>/add-stock", methods=["POST"])
+@group_bp.route("/<int:group_id>/op/add-stock", methods=["POST"])
 def add_stock(group_id):
     group = StockGroup.query.get_or_404(group_id)
 
@@ -71,7 +73,7 @@ def add_stock(group_id):
             return jsonify(message="股票添加成功！")
 
 
-@group_bp.route("/<int:group_id>/remove-stock", methods=['DELETE'])
+@group_bp.route("/<int:group_id>/op/remove-stock", methods=['DELETE'])
 def remove_stock(group_id):
     group = StockGroup.query.get_or_404(group_id)
 
@@ -90,5 +92,166 @@ def remove_stock(group_id):
             return jsonify(message="股票移除成功！")
 
 
-    
+@group_bp.route("/<int:group_id>/api/data/revenues", methods=["GET"])
+def api_data_revenues(group_id):
+    group = StockGroup.query.get_or_404(group_id)
+    stocks = group.stocks
+    code_to_name = {stock.code: stock.name for stock in stocks}
+    incomes = IncomeStatement.query.filter(IncomeStatement.code.in_(code_to_name.keys())).all()
 
+    dates = list(set([item.account_date for item in incomes]))
+    dates.sort()
+
+    d2i = {d:i for i, d in enumerate(dates)}
+    values = defaultdict(lambda:[None] * len(dates))
+
+    for item in incomes:
+        name = code_to_name[item.code]
+        i = d2i[item.account_date]
+        values[name][i] = item.revenue 
+
+    data = {
+        "y_label": "金额",
+        "x_ticks": [d.strftime("%Y") for d in dates],
+        "values": values
+        }
+    return jsonify(code=200, message="success", data=data)
+
+
+@group_bp.route("/<int:group_id>/api/data/gross-profit-margins", methods=["GET"])
+def api_data_gross_profit_margins(group_id):
+    group = StockGroup.query.get_or_404(group_id)
+    stocks = group.stocks
+    code_to_name = {stock.code: stock.name for stock in stocks}
+
+    indicators = Indicators.query.filter(Indicators.code.in_(code_to_name.keys())).all()
+
+    dates = list(set([item.account_date for item in indicators]))
+    dates.sort()
+
+    d2i = {d:i for i, d in enumerate(dates)}
+    values = defaultdict(lambda:[None] * len(dates))
+
+    for item in indicators:
+        name = code_to_name[item.code]
+        i = d2i[item.account_date]
+        values[name][i] = item.gross_selling_rate
+
+    data = {
+        "y_label": "百分比(%)",
+        "x_ticks": [d.strftime("%Y") for d in dates],
+        "values": values
+        }
+    return jsonify(code=200, message="success", data=data)
+
+
+@group_bp.route("/<int:group_id>/api/data/net-profit-margins", methods=["GET"])
+def api_data_net_profit_margins(group_id):
+    group = StockGroup.query.get_or_404(group_id)
+    stocks = group.stocks
+    code_to_name = {stock.code: stock.name for stock in stocks}
+
+    indicators = Indicators.query.filter(Indicators.code.in_(code_to_name.keys())).all()
+
+    dates = list(set([item.account_date for item in indicators]))
+    dates.sort()
+
+    d2i = {d:i for i, d in enumerate(dates)}
+    values = defaultdict(lambda:[None] * len(dates))
+
+    for item in indicators:
+        name = code_to_name[item.code]
+        i = d2i[item.account_date]
+        values[name][i] = item.net_selling_rate
+
+    data = {
+        "y_label": "百分比(%)",
+        "x_ticks": [d.strftime("%Y") for d in dates],
+        "values": values
+        }
+    return jsonify(code=200, message="success", data=data)
+
+
+@group_bp.route("/<int:group_id>/api/data/free-cashflow-to-revenue")
+def api_data_free_cashflow_to_revenue(group_id):
+    group = StockGroup.query.get_or_404(group_id)
+    stocks = group.stocks
+    code_to_name = {stock.code: stock.name for stock in stocks}
+
+    results = db.session.query((100*CashFlow.net_operating_cashflow/IncomeStatement.revenue).label("fcf2r"),
+                                CashFlow.account_date, CashFlow.code) \
+            .filter(CashFlow.code.in_(code_to_name.keys()), CashFlow.code==IncomeStatement.code)  \
+            .filter(CashFlow.account_date==IncomeStatement.account_date)  \
+            .all()
+    
+    dates = list(set([item.account_date for item in results]))
+    dates.sort()
+
+    d2i = {d:i for i, d in enumerate(dates)}
+    values = defaultdict(lambda:[None] * len(dates))
+
+    for item in results:
+        name = code_to_name[item.code]
+        i = d2i[item.account_date]
+        values[name][i] = round(item.fcf2r,2)
+
+    data = {
+        "y_label": "百分比(%)",
+        "x_ticks": [d.strftime("%Y") for d in dates],
+        "values": values
+        }
+    return jsonify(code=200, message="success", data=data)
+
+
+@group_bp.route("/<int:group_id>/api/data/roe")
+def api_data_roe(group_id):
+    group = StockGroup.query.get_or_404(group_id)
+    stocks = group.stocks
+    code_to_name = {stock.code: stock.name for stock in stocks}
+
+    indicators = Indicators.query.filter(Indicators.code.in_(code_to_name.keys())).all()
+
+    dates = list(set([item.account_date for item in indicators]))
+    dates.sort()
+
+    d2i = {d:i for i, d in enumerate(dates)}
+    values = defaultdict(lambda:[None] * len(dates))
+
+    for item in indicators:
+        name = code_to_name[item.code]
+        i = d2i[item.account_date]
+        values[name][i] = item.roe
+
+    data = {
+        "y_label": "百分比(%)",
+        "x_ticks": [d.strftime("%Y") for d in dates],
+        "values": values
+        }
+    return jsonify(code=200, message="success", data=data)
+
+
+@group_bp.route("/<int:group_id>/api/data/roa")
+def api_data_roa(group_id):
+    group = StockGroup.query.get_or_404(group_id)
+    stocks = group.stocks
+    code_to_name = {stock.code: stock.name for stock in stocks}
+
+    indicators = Indicators.query.filter(Indicators.code.in_(code_to_name.keys())).all()
+
+    dates = list(set([item.account_date for item in indicators]))
+    dates.sort()
+
+    d2i = {d:i for i, d in enumerate(dates)}
+    values = defaultdict(lambda:[None] * len(dates))
+
+    for item in indicators:
+        name = code_to_name[item.code]
+        i = d2i[item.account_date]
+        values[name][i] = item.net_interest_of_total_assets
+
+    data = {
+        "y_label": "百分比(%)",
+        "x_ticks": [d.strftime("%Y") for d in dates],
+        "values": values
+        }
+    return jsonify(code=200, message="success", data=data)

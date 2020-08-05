@@ -259,6 +259,93 @@ function plotLines(domId, data) {
     myChart.setOption(option);
 }
 
+/**
+ * 
+ * @param {*} domId 
+ * @param {*} xTicks 
+ * @param {*} yLabel 
+ * @param {*} seriesData 
+ */
+function plotBars(domId, xTicks, yLabel, seriesData) {
+    var legends = seriesData.map(function(v, i, arr){return v.name});
+    
+    var seriesData2 = seriesData.map(function(v, i, arr){
+        return {"name": v.name, "data": v.data, "type": "line", smooth:true};
+    })
+
+    option = {
+        tooltip: {
+            trigger: 'axis',
+            // trigger: 'item', 
+            // axisPointer: {
+            //     type: 'cross',
+            //     crossStyle: {
+            //         color: '#999'
+            //     }
+            // }
+        },
+        grid : {
+            top: '20%',
+        },
+        toolbox: {
+            feature: {
+                dataView: {show: true, readOnly: false},
+                magicType: {show: true, type: ['line', 'bar']},
+                // restore: {show: true},
+                saveAsImage: {show: true}
+            }
+        },
+        legend: {
+            data: legends
+        },
+        xAxis: [
+            {
+                type: 'category',
+                data: xTicks,
+            }
+        ],
+        yAxis: [
+            {
+                type: 'value',
+                name: yLabel,
+                axisLabel: {
+                    formatter: '{value}'
+                }
+            }
+        ],
+        series: seriesData2
+    };
+    var myChart = echarts.init(document.getElementById(domId));
+    myChart.setOption(option);
+}
+
+
+//==================读取url返回数据并绘图===========================
+
+
+function getDataAndPlotLines(data_url, domId){
+    $.ajax({
+        type: 'GET',
+        url: data_url,
+        data: JSON.stringify({}),
+        contentType: 'application/json;charset=UTF-8',
+        success: function (response) {
+            var data = response.data;
+            var yLabel = data.y_label;
+            var xTicks = data.x_ticks;
+            var values = data.values;
+
+            var series = new Array();
+            for (key in values){
+                series.push({"name":key, "data": values[key]})
+            };
+
+            plotBars(domId, xTicks, yLabel, series);
+        }
+    });
+}
+
+
 
 // 验证
 function validate_required(value,alerttxt="输入为空"){
