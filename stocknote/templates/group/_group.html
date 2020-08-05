@@ -35,7 +35,7 @@
         <div class="modal-body">
             <div class="row">
                 <div class="col-md-8 col-md-offset-2">
-                    <input id="i_addGroupStockInput" type="text" class="form-control" placeholder="请输入股票代码..."  data-href="{{ url_for('group.add_stock', group_id=group.id)}}">
+                    <input id="i_addGroupStockInput" type="text" class="form-control" placeholder="请输入股票代码..."  data-href="{{ url_for('group.api_op_add_stock', group_id=group.id)}}">
                 </div>
             </div>
         </div>
@@ -98,7 +98,7 @@
         </div>
         <div class="modal-body">
             <p  class="text-info text-center" >
-                <span id="i_rmGroupStockInfo" data-code="" data-href="{{ url_for('group.remove_stock', group_id=group.id)}}"></span>
+                <span id="i_rmGroupStockInfo" data-code="" data-href="{{ url_for('group.api_op_remove_stock', group_id=group.id)}}"></span>
             </p>
         </div>
         <div class="modal-footer">
