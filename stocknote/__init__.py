@@ -7,6 +7,7 @@ from flask import Flask, render_template, jsonify, request
 from stocknote.blueprints.home import home_bp
 from stocknote.blueprints.group import group_bp
 from stocknote.blueprints.stock import stock_bp
+from stocknote.blueprints.individual import individual_bp
 from stocknote.extensions import db
 from stocknote.settings import config
 
@@ -33,6 +34,7 @@ def register_blueprints(app):
     app.register_blueprint(home_bp)
     app.register_blueprint(group_bp, url_prefix="/stock-group")
     app.register_blueprint(stock_bp, url_prefix="/stock")
+    app.register_blueprint(individual_bp, url_prefix="/individual")
 
 
 def register_errors(app):

@@ -118,7 +118,12 @@ $(document).ready(function () {
         this.value = this.value.replace(/\D/g,'');
     }
 
+    function check_float() {
+        this.value = this.value.replace(/[^\d\.]/g,'');
+    }
+
     $(document).on('keyup', '.input-number', check_number);
+    $(document).on('keyup', '.input-float', check_float);
 });
 
 

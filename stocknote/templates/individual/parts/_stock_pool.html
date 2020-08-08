@@ -1,0 +1,54 @@
+<table class="table table-bordered condensed">
+    <thead>
+        <tr>
+            <th class="text-center">股票</th>
+            <th class="text-center">最新收盘价</th>
+            <th class="text-center">乐观估值与安全边际价格</th>
+            <th class="text-center">保守估值与安全边际价格</th>
+            <th class="text-center">估值日期</th>
+            <th class="text-center">操作</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for item in items %}
+        <tr class="text-center">
+            <td style="padding: 0px;">
+                <span class="center-block">
+                    <span class="text-primary" >{{ item.name }}</span>
+                    <sup>
+                        {% if item.status == 1 %}
+                        <span class="badge bg-red">b</span>
+                        {% elif item.status == -1 %}
+                        <span class="badge bg-green">s</span>
+                        {% else %}
+                        <span class="badge"></span>
+                        {% endif %}
+                    </sup>
+                </span>
+                <span class="center-block">
+                    <span class="text-left text-muted">{{ item.code }}</span>
+                </span>
+            </td>
+            <td>{{ item.latest_price }}</td>
+            <td>{{ item.positive_valuation ~ ' / ' ~ item.positive_safe_of_margin }}</td>
+            <td>{{ item.negative_valuation ~ ' / ' ~ item.negative_safe_of_margin }}</td>
+            <td>{{ item.valuate_date }}</td>
+            <td>
+                <div class="dropdown">
+                    <span class="dropdown-toggle" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                        <i role="button" class="glyphicon glyphicon-option-horizontal"></i>
+                    </span>
+                    <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenu1" style="min-width:50px" >
+                        <li>
+                          <a role="btn" class="btn" onclick="removeStockFromPool('{{item.code}}')"><i class="glyphicon glyphicon-trash"></i>&nbsp;&nbsp;删除</a>
+                        </li>
+                        <li>
+                            <a role="btn" class="btn" onclick="showUpdateModal('{{item.code}}')"><i class="glyphicon glyphicon-pencil"></i>&nbsp;&nbsp;修改</a>
+                        </li>
+                    </ul>
+                </div>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</tale>

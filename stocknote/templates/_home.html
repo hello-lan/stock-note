@@ -1,30 +1,244 @@
-<div>
-  <div class="row content-block">
-    <h2 id="index" class="page-header">大盘指数</h2>
-    <div class="col-md-6 ">
-      <img src="http://image.sinajs.cn/newchart/daily/n/sh000001.gif" class="img-responsive">
-    </div>
-  </div>
-  <div class="row content-block">
-    <h2 id="stocks" class="page-header">我的股票池</h2>
-    <ul class="list-unstyled list-inline">
-      <li><a href="#">万科A</a></li>
-      <li><a href="#">工商银行</a></li>
-      <li><a href="#">农业银行</a></li>
-      <li><a href="#">北京银行</a></li>
-      <li><a href="#">上海瀚讯</a></li>
-      <li><a href="#">金时科技</a></li>
-      <li><a href="#">华菱星马</a></li>
-      <li><a href="#">中国重工</a></li>
-      <li><a href="#">中国一重</a></li>
-      <li><a href="#">人民网</a></li>
-      <li><a href="#">四川金顶</a></li>
-      <li><a href="#">西部证券</a></li>
-      <li><a href="#">大名城</a></li>
-      <li><a href="#">中信证券</a></li>
-      <li><a href="#">中国平安</a></li>
-      <li><a href="#">大智慧</a></li>
-      <li><a href="#">中国平安</a></li>
-    </ul>
+{% extends 'base.html' %}
+
+{% block breadcrumb %}
+<li>stock-note</li>
+<li>主页</li>
+{% endblock %}
+
+{% block content_title %}{% endblock %}
+
+{% block content %}
+<div class="row">
+  <div class="col-md-12">
+    <h4 class="text-success"><i class="glyphicon glyphicon-flag"></i> 我的股票池</h4>
+    <hr><br>
+    <div id="J_myStockPool"></div>
+    <a class="btn btn-default btn-xs" role="button" data-toggle="modal" data-target="#i_addStockToPoolModal">+ 添加股票</a>
   </div>
 </div>
+<br><br><br>
+<div class="row">
+  <div class="col-md-12">
+    <h4 class="text-success"><i class="glyphicon glyphicon-heart-empty "></i> 我的关注</h4>
+    <hr><br>
+  </div>
+</div>
+
+<!-- Modal for add stock to pool -->
+<div class="modal fade" id="i_addStockToPoolModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog modal-sm" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+            aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="i_addStockToPoolModalLabel">添加到我的股票池</h4>
+      </div>
+      <div class="modal-body">
+        <div class="row">
+          <div class="col-md-12">
+            <form class="form-horizontal">
+              <div class="form-group">
+                <label class="col-sm-4 control-label">股票代码</label>
+                <div class="col-sm-8">
+                  <input type="text" class="form-control input-number" id="i_codeAddInput" placeholder="如:000001">
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="i_positiveValuationAddInput" class="col-sm-4 control-label">乐观估值</label>
+                <div class="col-sm-8">
+                  <div class="input-group">
+                    <input type="text" class="form-control input-float" id="i_positiveValuationAddInput">
+                    <div class="input-group-addon">元/每股</div>
+                  </div>
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="i_negativeValuationAddInput" class="col-sm-4 control-label">保守估值</label>
+                <div class="col-sm-8">
+                  <div class="input-group">
+                    <input type="text" class="form-control input-float" id="i_negativeValuationAddInput">
+                    <div class="input-group-addon">元/每股</div>
+                  </div>
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="i_safeOfMarginAddInput" class="col-sm-4 control-label">安全边际</label>
+                <div class="col-sm-8">
+                  <input id="i_safeOfMarginAddInput" class="form-control" type="number" step="0.01" min="0.01" max="1"
+                    value="0.25">
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+        <button type="button" class="btn btn-primary" data-dismiss="modal"
+          onclick="addStockToPool()">确认</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal for update stock in pool -->
+<div class="modal fade" id="i_updateStockInPoolModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog modal-sm" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+            aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="i_updateStockInPoolModalLabel">修改</h4>
+      </div>
+      <div class="modal-body">
+        <div class="row">
+          <div class="col-md-12">
+            <form class="form-horizontal">
+              <div class="form-group">
+                <label class="col-sm-4 control-label">股票代码</label>
+                <div class="col-sm-8">
+                  <input type="text" class="form-control input-number" id="i_codeUpdateInput" placeholder="000001"
+                    disabled>
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="i_positiveValuationUpdateInput" class="col-sm-4 control-label">乐观估值</label>
+                <div class="col-sm-8">
+                  <div class="input-group">
+                    <input type="text" class="form-control input-float" id="i_positiveValuationUpdateInput">
+                    <div class="input-group-addon">元/每股</div>
+                  </div>
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="i_negativeValuationUpdateInput" class="col-sm-4 control-label">保守估值</label>
+                <div class="col-sm-8">
+                  <div class="input-group">
+                    <input type="text" class="form-control input-float" id="i_negativeValuationUpdateInput">
+                    <div class="input-group-addon">元/每股</div>
+                  </div>
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="i_safeOfMarginUpdateInput" class="col-sm-4 control-label">安全边际</label>
+                <div class="col-sm-8">
+                  <input id="i_safeOfMarginUpdateInput" class="form-control" type="number" step="0.01" min="0.01"
+                    max="1" value="0.25">
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+        <button type="button" class="btn btn-primary" data-dismiss="modal"
+          onclick="updateStockInPool()">确认</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  var pool_url = "{{ url_for('individual.stock_pool')}}";
+  var pool_item_url = "{{ url_for('individual.api_data_get_pool_item') }}";
+  var add_stock_to_pool_url = "{{ url_for('individual.api_op_add_stock_to_pool') }}";
+  var update_stock_in_pool_url = "{{ url_for('individual.api_op_update_stock_in_pool') }}"
+  var rm_stock_from_pool_url = "{{ url_for('individual.api_op_rm_stock_from_pool') }}";
+
+  function load_pool() {
+    $.ajax({
+      type: 'GET',
+      url: pool_url,
+      success: function (data) {
+        $('#J_myStockPool').html(data);
+      }
+    });
+  }
+
+  $(function () {
+    load_pool();
+  })
+
+  function addStockToPool() {
+    var code = $("#i_codeAddInput").val();
+    var positive_valuation = $("#i_positiveValuationAddInput").val();
+    var negative_valuation = $("#i_negativeValuationAddInput").val();
+    var safe_of_margin = $("#i_safeOfMarginAddInput").val();
+
+    var params = {
+      "code": code,
+      "positive_valuation": parseFloat(positive_valuation),
+      "negative_valuation": parseFloat(negative_valuation),
+      "safe_of_magin": parseFloat(safe_of_margin)
+    }
+
+    $.ajax({
+      type: 'POST',
+      url: add_stock_to_pool_url,
+      data: JSON.stringify(params),
+      contentType: 'application/json;charset=UTF-8',
+      success: function (data) {
+        alert(data["message"]);
+        load_pool();
+      }
+    });
+  }
+
+  function removeStockFromPool(code) {
+    var params = { "code": code };
+    $.ajax({
+      type: 'DELETE',
+      url: rm_stock_from_pool_url,
+      data: JSON.stringify(params),
+      contentType: 'application/json;charset=UTF-8',
+      success: function (data) {
+        alert(data["message"]);
+        load_pool();
+      }
+    });
+  }
+
+  function showUpdateModal(code) {
+    $.ajax({
+      type: 'GET',
+      url: pool_item_url,
+      data: { "code": code },
+      contentType: 'application/json;charset=UTF-8',
+      success: function (response) {
+        var data = response.data;
+        $("#i_codeUpdateInput").attr("value", data.code);
+        $("#i_positiveValuationUpdateInput").attr("value", data.positive_valuation);
+        $("#i_negativeValuationUpdateInput").attr("value", data.negative_valuation);
+        $("#i_safeOfMarginUpdateInput").attr("value", data.safe_of_magin);
+        $("#i_updateStockInPoolModal").modal("show");
+      }
+    });
+  }
+
+  function updateStockInPool() {
+    var code = $("#i_codeUpdateInput").val();
+    var positive_valuation = $("#i_positiveValuationUpdateInput").val();
+    var negative_valuation = $("#i_negativeValuationUpdateInput").val();
+    var safe_of_margin = $("#i_safeOfMarginUpdateInput").val();
+
+    var params = {
+      "code": code,
+      "positive_valuation": parseFloat(positive_valuation),
+      "negative_valuation": parseFloat(negative_valuation),
+      "safe_of_magin": parseFloat(safe_of_margin)
+    }
+
+    $.ajax({
+      type: 'PATCH',
+      url: update_stock_in_pool_url,
+      data: JSON.stringify(params),
+      contentType: 'application/json;charset=UTF-8',
+      success: function (data) {
+        alert(data["message"]);
+        load_pool();
+      }
+    });
+  }
+</script>
+{% endblock %}
