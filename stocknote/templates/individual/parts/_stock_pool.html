@@ -2,7 +2,7 @@
     <thead>
         <tr>
             <th class="text-center">股票</th>
-            <th class="text-center">最新收盘价</th>
+            <th class="text-center">最新价格</th>
             <th class="text-center">乐观估值与安全边际价格</th>
             <th class="text-center">保守估值与安全边际价格</th>
             <th class="text-center">估值日期</th>
@@ -29,9 +29,9 @@
                     <span class="text-left text-muted">{{ item.code }}</span>
                 </span>
             </td>
-            <td>{{ item.latest_price }}</td>
-            <td>{{ item.positive_valuation ~ ' / ' ~ item.positive_safe_of_margin }}</td>
-            <td>{{ item.negative_valuation ~ ' / ' ~ item.negative_safe_of_margin }}</td>
+            <td>{{ item.latest_price | default("-", true) }}</td>
+            <td>{{ "%.2f / %.2f" | format(item.positive_valuation, item.positive_safe_of_margin) }}</td>
+            <td>{{ "%.2f / %.2f" | format(item.negative_valuation, item.negative_safe_of_margin) }}</td>
             <td>{{ item.valuate_date }}</td>
             <td>
                 <div class="dropdown">

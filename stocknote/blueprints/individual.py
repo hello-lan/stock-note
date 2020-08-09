@@ -3,6 +3,7 @@ from flask import render_template, current_app, Blueprint, jsonify, flash, reque
 from stocknote.extensions import db
 from stocknote.models.individual import Pool
 from stocknote.models.stock import Stock
+from stocknote.services.quotation import get_latest_price
 
 
 individual_bp = Blueprint("individual", __name__)
@@ -14,8 +15,22 @@ def stock_pool():
     q = db.session.query(Pool.code, Pool.update_time, Pool.positive_valuation,
                          Pool.negative_valuation, Pool.safe_of_margin, Stock.name) \
         .outerjoin(Stock, Pool.code==Stock.code).all()
+    prices = get_latest_price([item.code for item in q])
     items = []
     for item in q:
+        latest_price = prices.get(item.code)
+        if isinstance(latest_price,float):
+            if latest_price < item.negative_valuation * (1 - item.safe_of_margin):
+                status = 1
+            elif latest_price > item.negative_valuation:
+                status = -1
+            else:
+                status = 0
+            latest_price_ = latest_price
+        else:
+            status = 0
+            latest_price_ = "-"
+    
         new_item = {
             "code": item.code,
             "name": item.name,
@@ -24,8 +39,8 @@ def stock_pool():
             "positive_safe_of_margin": item.positive_valuation * (1 - item.safe_of_margin),
             "negative_valuation": item.negative_valuation,
             "negative_safe_of_margin": item.negative_valuation * (1 - item.safe_of_margin),
-            "status": choice([0, -1, 1]),
-            "latest_price": "-",
+            "status": status,
+            "latest_price": latest_price_,
         }
         items.append(new_item)
     return render_template("individual/parts/_stock_pool.html", items=items)
