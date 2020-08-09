@@ -6,6 +6,8 @@
 
 雪球网爬虫
 """
+from datetime import datetime, timedelta
+
 import requests
 
 
@@ -58,3 +60,32 @@ class XueQiuCrawler:
         resp = self.session.get(url, params=params)
         data = resp.json()
         return data
+
+    def filter_stocks(self, page=1, size=50):
+        """雪球选股器
+        """
+        url = "https://xueqiu.com/service/screener/screen"
+
+        query = {"category":"CN",
+                "exchange":"sh_sz",
+                "areacode":"",
+                "indcode":"",
+                "order_by":"symbol",
+                "order":"desc",
+                "page":str(page),
+                "size":str(size),
+                "only_count":"0",
+                "current":"",
+                "pct":"",
+                }
+        
+        now_year = datetime.now().year
+        for y in range(now_year-5, now_year):
+            key_1 = "roediluted.%d1231" % y
+            key_2 = "niota.%d1231" % y
+            query[key_1] = "10_1000"
+            query[key_2] = "8_1000"
+
+        response = self.session.get(url, params=query)
+        return response.json()
+    

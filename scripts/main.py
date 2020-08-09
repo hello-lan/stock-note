@@ -190,6 +190,26 @@ def add_income(code):
         db.session.commit()
 
 
+@cli.command()
+@click.option("-z", "--size", default=50, type=click.INT, help="股票代码")
+def stock_filter(size):
+    from crawlers.xueqiu import XueQiuCrawler
+
+    crawler = XueQiuCrawler()
+    page = 1
+    with open("data/stocks.csv", 'w') as f:
+        f.write("code,name,roa,roe\n")
+        while True:
+            response = crawler.filter_stocks(page=page, size=size)
+            data = response["data"]
+            for item in data["list"]:
+                line = "{symbol},{name},{niota},{roediluted}\n".format_map(item)
+                f.write(line)
+
+            if data["count"] < page * size:
+                break
+            else:
+                page += 1
 
 if __name__ == "__main__":
     cli()
