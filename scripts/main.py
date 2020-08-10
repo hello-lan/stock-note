@@ -8,7 +8,7 @@ import click
 
 sys.path.append("..")
 from stocknote import create_app
-from stocknote.models.stock import db, Stock, Indicators
+from stocknote.models.stock import db, Stock, StockIndicators
 
 
 app = create_app()
@@ -39,7 +39,7 @@ def add_cashflow(code):
     """ 添加单只股票的现金流量数据
     """
     from crawlers.xueqiu import XueQiuCrawler
-    from stocknote.models.stock import CashFlow
+    from stocknote.models.stock import StockCashFlow
 
     if code is None:
         codes = map(attrgetter("code"), Stock.query.all())
@@ -58,7 +58,7 @@ def add_cashflow(code):
 
         data = crawler.crawl_cashflow(code_)
         for item in data["data"]["list"]:
-            cashflow = CashFlow(
+            cashflow = StockCashFlow(
                 code = code,
                 account_date = date.fromtimestamp(item["report_date"]/1000),
                 net_operating_cashflow = item["ncf_from_oa"][0],
@@ -95,7 +95,7 @@ def add_indicators(code):
         data = crawler.crawl_indicator(code_)
         # 解析
         for item in data["data"]["list"]:
-            indicators = Indicators(
+            indicators = StockIndicators(
                 code = code,
                 account_date = date.fromtimestamp(item["report_date"]/1000),
                 total_revenue = item["total_revenue"][0],
@@ -143,7 +143,7 @@ def add_indicators(code):
 def add_income(code):
     """ 利润表
     """
-    from stocknote.models.stock import IncomeStatement
+    from stocknote.models.stock import StockIncomeStatement
     from crawlers.xueqiu import XueQiuCrawler
 
     crawler = XueQiuCrawler()
@@ -163,7 +163,7 @@ def add_income(code):
             code_ = "SZ" + code
         data = crawler.crawl_income(code_)
         for item in data["data"]["list"]:
-            income = IncomeStatement(
+            income = StockIncomeStatement(
                 code = code,
                 account_date = date.fromtimestamp(item["report_date"]/1000),
                 total_revenue = item["total_revenue"][0],

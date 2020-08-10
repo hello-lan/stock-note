@@ -2,7 +2,7 @@ from flask import render_template, current_app, Blueprint, jsonify, flash, reque
 
 from operator import itemgetter
 
-from stocknote.models.stock import StockGroup, Stock, Indicators, CashFlow, IncomeStatement
+from stocknote.models.stock import StockGroup, Stock, StockIndicators, StockCashFlow, StockIncomeStatement
 from stocknote.extensions import db
 from stocknote.services.stock_data import get_stock_indicators, get_cashflow_revenue_ratios
 
@@ -24,7 +24,7 @@ def stock_detail():
 @stock_bp.route("/<code>/free-cashflow", methods=["GET"])
 def free_cashflow(code):
     cfr_ratios = get_cashflow_revenue_ratios(code)
-    q = CashFlow.query.filter_by(code=code).order_by(CashFlow.account_date).all()
+    q = StockCashFlow.query.filter_by(code=code).order_by(StockCashFlow.account_date).all()
     data = []
     pre_cf = None
     for item in q:
@@ -46,7 +46,7 @@ def free_cashflow(code):
 def income_percentage(code):
     """百分率利润表
     """
-    q = IncomeStatement.query.filter_by(code=code).order_by(IncomeStatement.account_date.desc())
+    q = StockIncomeStatement.query.filter_by(code=code).order_by(StockIncomeStatement.account_date.desc())
     data = []
     for item in q:
         revenue = item.revenue
@@ -71,7 +71,7 @@ def valuation():
     g = request.args.get("g", default=0.03, type=float)    #  永续年金增长率
     discount_rate = request.args.get("discountRate", default=0.09, type=float)   # 折现率
     total_equity = request.args.get("totalEquity", type=int)
-    initial_cashflow = request.args.get("initialCashFlow", type=float)
+    initial_cashflow = request.args.get("initialStockCashFlow", type=float)
     _cashflow_growths = request.args.get("cashFlowGrowths", type=str)
 
     if initial_cashflow is None or _cashflow_growths is None:

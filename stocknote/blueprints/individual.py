@@ -1,7 +1,7 @@
 from flask import render_template, current_app, Blueprint, jsonify, flash, request, abort
 
 from stocknote.extensions import db
-from stocknote.models.individual import Pool, MyInterests
+from stocknote.models.individual import MyPool, MyInterests
 from stocknote.models.stock import Stock
 from stocknote.services.quotation import get_latest_price
 
@@ -12,9 +12,9 @@ individual_bp = Blueprint("individual", __name__)
 @individual_bp.route("/stock-pool")
 def stock_pool():
     from random import choice
-    q = db.session.query(Pool.code, Pool.update_time, Pool.positive_valuation,
-                         Pool.negative_valuation, Pool.safe_of_margin, Stock.name) \
-        .outerjoin(Stock, Pool.code==Stock.code).all()
+    q = db.session.query(MyPool.code, MyPool.update_time, MyPool.positive_valuation,
+                         MyPool.negative_valuation, MyPool.safe_of_margin, Stock.name) \
+        .outerjoin(Stock, MyPool.code==Stock.code).all()
     prices = get_latest_price([item.code for item in q])
     items = []
     for item in q:
@@ -55,9 +55,9 @@ def api_op_add_stock_to_pool():
     code = data["code"]
     positive_valuation = data.get("positive_valuation", 0)
     negative_valuation = data.get("negative_valuation", 0)
-    safe_of_margin = data.get("safe_of_margin", 0.25)
+    safe_of_margin = data.get("safe_of_margin", 0.35)
     
-    pool_item = Pool(code=code,
+    pool_item = MyPool(code=code,
                     positive_valuation=positive_valuation,
                     negative_valuation=negative_valuation,
                     safe_of_margin=safe_of_margin
@@ -73,7 +73,7 @@ def api_op_rm_stock_from_pool():
     if "code" not in data:
         return jsonify(message="未接收到请求参数.")
     code = data["code"]
-    Pool.query.filter_by(code=code).delete(synchronize_session=False)
+    MyPool.query.filter_by(code=code).delete(synchronize_session=False)
     db.session.commit()
     return jsonify(status=200, message="移除成功")
 
@@ -92,7 +92,7 @@ def api_op_update_stock_in_pool():
     if "safe_of_margin" in data:
         info["safe_of_margin"] = data["safe_of_margin"]
     print(info)
-    item = Pool.query.filter_by(code=code).update(info)
+    item = MyPool.query.filter_by(code=code).update(info)
     db.session.commit()
     return jsonify(status=200, message="更新成功")
 
@@ -100,7 +100,7 @@ def api_op_update_stock_in_pool():
 @individual_bp.route("/stock-pool/data/pool-item", methods=["GET"])
 def api_data_get_pool_item():
     code = request.args.get("code", type=str)
-    item = Pool.query.filter_by(code=code).first_or_404()
+    item = MyPool.query.filter_by(code=code).first_or_404()
     data = {
         "code": item.code,
         "positive_valuation": item.positive_valuation,

@@ -34,8 +34,8 @@ stock_group_log = db.Table("stock_group_log",
 )
 
 
-class Indicators(db.Model):
-    __tablename__ = "indicators"
+class StockIndicators(db.Model):
+    __tablename__ = "stock_indicators"
     __table_args__ = (
         UniqueConstraint("code", "account_date", name="uk_code_date"),
     )
@@ -80,8 +80,8 @@ class Indicators(db.Model):
     fixed_asset_turnover_ratio = db.Column(db.Float, comment="固定资产周转率")
 
 
-class IncomeStatement(db.Model):
-    __tablename__ = "income_statement"
+class StockIncomeStatement(db.Model):
+    __tablename__ = "stock_income_statement"
     __table_args__ = (
         UniqueConstraint("code", "account_date", name="uk_code_date"),
     )
@@ -110,8 +110,8 @@ class IncomeStatement(db.Model):
     operating_taxes_and_surcharge = db.Column(db.Float, comment="营业税金及附加")
 
 
-class CashFlow(db.Model):
-    __tablename__ = "cash_flow"
+class StockCashFlow(db.Model):
+    __tablename__ = "stock_cash_flow"
     __table_args__ = (
         UniqueConstraint("code", "account_date", name="uk_code_date"),
     )

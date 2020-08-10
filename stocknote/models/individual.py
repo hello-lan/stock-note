@@ -5,9 +5,12 @@ from sqlalchemy import UniqueConstraint
 from stocknote.extensions import db
 
 
-class Pool(db.Model):
-    __tablename__ = "pool"
-
+class MyPool(db.Model):
+    __tablename__ = "my_pool"
+    __table_args__ = (
+        UniqueConstraint("user_id", "code", name="k_uid_code"),
+    )
+    
     id = db.Column(db.Integer, primary_key=True)
     code = db.Column(db.String(10), unique=True, index=True, nullable=False)
     positive_valuation = db.Column(db.Float, nullable=False, comment="乐观估值(元/每股)")

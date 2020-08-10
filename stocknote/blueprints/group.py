@@ -2,7 +2,7 @@ from flask import render_template, current_app, Blueprint, jsonify, flash, reque
 
 from collections import defaultdict
 
-from stocknote.models.stock import StockGroup, Stock, IncomeStatement, Indicators, CashFlow
+from stocknote.models.stock import StockGroup, Stock, StockIncomeStatement, StockIndicators, StockCashFlow
 from stocknote.extensions import db
 
 
@@ -97,7 +97,7 @@ def api_data_revenues(group_id):
     group = StockGroup.query.get_or_404(group_id)
     stocks = group.stocks
     code_to_name = {stock.code: stock.name for stock in stocks}
-    incomes = IncomeStatement.query.filter(IncomeStatement.code.in_(code_to_name.keys())).all()
+    incomes = StockIncomeStatement.query.filter(StockIncomeStatement.code.in_(code_to_name.keys())).all()
 
     dates = list(set([item.account_date for item in incomes]))
     dates.sort()
@@ -124,7 +124,7 @@ def api_data_gross_profit_margins(group_id):
     stocks = group.stocks
     code_to_name = {stock.code: stock.name for stock in stocks}
 
-    indicators = Indicators.query.filter(Indicators.code.in_(code_to_name.keys())).all()
+    indicators = StockIndicators.query.filter(StockIndicators.code.in_(code_to_name.keys())).all()
 
     dates = list(set([item.account_date for item in indicators]))
     dates.sort()
@@ -151,7 +151,7 @@ def api_data_net_profit_margins(group_id):
     stocks = group.stocks
     code_to_name = {stock.code: stock.name for stock in stocks}
 
-    indicators = Indicators.query.filter(Indicators.code.in_(code_to_name.keys())).all()
+    indicators = StockIndicators.query.filter(StockIndicators.code.in_(code_to_name.keys())).all()
 
     dates = list(set([item.account_date for item in indicators]))
     dates.sort()
@@ -178,10 +178,10 @@ def api_data_free_cashflow_to_revenue(group_id):
     stocks = group.stocks
     code_to_name = {stock.code: stock.name for stock in stocks}
 
-    results = db.session.query((100*CashFlow.net_operating_cashflow/IncomeStatement.revenue).label("fcf2r"),
-                                CashFlow.account_date, CashFlow.code) \
-            .filter(CashFlow.code.in_(code_to_name.keys()), CashFlow.code==IncomeStatement.code)  \
-            .filter(CashFlow.account_date==IncomeStatement.account_date)  \
+    results = db.session.query((100*StockCashFlow.net_operating_cashflow/StockIncomeStatement.revenue).label("fcf2r"),
+                                StockCashFlow.account_date, StockCashFlow.code) \
+            .filter(StockCashFlow.code.in_(code_to_name.keys()), StockCashFlow.code==StockIncomeStatement.code)  \
+            .filter(StockCashFlow.account_date==StockIncomeStatement.account_date)  \
             .all()
     
     dates = list(set([item.account_date for item in results]))
@@ -209,7 +209,7 @@ def api_data_roe(group_id):
     stocks = group.stocks
     code_to_name = {stock.code: stock.name for stock in stocks}
 
-    indicators = Indicators.query.filter(Indicators.code.in_(code_to_name.keys())).all()
+    indicators = StockIndicators.query.filter(StockIndicators.code.in_(code_to_name.keys())).all()
 
     dates = list(set([item.account_date for item in indicators]))
     dates.sort()
@@ -236,7 +236,7 @@ def api_data_roa(group_id):
     stocks = group.stocks
     code_to_name = {stock.code: stock.name for stock in stocks}
 
-    indicators = Indicators.query.filter(Indicators.code.in_(code_to_name.keys())).all()
+    indicators = StockIndicators.query.filter(StockIndicators.code.in_(code_to_name.keys())).all()
 
     dates = list(set([item.account_date for item in indicators]))
     dates.sort()
