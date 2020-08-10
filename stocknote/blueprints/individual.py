@@ -1,7 +1,7 @@
 from flask import render_template, current_app, Blueprint, jsonify, flash, request, abort
 
 from stocknote.extensions import db
-from stocknote.models.individual import Pool
+from stocknote.models.individual import Pool, MyInterests
 from stocknote.models.stock import Stock
 from stocknote.services.quotation import get_latest_price
 
@@ -108,4 +108,38 @@ def api_data_get_pool_item():
         "safe_of_margin": item.safe_of_margin
     }
     return jsonify(status=200, message="", data=data)
-        
+
+   
+@individual_bp.route("/my-interests")
+def my_interests():
+    items = db.session.query(MyInterests.code, Stock.name)  \
+            .outerjoin(Stock, Stock.code==MyInterests.code)  \
+            .all()
+    return render_template("individual/parts/_interests.html", items=items)
+
+
+@individual_bp.route("/my-interests/op/add-stock", methods=["POST"])
+def api_op_add_stock_to_interests():
+    data = request.get_json()
+    if "code" not in data:
+        return jsonify(message="未接收到请求参数.")
+    
+    code = data["code"]
+    interest = MyInterests(code=code)
+    db.session.add(interest)
+    db.session.commit()
+    return jsonify(status=200, message="添加成功")
+
+
+@individual_bp.route("/my-interests/op/rm-stock", methods=["DELETE"])
+def api_op_rm_stock_from_interests():
+    data = request.get_json()
+    if "code" not in data:
+        return jsonify(message="未接收到请求参数.")
+    
+    code = data["code"]
+    MyInterests.query.filter_by(code=code).delete(synchronize_session=False)
+    db.session.commit()
+    return jsonify(status=200, message="移除成功")
+
+

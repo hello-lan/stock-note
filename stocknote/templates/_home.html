@@ -13,7 +13,7 @@
     <h4 class="text-success"><i class="glyphicon glyphicon-flag"></i> 我的股票池</h4>
     <hr><br>
     <div id="J_myStockPool"></div>
-    <a class="btn btn-default" role="button" data-toggle="modal" data-target="#i_addStockToPoolModal">+ 添加</a>
+    <a class="btn btn-default btn-xs" role="button" data-toggle="modal" data-target="#i_addStockToPoolModal">+ 添加</a>
   </div>
 </div>
 <br><br><br>
@@ -21,6 +21,9 @@
   <div class="col-md-12">
     <h4 class="text-success"><i class="glyphicon glyphicon-heart-empty "></i> 我的关注</h4>
     <hr><br>
+    <div id="J_myInterests"></div>
+    <br>
+    <a class="btn btn-default btn-xs" role="button" data-toggle="modal" data-target="#i_addStockToMyInterestsModal">+ 添加关注</a>
   </div>
 </div>
 
@@ -139,12 +142,48 @@
   </div>
 </div>
 
+<!-- Modal for add stock to interests -->
+<div class="modal fade" id="i_addStockToMyInterestsModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog modal-sm" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+            aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="i_addStockToMyInterestsModalLabel">添加关注</h4>
+      </div>
+      <div class="modal-body">
+        <div class="row">
+          <div class="col-md-12">
+            <form class="form-horizontal">
+              <div class="form-group">
+                <label class="col-sm-4 control-label">股票代码</label>
+                <div class="col-sm-8">
+                  <input type="text" class="form-control input-number" id="i_interestCodeAddInput" placeholder="如:000001">
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+        <button type="button" class="btn btn-primary" data-dismiss="modal"
+          onclick="addStockToMyInterests()">确认</button>
+      </div>
+    </div>
+  </div>
+</div>
+
 <script>
-  var pool_url = "{{ url_for('individual.stock_pool')}}";
+  var pool_url = "{{ url_for('individual.stock_pool') }}";
   var pool_item_url = "{{ url_for('individual.api_data_get_pool_item') }}";
   var add_stock_to_pool_url = "{{ url_for('individual.api_op_add_stock_to_pool') }}";
-  var update_stock_in_pool_url = "{{ url_for('individual.api_op_update_stock_in_pool') }}"
+  var update_stock_in_pool_url = "{{ url_for('individual.api_op_update_stock_in_pool') }}";
   var rm_stock_from_pool_url = "{{ url_for('individual.api_op_rm_stock_from_pool') }}";
+
+  var my_interests_url = "{{ url_for('individual.my_interests') }}";
+  var add_stock_to_interests_url = "{{ url_for('individual.api_op_add_stock_to_interests') }}";
+  var rm_stock_from_interests_url = "{{ url_for('individual.api_op_rm_stock_from_interests') }}";
 
   function load_pool() {
     $.ajax({
@@ -156,8 +195,19 @@
     });
   }
 
+  function load_interests() {
+    $.ajax({
+      type: 'GET',
+      url: my_interests_url,
+      success: function (data) {
+        $('#J_myInterests').html(data);
+      }
+    });
+  }
+
   $(function () {
     load_pool();
+    load_interests();
   })
 
   function addStockToPool() {
@@ -237,6 +287,36 @@
       success: function (data) {
         alert(data["message"]);
         load_pool();
+      }
+    });
+  }
+
+  function addStockToMyInterests() {
+    var code = $("#i_interestCodeAddInput").val();
+    var params = {code: code};
+
+    $.ajax({
+      type: 'POST',
+      url: add_stock_to_interests_url,
+      data: JSON.stringify(params),
+      contentType: 'application/json;charset=UTF-8',
+      success: function (data) {
+        alert(data["message"]);
+        load_interests();
+      }
+    });
+  }
+
+  function removeMyInterests(code) {
+    var params = { "code": code };
+    $.ajax({
+      type: 'DELETE',
+      url: rm_stock_from_interests_url,
+      data: JSON.stringify(params),
+      contentType: 'application/json;charset=UTF-8',
+      success: function (data) {
+        alert(data["message"]);
+        load_interests();
       }
     });
   }
