@@ -1,3 +1,5 @@
+from sqlalchemy import UniqueConstraint
+
 from stocknote.extensions import db
 
 
@@ -25,13 +27,18 @@ class StockGroup(db.Model):
 
 
 stock_group_log = db.Table("stock_group_log",
+    db.Column("id", db.Integer, primary_key=True),
     db.Column("stock_code", db.String(20), db.ForeignKey("stock.code")),
-    db.Column("group_id", db.Integer, db.ForeignKey("stock_group.id"))
+    db.Column("group_id", db.Integer, db.ForeignKey("stock_group.id")),
+    UniqueConstraint('stock_code', 'group_id'),
 )
 
 
 class Indicators(db.Model):
     __tablename__ = "indicators"
+    __table_args__ = (
+        UniqueConstraint("code", "account_date", name="uk_code_date"),
+    )
 
     id = db.Column(db.Integer, primary_key=True)
     code = db.Column(db.String(10), index=True, nullable=False)
@@ -75,6 +82,9 @@ class Indicators(db.Model):
 
 class IncomeStatement(db.Model):
     __tablename__ = "income_statement"
+    __table_args__ = (
+        UniqueConstraint("code", "account_date", name="uk_code_date"),
+    )
 
     id = db.Column(db.Integer, primary_key=True)
     code = db.Column(db.String(10), index=True, nullable=False)
@@ -102,6 +112,9 @@ class IncomeStatement(db.Model):
 
 class CashFlow(db.Model):
     __tablename__ = "cash_flow"
+    __table_args__ = (
+        UniqueConstraint("code", "account_date", name="uk_code_date"),
+    )
 
     id = db.Column(db.Integer, primary_key=True)
     code = db.Column(db.String(10), index=True, nullable=False)
