@@ -83,9 +83,29 @@ class XueQiuCrawler:
         for y in range(now_year-5, now_year):
             key_1 = "roediluted.%d1231" % y
             key_2 = "niota.%d1231" % y
-            query[key_1] = "10_1000"
+            query[key_1] = "20_1000"
             query[key_2] = "8_1000"
 
         response = self.session.get(url, params=query)
         return response.json()
+
+    def filter_stocks2(self, page=1, size=50):
+        url = "https://xueqiu.com/service/screener/screen"
+
+        query = {"category":"CN",
+                "exchange":"sh_sz",
+                "areacode":"",
+                "indcode":"",
+                "order_by":"symbol",
+                "order":"desc",
+                "page":str(page),
+                "size":str(size),
+                "only_count":"0",
+                "current":"",
+                "pct":"",
+                "pb":"0_1.5",
+                "dy_l":"0.1_17.67",
+                "pelyr":"-1394.78_4288.9"}
+        response = self.session.get(url, params=query)
+        return response.json()      
     

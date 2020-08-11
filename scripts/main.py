@@ -192,24 +192,72 @@ def add_income(code):
 
 @cli.command()
 @click.option("-z", "--size", default=50, type=click.INT, help="股票代码")
-def stock_filter(size):
+@click.option("-m", "--method", type=click.Choice(["m1", "m2"]), help="m1 -- 根据roa和roe筛选   m2 -- 《投资要义》中描述的方法")
+@click.option("-o", "--output", default="data/result.csv", type=click.Path(dir_okay=False, resolve_path=True))
+def stock_filter(size, method, output):
+    """ 选股器
+    """
     from crawlers.xueqiu import XueQiuCrawler
 
     crawler = XueQiuCrawler()
     page = 1
-    with open("data/stocks.csv", 'w') as f:
-        f.write("code,name,roa,roe\n")
-        while True:
-            response = crawler.filter_stocks(page=page, size=size)
-            data = response["data"]
-            for item in data["list"]:
-                line = "{symbol},{name},{niota},{roediluted}\n".format_map(item)
-                f.write(line)
+    if method == "m1":
+        with open(output, 'w') as f:
+            f.write("code,name,roa,roe\n")
+            while True:
+                response = crawler.filter_stocks(page=page, size=size)
+                data = response["data"]
+                for item in data["list"]:
+                    line = "{symbol},{name},{niota},{roediluted}\n".format_map(item)
+                    f.write(line)
 
+                if data["count"] < page * size:
+                    break
+                else:
+                    page += 1
+    else:
+        items = []
+        
+        while True:
+            response = crawler.filter_stocks2(page=page, size=size)
+            data = response["data"]
+            items.extend(data["list"])
             if data["count"] < page * size:
-                break
+                    break
             else:
                 page += 1
+        code2name = {item["symbol"]:item["name"] for item in items}
+        # 将市净率从低到高排序，顺位即为市净率得分
+        items.sort(key=lambda x: x["pb"])
+        pb_scores = {item["symbol"]: i+1 for i, item in enumerate(items)}
+        # 将股息率从高到低排序，顺位即为股息率得分
+        items.sort(key=lambda x: x["dy_l"], reverse=True)
+        dyl_scores = {item["symbol"]: i+1 for i, item in enumerate(items)}
+        # 将市盈率从低到高排序，顺位即为市净率得分,亏损公司的得分记为所有公司中得分最高的分值
+        items.sort(key=lambda x: x["pelyr"], reverse=True)
+        i = 1
+        pelyr_scores = dict()
+        for item in items:
+            if item["pelyr"] < 0:
+                score = -1
+            else:
+                score = i
+                i += 1
+            pelyr_scores[item["symbol"]] = score
+        max_v = max(pelyr_scores.values())
+        pelyr_scores = {code: v if v > 0 else max_v for code, v in pelyr_scores.items()}
+
+        results = []
+        for k in pb_scores:
+            s = pb_scores[k] + dyl_scores[k] + pelyr_scores[k]
+            results.append((k, code2name[k], s))
+        results.sort(key=lambda x: x[-1])
+
+        with open(output, 'w') as f:
+            f.write("code,name,score\n")
+            for item in results[:100]:
+                f.write("{code},{name},{score}\n".format(code=item[0], name=item[1], score=item[2]))
+
 
 if __name__ == "__main__":
     cli()
