@@ -7,10 +7,10 @@
         </tr>
     </thead>
     <tbody>
-        <tr class="text-center">
-            <td>公司业务范围</td>
+        <tr>
+            <td class="text-center" style="min-width:150px">公司业务范围</td>
             <td>{{ info.scope | default('-', True)}}</td>
-            <td>
+            <td class="text-center" style="min-width:50px">
                 <div class="dropdown">
                     <span class="dropdown-toggle" id="basicInfoEditDropDownMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
                         <i role="button" class="glyphicon glyphicon-option-horizontal"></i>
@@ -23,10 +23,10 @@
                 </div>
             </td>
         </tr>
-        <tr class="text-center">
-            <td>业务结构</td>
+        <tr>
+            <td class="text-center">业务结构</td>
             <td>{{ info.structure | default('-', True)}}</td>
-            <td>
+            <td class="text-center">
                 <div class="dropdown">
                     <span class="dropdown-toggle" id="basicInfoEditDropDownMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
                         <i role="button" class="glyphicon glyphicon-option-horizontal"></i>
@@ -39,10 +39,10 @@
                 </div>
             </td>
         </tr>
-        <tr class="text-center">
-            <td>上下游情况</td>
+        <tr>
+            <td class="text-center">上下游情况</td>
             <td>{{ info.industry_chain | default('-', True)}}</td>
-            <td>
+            <td class="text-center">
                 <div class="dropdown">
                     <span class="dropdown-toggle" id="basicInfoEditDropDownMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
                         <i role="button" class="glyphicon glyphicon-option-horizontal"></i>
@@ -55,10 +55,10 @@
                 </div>
             </td>
         </tr>
-        <tr class="text-center">
-            <td>销售模式</td>
+        <tr>
+            <td class="text-center">销售模式</td>
             <td>{{ info.sales_model | default('-', True)}}</td>
-            <td>
+            <td class="text-center">
                 <div class="dropdown">
                     <span class="dropdown-toggle" id="basicInfoEditDropDownMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
                         <i role="button" class="glyphicon glyphicon-option-horizontal"></i>
@@ -71,10 +71,10 @@
                 </div>
             </td>
         </tr>
-        <tr class="text-center">
-            <td>实际控制人</td>
+        <tr>
+            <td class="text-center">实际控制人</td>
             <td>{{ info.actual_controller | default('-', True)}}</td>
-            <td>
+            <td class="text-center">
                 <div class="dropdown">
                     <span class="dropdown-toggle" id="basicInfoEditDropDownMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
                         <i role="button" class="glyphicon glyphicon-option-horizontal"></i>
@@ -87,10 +87,10 @@
                 </div>
             </td>
         </tr>
-        <tr class="text-center">
-            <td>机构持股占比</td>
+        <tr>
+            <td class="text-center">机构持股占比</td>
             <td>{{ info.institutional_ownership | default('-', True)}}</td>
-            <td>
+            <td class="text-center">
                 <div class="dropdown">
                     <span class="dropdown-toggle" id="basicInfoEditDropDownMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
                         <i role="button" class="glyphicon glyphicon-option-horizontal"></i>
@@ -103,10 +103,10 @@
                 </div>
             </td>
         </tr>
-        <tr class="text-center">
-            <td>近年分红增发情况</td>
+        <tr>
+            <td class="text-center">近年分红增发情况</td>
             <td>{{ info.bonus_and_offering | default('-', True)}}</td>
-            <td>
+            <td class="text-center">
                 <div class="dropdown">
                     <span class="dropdown-toggle" id="basicInfoEditDropDownMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
                         <i role="button" class="glyphicon glyphicon-option-horizontal"></i>

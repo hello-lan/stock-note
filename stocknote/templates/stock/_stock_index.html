@@ -14,7 +14,7 @@
 <div class="row">
     <div class="col-md-11">
         <div class="row">
-            <h5 class="text-success" id="annualReport"><i class="glyphicon glyphicon-paperclip"></i> 年度报告</h5>
+            <h5 class="text-success" id="annualReport"><i class="glyphicon glyphicon-link"></i> 年度报告</h5>
             <hr><br>
             <ul>
                 <li><a href="http://money.finance.sina.com.cn/corp/go.php/vCB_Bulletin/stockid/{{stock.code}}/page_type/ndbg.phtml"
@@ -27,7 +27,7 @@
         </div>
         <br>
         <div class="row">
-            <h5 class="text-success" id="basicInfo"><i class=" glyphicon glyphicon-info-sign"></i> 基本情况</h5>
+            <h5 class="text-success" id="basicInfo"><i class="glyphicon glyphicon-info-sign"></i> 基本情况</h5>
             <hr><br>
             <div class="col-md-12">
                 <div id="J_basicInfoTable"></div>
@@ -56,7 +56,6 @@
                         <div id="i_thresholds" class="collapse">
                             <br>
                             <ul class="text-muted">
-                                <li><small>自由现金流/销售收入 >= 5%</small></li>
                                 <li><small>净利润率 >= 15%</small></li>
                                 <li><small>ROA >= 6%</small></li>
                                 <li><small>ROE >= 10%</small></li>
@@ -77,11 +76,13 @@
                     </div>
                     <div role="tabpanel" class="tab-pane" id="i_freeCashFlow">
                         <div id="J_freeCashFlowTable"></div>
+                        <p class="text-muted"><small>* 这边的<mark>自由现金流</mark>指的是<mark>经营活动产生的自由现金流</mark>, 通常<mark>自由现金流/销售收入 >= 5%</mark>就说明公司有较好的盈利性</small></p>
                     </div>
                 </div>
+                <br>
             </div>
             <div class="col-md-12">
-                <p>通过分析公司自由现金流、毛利率、净资产收益率、资产收益率来检验公司过去的盈利能力怎样，寻找竞争优势的证据。若公司显示较强的盈利能力，则进一步分析公司是否某方面的竞争优势，这些竞争优势有可能是:</p>
+                <p>通过分析公司自由现金流、毛利率、净资产收益率、资产收益率来检验公司过去的盈利能力怎样，寻找竞争优势的证据(最好还要找同行业的其他公司做对比)。若公司显示较强的盈利能力，则进一步分析公司是否某方面的竞争优势，这些竞争优势有可能是:</p>
                 <ul>
                     <li>通过出众的技术或特色创造真实的差异化产品</li>
                     <li>通过一个信任的品牌或声誉创造可感知的差异化产品</li>
