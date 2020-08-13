@@ -3,11 +3,15 @@ from flask import render_template, current_app, Blueprint, jsonify, flash, reque
 from operator import itemgetter
 
 from stocknote.models.stock import StockGroup, Stock, StockIndicators, StockCashFlow, StockIncomeStatement
+from stocknote.models.individual import BasicInfo
 from stocknote.extensions import db
 from stocknote.services.stock_data import get_stock_indicators, get_cashflow_revenue_ratios
 
 
 stock_bp = Blueprint("stock", __name__)
+
+
+BASIC_INFO_FIELDS = ["scope", "structure","industry_chain", "sales_model", "actual_controller","institutional_ownership", "bonus_and_offering"]
 
 
 @stock_bp.route("/detail", methods=["GET"])
@@ -19,6 +23,42 @@ def stock_detail():
     code = data["code"]
     stock = Stock.query.filter_by(code=code).first_or_404()
     return render_template("stock/_stock_index.html", stock=stock)
+
+
+@stock_bp.route("/<code>/basic-info", methods=["GET"])
+def basic_info(code):
+    info = BasicInfo.query.filter_by(code=code).first()
+    if info is None:
+        info = {}
+    return render_template("stock/parts/_basic_info_table.html", info=info)
+
+
+@stock_bp.route("/<code>/basic-info/partial", methods=["GET"])
+def get_partial_basic_info(code):
+    field_index = request.args.get("field", type=int)
+    if field_index is None:
+        return jsonify(message="未接收到请求参数.")
+    field = BASIC_INFO_FIELDS[field_index]
+    info = BasicInfo.query.filter_by(code=code).first()
+    desc = getattr(info, field, "")
+    return jsonify(message="success", desc=desc)
+
+
+@stock_bp.route("/<code>/basic-info/edit", methods=["PATCH"])
+def edit_basic_info(code):
+    data = request.get_json()
+    if "field" not in data:
+        return jsonify(message="未接收到请求参数.")
+    value = data["value"]
+    field_index = data["field"]
+    field = BASIC_INFO_FIELDS[field_index]
+    info = BasicInfo.query.filter_by(code=code).first()
+    if info is None:
+        info = BasicInfo(code=code)
+    setattr(info, field, value)
+    db.session.add(info)
+    db.session.commit()
+    return jsonify(message="%s更新成功" % field)
 
 
 @stock_bp.route("/<code>/free-cashflow", methods=["GET"])

@@ -32,3 +32,19 @@ class MyInterests(db.Model):
     user_id = db.Column(db.Integer, default=1)
     create_time = db.Column(db.DateTime, default=datetime.now)
     update_time = db.Column(db.DateTime, default=datetime.now, onupdate=datetime.now)
+
+
+class BasicInfo(db.Model):
+    __tablename__  = "basic_info"
+
+    id = db.Column(db.Integer, primary_key=True)
+    code = db.Column(db.String(10), unique=True, index=True, nullable=False)
+    scope = db.Column(db.Text, default="-", comment="公司业务范围")
+    structure = db.Column(db.Text, default="-", comment="公司业务结构")
+    industry_chain = db.Column(db.Text, default="-", comment="上下游情况")
+    sales_model = db.Column(db.Text, default="-", comment="销售模式")
+    actual_controller = db.Column(db.String, default="-", comment="实际控制人")
+    institutional_ownership = db.Column(db.String, default="-", comment="机构持股情况")
+    bonus_and_offering = db.Column(db.String, default="-", comment="近几年分红与增发情况")
+    create_time = db.Column(db.DateTime, default=datetime.now)
+    update_time = db.Column(db.DateTime, default=datetime.now, onupdate=datetime.now)

@@ -27,6 +27,14 @@
         </div>
         <br>
         <div class="row">
+            <h5 class="text-success" id="basicInfo"><i class=" glyphicon glyphicon-info-sign"></i> 基本情况</h5>
+            <hr><br>
+            <div class="col-md-12">
+                <div id="J_basicInfoTable"></div>
+            </div>
+        </div>
+        <br>
+        <div class="row">
             <h5 class="text-success" id="competitiveEdge"><i class="glyphicon glyphicon-star"></i> 竞争优势</h5>
             <hr><br>
             <div class="col-md-12">
@@ -281,6 +289,7 @@
         <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix bg-info">
             <ul class="nav bs-docs-sidenav">
                 <li class="active"><a href="#annualReport"> - 年度报告</a></li>
+                <li><a href="#basicInfo"> - 基本情况</a></li>
                 <li><a href="#competitiveEdge"> - 竞争优势</a></li>
                 <li><a href="#growth"> - 成长性</a></li>
                 <li><a href="#profitability"> - 收益性</a></li>
@@ -293,7 +302,46 @@
     </div>
 </div>
 
+
+<!-- Modal for edit basic info -->
+<div class="modal fade" id="i_editBasicInfoModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+              aria-hidden="true">&times;</span></button>
+          <h4 class="modal-title" id="i_editBasicInfoModalLabel"></h4>
+        </div>
+        <div class="modal-body">
+          <div class="row">
+            <div class="col-md-12">
+                <textarea class="form-control" rows="3" id="i_basicInfoTextArea" data-field=""></textarea>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+          <button type="button" class="btn btn-primary" data-dismiss="modal"
+            onclick="editBasicInfo()">确认</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
 <script>
+    // 财务指标表格
+    var financial_indicator_url = "{{ url_for('stock.financial_indicators', code=stock.code) }}";
+    // 百分率利润表
+    var income_percentage_url = "{{ url_for('stock.income_percentage', code=stock.code) }}";
+    // 自由现金流量表
+    var free_cashflow_url = "{{ url_for('stock.free_cashflow', code=stock.code) }}";
+    // 公司基本信息
+    var basic_info_url = "{{ url_for('stock.basic_info', code=stock.code) }}";
+    var basic_info_partial_url = "{{ url_for('stock.get_partial_basic_info', code=stock.code) }}";
+    var basic_info_edit_url = "{{ url_for('stock.edit_basic_info', code=stock.code) }}"
+
+
     function getDataAndPlotIncome(url, domId) {
         $.getJSON(url, function (data) {
             plotIncomeMixLineBar(domId, data);
@@ -310,19 +358,51 @@
         })
     }
 
+    // 显示公司基本信息编辑框
+    function showBasicInfoEditModal(obj) {
+        var name = $(obj).attr("data-name");
+        var field = $(obj).attr("data-field");
+        $("#i_editBasicInfoModalLabel").text(name);
+        $("#i_basicInfoTextArea").attr("data-field", field);
+
+        $.ajax({
+            type: 'GET',
+            url: basic_info_partial_url,
+            data: {"field": field},
+            contentType: 'application/json;charset=UTF-8',
+            success: function (data) {
+                $("#i_basicInfoTextArea").val(data.desc);
+                $("#i_editBasicInfoModal").modal("show");
+            }
+        });
+
+    }
+
+    function editBasicInfo() {
+        var cont = $("#i_basicInfoTextArea").val();
+        var field = $("#i_basicInfoTextArea").attr("data-field");
+
+        var params = { "field": parseInt(field), "value": cont};
+        $.ajax({
+            type: 'PATCH',
+            url: basic_info_edit_url,
+            data: JSON.stringify(params),
+            contentType: 'application/json;charset=UTF-8',
+            success: function (data) {
+                alert(data["message"]);
+                loadContent(basic_info_url, "J_basicInfoTable");
+            }
+        });
+    }
+
     $(function () {
         $('[data-toggle="popover"]').popover();   // 初始化bootstrap的弹出框
-
-        // 财务指标表格
-        var financial_indicator_url = "{{ url_for('stock.financial_indicators', code=stock.code) }}";
-        // 百分率利润表
-        var income_percentage_url = "{{ url_for('stock.income_percentage', code=stock.code) }}";
-        // 自由现金流量表
-        var free_cashflow_url = "{{ url_for('stock.free_cashflow', code=stock.code) }}";
 
         loadTable(financial_indicator_url, "J_financialIndicatorsTable");
         loadTable(income_percentage_url, "J_incomePercentageTable");
         loadTable(free_cashflow_url, "J_freeCashFlowTable");
+
+        loadContent(basic_info_url, "J_basicInfoTable");
 
         // 成长性相关曲线图
         var revenue_url = "{{ url_for('stock.api_data_revenue', code=stock.code) }}";

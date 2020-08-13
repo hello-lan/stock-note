@@ -1,0 +1,123 @@
+<table class="table table-bordered table-condensed">
+    <thead>
+        <tr>
+            <th class="text-center">基本情况</th>
+            <th class="text-center">简单介绍</th>
+            <th class="text-center">操作</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr class="text-center">
+            <td>公司业务范围</td>
+            <td>{{ info.scope | default('-', True)}}</td>
+            <td>
+                <div class="dropdown">
+                    <span class="dropdown-toggle" id="basicInfoEditDropDownMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                        <i role="button" class="glyphicon glyphicon-option-horizontal"></i>
+                    </span>
+                    <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="basicInfoEditDropDownMenu" style="min-width:50px" >
+                        <li>
+                            <a role="btn" class="btn" onclick="showBasicInfoEditModal(this)" data-name="公司业务范围" data-field="0"><i class="glyphicon glyphicon-pencil"></i>&nbsp;&nbsp;编辑</a>
+                        </li>
+                    </ul>
+                </div>
+            </td>
+        </tr>
+        <tr class="text-center">
+            <td>业务结构</td>
+            <td>{{ info.structure | default('-', True)}}</td>
+            <td>
+                <div class="dropdown">
+                    <span class="dropdown-toggle" id="basicInfoEditDropDownMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                        <i role="button" class="glyphicon glyphicon-option-horizontal"></i>
+                    </span>
+                    <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="basicInfoEditDropDownMenu" style="min-width:50px" >
+                        <li>
+                            <a role="btn" class="btn" onclick="showBasicInfoEditModal(this)" data-name="公司业务结构" data-field="1"><i class="glyphicon glyphicon-pencil"></i>&nbsp;&nbsp;编辑</a>
+                        </li>
+                    </ul>
+                </div>
+            </td>
+        </tr>
+        <tr class="text-center">
+            <td>上下游情况</td>
+            <td>{{ info.industry_chain | default('-', True)}}</td>
+            <td>
+                <div class="dropdown">
+                    <span class="dropdown-toggle" id="basicInfoEditDropDownMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                        <i role="button" class="glyphicon glyphicon-option-horizontal"></i>
+                    </span>
+                    <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="basicInfoEditDropDownMenu" style="min-width:50px" >
+                        <li>
+                            <a role="btn" class="btn" onclick="showBasicInfoEditModal(this)" data-name="上下游情况" data-field="2"><i class="glyphicon glyphicon-pencil"></i>&nbsp;&nbsp;编辑</a>
+                        </li>
+                    </ul>
+                </div>
+            </td>
+        </tr>
+        <tr class="text-center">
+            <td>销售模式</td>
+            <td>{{ info.sales_model | default('-', True)}}</td>
+            <td>
+                <div class="dropdown">
+                    <span class="dropdown-toggle" id="basicInfoEditDropDownMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                        <i role="button" class="glyphicon glyphicon-option-horizontal"></i>
+                    </span>
+                    <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="basicInfoEditDropDownMenu" style="min-width:50px" >
+                        <li>
+                            <a role="btn" class="btn" onclick="showBasicInfoEditModal(this)" data-name="销售模式" data-field="3"><i class="glyphicon glyphicon-pencil"></i>&nbsp;&nbsp;编辑</a>
+                        </li>
+                    </ul>
+                </div>
+            </td>
+        </tr>
+        <tr class="text-center">
+            <td>实际控制人</td>
+            <td>{{ info.actual_controller | default('-', True)}}</td>
+            <td>
+                <div class="dropdown">
+                    <span class="dropdown-toggle" id="basicInfoEditDropDownMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                        <i role="button" class="glyphicon glyphicon-option-horizontal"></i>
+                    </span>
+                    <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="basicInfoEditDropDownMenu" style="min-width:50px" >
+                        <li>
+                            <a role="btn" class="btn" onclick="showBasicInfoEditModal(this)" data-name="实际控制人" data-field="4"><i class="glyphicon glyphicon-pencil"></i>&nbsp;&nbsp;编辑</a>
+                        </li>
+                    </ul>
+                </div>
+            </td>
+        </tr>
+        <tr class="text-center">
+            <td>机构持股占比</td>
+            <td>{{ info.institutional_ownership | default('-', True)}}</td>
+            <td>
+                <div class="dropdown">
+                    <span class="dropdown-toggle" id="basicInfoEditDropDownMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                        <i role="button" class="glyphicon glyphicon-option-horizontal"></i>
+                    </span>
+                    <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="basicInfoEditDropDownMenu" style="min-width:50px" >
+                        <li>
+                            <a role="btn" class="btn" onclick="showBasicInfoEditModal(this)" data-name="机构持股占比" data-field="5"><i class="glyphicon glyphicon-pencil"></i>&nbsp;&nbsp;编辑</a>
+                        </li>
+                    </ul>
+                </div>
+            </td>
+        </tr>
+        <tr class="text-center">
+            <td>近年分红增发情况</td>
+            <td>{{ info.bonus_and_offering | default('-', True)}}</td>
+            <td>
+                <div class="dropdown">
+                    <span class="dropdown-toggle" id="basicInfoEditDropDownMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                        <i role="button" class="glyphicon glyphicon-option-horizontal"></i>
+                    </span>
+                    <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="basicInfoEditDropDownMenu" style="min-width:50px" >
+                        <li>
+                            <a role="btn" class="btn" onclick="showBasicInfoEditModal(this)" data-name="近年分红增发情况" data-field="6"><i class="glyphicon glyphicon-pencil"></i>&nbsp;&nbsp;编辑</a>
+                        </li>
+                    </ul>
+                </div>
+            </td>
+        </tr>
+    </tbody>
+</table>
