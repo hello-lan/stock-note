@@ -1,0 +1,22 @@
+<table class="table table-bordered table-condensed">
+    <thead>
+        <tr>
+            <th class="text-center">报告期</th>
+            <th class="text-center">净资产收益率(%)</th>
+            <th class="text-center">净利润率(%)</th>
+            <th class="text-center">总周转率</th>
+            <th class="text-center">权益乘数</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for item in items %}
+        <tr class="text-center">
+            <td>{{ item.account_date }}</td>
+            <td>{{ item.roe | round(2) }}</td>
+            <td>{{ item.net_profit_rate | round(2) }}</td>
+            <td>{{ item.total_capital_turnover | round(2) }}</td>
+            <td>{{ item.equity_multiplier | round(2) }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>

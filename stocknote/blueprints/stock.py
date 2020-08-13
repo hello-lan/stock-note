@@ -1,6 +1,6 @@
 from flask import render_template, current_app, Blueprint, jsonify, flash, request, abort
 
-from operator import itemgetter
+from operator import itemgetter, attrgetter
 
 from stocknote.models.stock import StockGroup, Stock, StockIndicators, StockCashFlow, StockIncomeStatement
 from stocknote.models.individual import BasicInfo
@@ -85,6 +85,23 @@ def free_cashflow(code):
         data.append(new_item)
     data.sort(key=itemgetter("account_date"), reverse=True)
     return render_template("stock/parts/_cashflow_table.html", cashflows=data)
+
+
+@stock_bp.route("/<code>/simple-dupont-analysis", methods=["GET"])
+def simple_dupont_analysis(code):
+    indicators = get_stock_indicators(code)
+    items = []
+    for indicator in indicators:
+        item = dict()
+        item["account_date"] = indicator.account_date
+        item["net_profit_rate"] = 100 * indicator.net_profit_atsopc / indicator.total_revenue
+        item["total_capital_turnover"] = indicator.total_capital_turnover
+        item["equity_multiplier"] = indicator.equity_multiplier
+        item["roe"] = indicator.roe_dlt
+        items.append(item)
+    items.sort(key=itemgetter("account_date"), reverse=True)
+
+    return render_template("stock/parts/_dupont_analysis_table.html", items=items)
 
 
 @stock_bp.route("/<code>/income-percentage", methods=["GET"])
@@ -249,7 +266,7 @@ def api_data_profitablity(code):
     for item in indicators:
         account_date = item.account_date
         x_ticks.append(account_date.strftime("%Y年报"))
-        roe.append(item.roe)
+        roe.append(item.roe_dlt)
         roa.append(item.net_interest_of_total_assets)
         mll.append(item.gross_selling_rate)
         jll.append(item.net_selling_rate)
