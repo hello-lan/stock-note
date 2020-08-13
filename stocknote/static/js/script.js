@@ -1,26 +1,26 @@
+// 将url返回的html挂到domId下
+function loadContent(url, domId="main") {
+    $.ajax({
+        type: 'GET',
+        url: url,
+        success: function (data) {
+            $('#' + domId).html(data);
+        },
+        error:function (jqXHR, textStatus, errorThrown) {
+            $('#' + domId).html(jqXHR.responseText);
+        },
+    });    
+}
+
 $(document).ready(function () {
     var ENTER_KEY = 13;
     var ESC_KEY = 27;
 
-    // 加载右侧区域的内容
-    function load_content_page(url) {
-        $.ajax({
-            type: 'GET',
-            url: url,
-            success: function (data) {
-                $('#main').html(data);
-            },
-            error:function (jqXHR, textStatus, errorThrown) {
-                $('#main').html(jqXHR.responseText);
-            },
-        });
-    }
-
+    // 加载内容到右侧区域
     $(document).on('click', '.load-content-btn', function(){
         var url = $(this).attr("data-href");
-        load_content_page(url);
+        loadContent(url);
     });
-
 
     // 查询个股
     function searchStock(e) {
@@ -32,7 +32,7 @@ $(document).ready(function () {
         $input.focus().val('');
 
         var url = stock_page_url + "?code=" + value;
-        load_content_page(url);
+        loadContent(url);
     }
 
     $(document).on('keyup', '#i_stockInput', searchStock.bind(this));
@@ -48,7 +48,7 @@ $(document).ready(function () {
             contentType: 'application/json;charset=UTF-8',
             success: function (data) {
                 alert(data["message"]);
-                load_content_page(group_index_url);    // 重新加载该页面
+                loadContent(group_index_url);    // 重新加载该页面
             }
         });
     }
@@ -64,7 +64,7 @@ $(document).ready(function () {
             contentType: 'application/json;charset=UTF-8',
             success: function (data) {
                 alert(data["message"]);
-                load_content_page(group_index_url);    // 重新加载该页面
+                loadContent(group_index_url);    // 重新加载该页面
             }
         });
     }
@@ -86,7 +86,7 @@ $(document).ready(function () {
             contentType: 'application/json;charset=UTF-8',
             success: function (data) {
                 alert(data["message"]);
-                load_content_page(cur_group_detail_url);
+                loadContent(cur_group_detail_url);
             }
         });
     }
@@ -105,7 +105,7 @@ $(document).ready(function () {
             contentType: 'application/json;charset=UTF-8',
             success: function (data) {
                 alert(data["message"]);
-                load_content_page(cur_group_detail_url);
+                loadContent(cur_group_detail_url);
             }
         });
     }
