@@ -1,7 +1,7 @@
 from flask import render_template, current_app, Blueprint, jsonify, flash, request, abort
 
 from stocknote.extensions import db
-from stocknote.models.individual import MyPool, MyInterests
+from stocknote.models.note import MyPool, MyInterests
 from stocknote.models.stock import Stock
 from stocknote.services.quotation import get_latest_price
 

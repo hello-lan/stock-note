@@ -3,7 +3,7 @@ from flask import render_template, current_app, Blueprint, jsonify, flash, reque
 from operator import itemgetter, attrgetter
 
 from stocknote.models.stock import StockGroup, Stock, StockIndicators, StockCashFlow, StockIncomeStatement
-from stocknote.models.individual import BasicInfo
+from stocknote.models.note import BasicInfo
 from stocknote.extensions import db
 from stocknote.services.stock_data import get_stock_indicators, get_cashflow_revenue_ratios
 
@@ -113,7 +113,7 @@ def income_percentage(code):
     for item in q:
         revenue = item.revenue
         operating_cost = item.operating_cost     # 营业成本
-        operating_costs = item.operating_costs   # 营业总陈本
+        operating_costs = item.operating_costs   # 营业总成本
         rad_cost = item.rad_cost if item.rad_cost is not None else 0
 
         new_item = dict()
