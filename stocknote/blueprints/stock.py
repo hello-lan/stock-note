@@ -112,17 +112,17 @@ def income_percentage(code):
     data = []
     for item in q:
         revenue = item.revenue
+        operating_cost = item.operating_cost     # 营业成本
+        operating_costs = item.operating_costs   # 营业总陈本
+        rad_cost = item.rad_cost if item.rad_cost is not None else 0
+
         new_item = dict()
         new_item["account_date"] = item.account_date
-        new_item["revenue"] = 100
-        new_item["operating_cost"] = 100 * item.operating_cost/revenue
-        new_item["gross_rofit_margin"] = 100 - new_item["operating_cost"]
+        new_item["gross_rofit_margin"] = 100 * (revenue - operating_cost)/revenue
         new_item["manage_fee"] = 100 * item.manage_fee / revenue
-        new_item["rad_cost"] = 100 * item.rad_cost / revenue if item.rad_cost is not None else 0
+        new_item["rad_cost"] = 100 * rad_cost / revenue
         new_item["sales_fee"] = 100 * item.sales_fee / revenue
         new_item["financing_expenses"] = 100 * item.financing_expenses / revenue if item.financing_expenses is not None else 0
-        new_item["op"] = 100 * item.op / revenue
-        new_item["others"] = new_item["gross_rofit_margin"] - new_item["manage_fee"] -  new_item["rad_cost"] - new_item["sales_fee"] - new_item["financing_expenses"] - new_item["op"]
         data.append(new_item)
     return render_template("stock/parts/_income_percentage_table.html", data=data)
 
