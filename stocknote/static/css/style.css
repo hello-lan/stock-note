@@ -25,6 +25,10 @@
     padding-left: 50px;
 }
 
+.sub-menu > li > a {
+    padding-left: 60px;
+  }
+
 .nav-sidebar > .active > a,
 .nav-sidebar > .active > a:hover,
 .nav-sidebar > .active > a:focus {

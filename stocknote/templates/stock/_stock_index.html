@@ -209,80 +209,6 @@
         <div class="row">
             <h5 class="text-success" id="valuation"><i class="ri-scales-3-fill"></i> 估值</h5>
             <hr><br>
-            <div class="col-md-10 col-md-offset-1">
-                <div class="table-responsive">
-                    <table class="table table-condensed">
-                        <thead>
-                            <tr class="active">
-                                <th class="text-center" width="30%">参数名</th>
-                                <th class="text-center">参数值</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr class="text-center">
-                                <td>总股本</td>
-                                <td><input type="text" class="form-control input-sm input-number" id="inputTotalEquity"
-                                        placeholder="可选"></td>
-                            </tr>
-                            <tr class="text-center">
-                                <td>初始自由现金流</td>
-                                <td><input type="text" class="form-control input-sm input-number"
-                                        id="inputInitialFreeCashFlow" placeholder="一般取最近一个年度报告期的自由现金流"></td>
-                            </tr>
-                            <tr class="text-center">
-                                <td>
-                                    <a data-toggle="popover" data-trigger="hover" data-placement="top"
-                                        title="估算自由现金流增长有多快"
-                                        data-content="参考过去的自由现金增长率，考虑公司成长有多快、竞争对手公司的实力、公司的资本需求等等。只有已经具有很强竞争优势和低资本需求的公司才能长期保持增长率在平均水平之上。如果公司是周期性的，别忘了加入表现不好的年份。">自由现金流增长率<i
-                                            class="ri-information-line"></i></a>
-                                </td>
-                                <td><input type="text" class="form-control input-sm" id="inputFreeCashFlowGrowth"
-                                        onkeyup="value=value.replace(/[^\d\.,]/g,'')"
-                                        placeholder="逗号分隔，依次为第1年、第2年、第3年...的自由现金流增长率"></td>
-                            </tr>
-                            <tr class="text-center">
-                                <td>
-                                    <a data-toggle="popover" data-trigger="hover" data-placement="top" title="估算折现率"
-                                        data-content="机会成本+风险溢价。机会成本采用十年国债收益率(3.5%左右)；风险溢价一般取两倍的机会成本，具体根据公司产生自由现金流的可能性，作一定的调整。公司产生自由现金流的可能性与公司的规模、财务杠杆、周期性、经营与管理、竞争优势、复杂性等有关。">
-                                        折现率
-                                        <i class="ri-information-line"></i>
-                                    </a>
-                                </td>
-                                <td><input type="number" class="form-control input-sm" id="inputDiscountRate" min="0.01"
-                                        max="0.4" step="0.01" value="0.105"></td>
-                            </tr>
-                            <tr class="text-center">
-                                <td>
-                                    <a data-toggle="popover" data-trigger="hover" data-placement="top" title="估算长期增长率"
-                                        data-content="可以取GDP平均增长率(假设未来到5%)作为长期增长率，对于处于衰退行业中的公司，可以在这个值的基础上再进一步下调。">
-                                        永续年金增长率
-                                        <i class="ri-information-line"></i>
-                                </td>
-                                <td><input type="number" class="form-control input-sm" id="inputPerpetuityValueGrowth"
-                                        min="0.01" max="0.2" step="0.01" value="0.05"></td>
-                            </tr>
-                            <tr class="text-center">
-                                <td>
-                                    <a data-toggle="popover" data-trigger="hover" data-placement="top" title="估算安全边际"
-                                        data-content="通常，对有较大竞争优势的稳定公司取20%，没有竞争优势的高风险的公司取60%。">
-                                        安全边际
-                                        <i class="ri-information-line"></i>
-                                    </a>
-                                </td>
-                                <td><input type="number" class="form-control input-sm" id="inputMOS" min="0.01"
-                                        max="0.5" step="0.01" value="0.35"></td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-                <br>
-                <button type="button" class="btn btn-primary btn-sm" onclick="calStockValuation()">计算估值</button>
-                <br>
-            </div>
-            <div class="col-md-12">
-                <br>
-                <div id="J_valuation"></div>
-            </div>
         </div>
         <br>
         <div class="row">
@@ -414,41 +340,6 @@
         var profitability_url = "{{ url_for('stock.api_data_profitablity', code=stock.code) }}";
         getDataAndPlotLines(profitability_url, "J_profitabilityIndicatorsChart");
     });
-
-
-    function calStockValuation() {
-        var valuation_url = "{{ url_for('stock.valuation') }}"
-
-        var initial_free_cashflow = $("#inputInitialFreeCashFlow").val().trim();
-        var free_cashflow_growth = $("#inputFreeCashFlowGrowth").val().trim();
-        var discount_rate = $("#inputDiscountRate").val();
-        var perpetuity_value_growth = $("#inputPerpetuityValueGrowth").val();
-        var total_equity = $("#inputTotalEquity").val();
-        var mos = $("#inputMOS").val();
-
-        var a = validate_required(initial_free_cashflow, "初始现金流不能为空");
-        var b = validate_required(free_cashflow_growth, "现金流增长率不能为空");
-        if (!(a & b)) { return }
-
-        var params = {
-            initialCashFlow: initial_free_cashflow,
-            cashFlowGrowths: free_cashflow_growth,
-            totalEquity: total_equity,
-            g: perpetuity_value_growth,
-            discountRate: discount_rate,
-            mos: mos
-        }
-
-        $.ajax({
-            type: 'GET',
-            url: valuation_url,
-            data: params,
-            success: function (data) {
-                $("#J_valuation").hide().html(data).fadeIn(800);
-            }
-        })
-    }
-
 </script>
 
 {% endblock %}
