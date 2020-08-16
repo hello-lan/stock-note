@@ -8,6 +8,10 @@ def dcf_index():
     return render_template("valuation/_dcf_index.html")
 
 
+@valuation_bp.route("/pe/index")
+def pe_index():
+    return render_template("valuation/_pe_index.html")
+
 
 @valuation_bp.route("/dcf/report", methods=["GET"])
 def dcf_report():
