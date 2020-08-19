@@ -1,8 +1,9 @@
 // 将url返回的html挂到domId下
-function loadContent(url, domId="main") {
+function loadContent(url, domId="main", data={}) {
     $.ajax({
         type: 'GET',
         url: url,
+        data: data,
         success: function (data) {
             $('#' + domId).html(data);
         },
@@ -124,6 +125,9 @@ $(document).ready(function () {
 
     $(document).on('keyup', '.input-number', check_number);
     $(document).on('keyup', '.input-float', check_float);
+
+    $(document).on('keyup', '.number-checker', check_number);
+    $(document).on('keyup', '.float-checker', check_float);
 });
 
 

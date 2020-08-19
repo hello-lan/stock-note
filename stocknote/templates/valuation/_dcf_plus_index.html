@@ -1,0 +1,161 @@
+{% extends 'base.html' %}
+
+{% block breadcrumb %}
+<li>stocknote</li>
+<li>估值工具</li>
+<li class="active">DCF + PE混合模型</li>
+{% endblock %}
+
+{% block content_title %}
+DCF + PE混合模型
+{% endblock %}
+
+{% block content %}
+<br><br><br>
+<div class="row">
+    <div class="col-md-12">
+        <p>该估值模型见于正合奇胜的《价值投资经典战例之中国恒大》,该模型适用于好公司，因为只有好公司的未来5年业绩才是可以预测的。点击查看<a data-toggle="collapse" href="#modelDescCollapse" aria-expanded="false"
+                aria-controls="collapseExample">模型介绍</a>。</p>
+        <div class="collapse" id="modelDescCollapse">
+            <div class="alert alert-warning" role="alert">
+                <p>价值投资者因为公司股票低估而买入，通常会持有N年后，在股价回归内在价值时卖出。这种情况下，投资者得到的现金流很简单，就是N年内每年收到的每股现金分红，以及N年后卖出股票时的市场价。其中，每年的每股分红取决于上一年的每股净利润和派息比例，而N年后的股价等于第N年的每股净利润乘以届时的市盈率。
+                </p>
+                <p>接下来需要选择N等于几？即预测几年内的利润和派息比例，以及几年后的那个公允市盈率。价值投资者信奉的一条定律是：市场虽然短期经常无效，但长期时有效的，价格终归会价值回归。作者认为N=5是比较充分的，市场可以纠正绝大多数估值错误，至少也是一度纠正或部分纠正。于是，模型需要预测的是未来5年的净利润、派息比例，并给出5年后的公允市盈率。
+                </p>
+                <p>据此，该模型的已知参数有：</p>
+                <ul>
+                    <li>EPS<sub>0</sub> : 第0年归普通股东的每股净利润(Earning Per Share)</li>
+                    <li>DR<sub>0</sub> : 第0年的派息比例(Dividend Ratio)，即分红占净利润的比例</li>
+                    <li>r : 折现率， 默认取10%</li>
+                    <li>BVPS<sub>0</sub> : 第0年归属普通股东的每股账面净资产(Book Value Per Share)</li>
+                    <li>Q : 总股本</li>
+                    <li>P<sub>0</sub> : 估值日的股票市场价</li>
+                </ul>
+                <p>需要预测的变量有:</p>
+                <ul>
+                    <li>g<sub>1</sub> : 第1年的净利润增长率(Growth Rate)</li>
+                    <li>g<sub>2</sub> : 第2年的净利润增长率</li>
+                    <li>g<sub>3</sub> : 第3年至第5年的净利润复合增长率</li>
+                    <li>DR<sub>1</sub> : 第1年的派息比例</li>
+                    <li>DR<sub>2</sub> : 第2年的派息比例</li>
+                    <li>DR<sub>3</sub> : 第3至第5年的平均派息比例</li>
+                    <li>FP/E<sub>5</sub> : 第5年末的公允市盈率</li>
+                </ul>
+                <p>有了以上的已知参数和预测变量，就可以计算下列中间结果：</p>
+                <ul>
+                    <li>EPS<sub>1</sub>、EPS<sub>1</sub>、…、EPS<sub>5</sub> : 第1年至第5年每年的每股盈利</li>
+                    <li>D<sub>1</sub>、D<sub>2</sub>、…、D<sub>5</sub> : 第一年至第5年的每股分红</li>
+                    <li>FP<sub>5</sub>=EPS<sub>5</sub> &times;FP/E<sub>5</sub> : 第五年末每股股票的公允价格</li>
+                </ul>
+                <p>其中需要注意的是，分红往往在公布年后实施，为方便计算，我们假设2年才收到上一年的分红（符合保守原则)，即：</p>
+                <p class="text-center">D<sub>i</sub>=EPS<sub>i-1</sub>&times;DR<sub>i-1</sub>
+                </p>
+                <p>由此，我们可以根据现金流折现公式倒推第0年的公允价格FP<sub>0</sub></p>
+                <p class="text-center">FP<sub>0</sub>=D<sub>1</sub>/(1+r) + D<sub>2</sub>/(1+r)<sup>2</sup> +
+                    D<sub>3</sub>/(1+r)<sup>3</sup> + D<sub>4</sub>/(1+r)<sup>4</sup> + D<sub>5</sub>/(1+r)<sup>5</sup>
+                    + FP<sub>5</sub>/(1+r)<sup>5</sup></p>
+            </div>
+        </div>
+    </div>
+</div>
+<hr>
+<br><br><br>
+<div class="row">
+    <div class="col-md-12">
+        <table class="table table-bordered table-condensed">
+            <thead>
+                <tr>
+                    <th class="text-center">参数名称</th>
+                    <th class="text-center">参数值</th>
+                    <th class="text-center">参数说明</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr class="text-center">
+                    <td>Q</td>
+                    <td><input type="text" id="equityInput" class="number-checker"></td>
+                    <td><small>已知的当前总股本</small></td>
+                </tr>
+                <tr class="text-center">
+                    <td>profit</td>
+                    <td><input type="text" id="profitInput" class="number-checker"></td>
+                    <td><small>第0年的净利润</small></td>
+                </tr>
+                <tr class="text-center">
+                    <td>r</td>
+                    <td><input type="text" id="discountRateInput" value="0.1"></td>
+                    <td><small>折现率， 默认取10%</small></td>
+                </tr>
+                <tr class="text-center">
+                    <td>DR<sub>0</sub></td>
+                    <td><input type="text" id="dividendRatio-0-Input" class="float-checker"></td>
+                    <td><small>已知的第0年的派息比例(Dividend Ratio)，即分红占净利润的比例</small></td>
+                </tr>
+                <tr class="text-center">
+                    <td>DR<sub>1</sub></td>
+                    <td><input type="text" id="dividendRatio-1-Input" class="float-checker"></td>
+                    <td><small>估算第1年的派息比例</small></td>
+                </tr>
+                <tr class="text-center">
+                    <td>DR<sub>2</sub></td>
+                    <td><input type="text" id="dividendRatio-2-Input" class="float-checker"></td>
+                    <td><small>估算第2年的派息比例</small></td>
+                </tr>
+                <tr class="text-center">
+                    <td>DR<sub>3</sub></td>
+                    <td><input type="text" id="dividendRatio-3-Input" class="float-checker"></td>
+                    <td><small>估算第3至第5年的平均派息比例</small></td>
+                </tr>
+                <tr class="text-center">
+                    <td>g<sub>1</sub></td>
+                    <td><input type="text" id="growthRate-1-Input" class="float-checker"></td>
+                    <td><small>估算第1年的净利润增长率(Growth Rate)</small></td>
+                </tr>
+                <tr class="text-center">
+                    <td>g<sub>2</sub></td>
+                    <td><input type="text" id="growthRate-2-Input" class="float-checker"></td>
+                    <td><small>估算第2年的净利润增长率</small></td>
+                </tr>
+                <tr class="text-center">
+                    <td>g<sub>3</sub></td>
+                    <td><input type="text" id="growthRate-3-Input" class="float-checker"></td>
+                    <td><small>估算第3年至第5年的净利润复合增长率。g1和g2需要结合市场空间、企业市场份额和净利润率的变化趋势做出可靠的估算，g3可以根据业务惯性做出毛估</small></td>
+                </tr>
+                <tr class="text-center">
+                    <td>PE<sub>5</sub></td>
+                    <td><input type="text" id="PEInput" class="float-checker"></td>
+                    <td><small>估算第5年末的公允市盈率。可以结合企业所处的行业生命周期及企业离天花板的距离以及前5年的历史增速判断第6年至第10年的利润增速，参考<span class="text-primary">PE模型</span>中给出的经验表格做出估算</p></small></td>
+                </tr>
+            </tbody>
+        </table>
+        <br>
+        <button type="button" class="btn btn-primary btn-sm" onclick="calStockValuation()">计算估值</button>
+        <br>
+    </div>
+    <br><br>
+    <div class="col-md-12">
+        <br>
+        <div id="J_report"></div>
+    </div>
+</div>
+<br><br>
+<script>
+    function calStockValuation(){
+        var params = Object();
+        params["r"] = $("#discountRateInput").val();
+        params["equity"] = $("#equityInput").val();
+        params["profit"] = $("#profitInput").val();
+        params["dr0"] = $("#dividendRatio-0-Input").val();
+        params["dr1"] = $("#dividendRatio-1-Input").val();
+        params["dr2"] = $("#dividendRatio-2-Input").val();
+        params["dr3"] = $("#dividendRatio-3-Input").val();
+        params["g1"] = $("#growthRate-1-Input").val();
+        params["g2"] = $("#growthRate-2-Input").val();
+        params["g3"] = $("#growthRate-3-Input").val();
+        params["pe"] = $("#PEInput").val();
+        console.log(params)
+        var url = "{{ url_for('valuation.dcf_plus_report') }}"
+        loadContent(url, "J_report", params)
+    }
+</script>
+{% endblock %}

@@ -1,0 +1,72 @@
+<table class="table table-bordered table-condensed">
+    <thead>
+        <tr>
+            <th class="text-center" colspan="7">DCF-PE混合模型估值结果</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr class="text-center">
+            <td>总股本:</td>
+            <td colspan="6"> {{ equity }}</td>
+        </tr>
+        <tr class="text-center">
+            <td>折现率: </td>
+            <td colspan="6">{{ r }}</td>
+        </tr>
+        <tr>
+            <td colspan="7"></td>
+        </tr>
+        <tr class="bg-info">
+            <td class="text-center">年份</td>
+            <td class="text-center">第0年</td>
+            <td class="text-center">第1年</td>
+            <td class="text-center">第2年</td>
+            <td class="text-center">第3年</td>
+            <td class="text-center">第4年</td>
+            <td class="text-center">第5年</td>
+        </tr>
+        <tr class="text-center">
+            <td>净利润增长率(g)</td>
+            {% for g in data.gs %}
+            <td>{{ (g * 100) | default("-", true)}} %</td>
+            {% endfor %}
+        </tr>
+        <tr class="text-center">
+            <td>净利润</td>
+            {% for p in data.profits %}
+            <td>{{ p | int }}</td>
+            {% endfor %}
+        </tr>
+        <tr class="text-center">
+            <td>派息比例(DR)</td>
+            {% for dr in data.drs %}
+            <td>{{ dr * 100 }}%</td>
+            {% endfor %}
+        </tr>
+        <tr class="text-center">
+            <td>派息总额</td>
+            {% for d in data.ds %}
+            <td>{{ d | default("-", true)}}</td>
+            {% endfor %}
+        </tr>
+        <tr class="text-center">
+            <td>年末公允市盈率(FP/E)</td>
+            {% for pe in data.pes %}
+            <td>{{ pe | round(2) }}</td>
+            {% endfor %}
+        </tr>
+        <tr class="text-center">
+            <td>年末公允市值</td>
+            {% for cap in data.capitalizations%}
+            <td>{{ cap | int }}</td>
+            {% endfor %}
+        </tr>
+        <tr class="text-center">
+            <td>年末公允股价(FP)</td>
+            {% for price in data.prices %}
+            <td class="{{ 'text-danger' if loop.index0 < 2 }}" >{{ price | round(2) }}</td>
+            {% endfor %}
+        </tr>
+    </tbody>
+</table>
+<p class="text-success">模型输出的当前估值可以选第0年末的公允价值或第1年末的公允价值(表格中红字部分)，一般倾向于选择后者，因为估值的时间点都在第0年的年报发布之后，这时的第1年已经过去了一个季度了</p>
