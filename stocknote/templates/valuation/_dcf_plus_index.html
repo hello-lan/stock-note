@@ -129,7 +129,7 @@ DCF + PE混合模型
             </tbody>
         </table>
         <br>
-        <button type="button" class="btn btn-primary btn-sm" onclick="calStockValuation()">计算估值</button>
+        <button type="button" class="btn btn-primary btn-sm" id="i_dcfPeValuateButton">计算估值</button>
         <br>
     </div>
     <br><br>
@@ -139,23 +139,4 @@ DCF + PE混合模型
     </div>
 </div>
 <br><br>
-<script>
-    function calStockValuation(){
-        var params = Object();
-        params["r"] = $("#discountRateInput").val();
-        params["equity"] = $("#equityInput").val();
-        params["profit"] = $("#profitInput").val();
-        params["dr0"] = $("#dividendRatio-0-Input").val();
-        params["dr1"] = $("#dividendRatio-1-Input").val();
-        params["dr2"] = $("#dividendRatio-2-Input").val();
-        params["dr3"] = $("#dividendRatio-3-Input").val();
-        params["g1"] = $("#growthRate-1-Input").val();
-        params["g2"] = $("#growthRate-2-Input").val();
-        params["g3"] = $("#growthRate-3-Input").val();
-        params["pe"] = $("#PEInput").val();
-        console.log(params)
-        var url = "{{ url_for('valuation.dcf_plus_report') }}"
-        loadContent(url, "J_report", params)
-    }
-</script>
 {% endblock %}

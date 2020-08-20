@@ -123,11 +123,51 @@ $(document).ready(function () {
         this.value = this.value.replace(/[^\d\.]/g,'');
     }
 
-    $(document).on('keyup', '.input-number', check_number);
-    $(document).on('keyup', '.input-float', check_float);
+    function check_float_series() {
+        this.value = this.value.replace(/[^\d\.,]/g,'');
+    }
 
     $(document).on('keyup', '.number-checker', check_number);
     $(document).on('keyup', '.float-checker', check_float);
+    $(document).on('keyup', '.float-series-checker', check_float_series);
+
+    // DCF 模型估值
+    function dcf_valuate() {
+        var params = Object();
+        
+        params["initialCashFlow"] = $("#inputInitialFreeCashFlow").val().trim();
+        params["cashFlowGrowths"] = $("#inputFreeCashFlowGrowth").val().trim();
+        params["discountRate"] = $("#inputDiscountRate").val();
+        params["g"] = $("#inputPerpetuityValueGrowth").val();
+        params["totalEquity"] = $("#inputTotalEquity").val();
+        params["mos"] = $("#inputMOS").val();
+
+        var a = validate_required(params["initialCashFlow"], "初始现金流不能为空");
+        var b = validate_required(params["cashFlowGrowths"], "现金流增长率不能为空");
+        if (!(a & b)) { return }
+
+        loadContent(dcf_report_url, "J_report", params)
+    }
+
+    // DCF+PE 模型估值
+    function dcf_pe_valuate() {
+        var params = Object();
+        params["r"] = $("#discountRateInput").val();
+        params["equity"] = $("#equityInput").val();
+        params["profit"] = $("#profitInput").val();
+        params["dr0"] = $("#dividendRatio-0-Input").val();
+        params["dr1"] = $("#dividendRatio-1-Input").val();
+        params["dr2"] = $("#dividendRatio-2-Input").val();
+        params["dr3"] = $("#dividendRatio-3-Input").val();
+        params["g1"] = $("#growthRate-1-Input").val();
+        params["g2"] = $("#growthRate-2-Input").val();
+        params["g3"] = $("#growthRate-3-Input").val();
+        params["pe"] = $("#PEInput").val();
+        loadContent(dcf_pe_report_url, "J_report", params);
+    }
+
+    $(document).on('click', '#i_dcfReportButton', dcf_valuate);
+    $(document).on('click', '#i_dcfPeValuateButton', dcf_pe_valuate);
 });
 
 

@@ -25,12 +25,11 @@ DCF模型估值
                 <tbody>
                     <tr class="text-center">
                         <td>总股本</td>
-                        <td><input type="text" class="form-control input-sm input-number" id="inputTotalEquity"
-                                placeholder="可选"></td>
+                        <td><input type="text" class="form-control input-sm number-checker" id="inputTotalEquity"></td>
                     </tr>
                     <tr class="text-center">
                         <td>初始自由现金流</td>
-                        <td><input type="text" class="form-control input-sm input-number" id="inputInitialFreeCashFlow"
+                        <td><input type="text" class="form-control input-sm number-checker" id="inputInitialFreeCashFlow"
                                 placeholder="一般取最近一个年度报告期的自由现金流"></td>
                     </tr>
                     <tr class="text-center">
@@ -39,8 +38,7 @@ DCF模型估值
                                 data-content="参考过去的自由现金增长率，考虑公司成长有多快、竞争对手公司的实力、公司的资本需求等等。只有已经具有很强竞争优势和低资本需求的公司才能长期保持增长率在平均水平之上。如果公司是周期性的，别忘了加入表现不好的年份。">自由现金流增长率<i
                                     class="ri-information-line"></i></a>
                         </td>
-                        <td><input type="text" class="form-control input-sm" id="inputFreeCashFlowGrowth"
-                                onkeyup="value=value.replace(/[^\d\.,]/g,'')"
+                        <td><input type="text" class="form-control input-sm float-series-checker" id="inputFreeCashFlowGrowth"
                                 placeholder="逗号分隔，依次为第1年、第2年、第3年...的自由现金流增长率"></td>
                     </tr>
                     <tr class="text-center">
@@ -79,46 +77,12 @@ DCF模型估值
             </table>
         </div>
         <br>
-        <button type="button" class="btn btn-primary btn-sm" onclick="calStockValuation()">计算估值</button>
+        <button type="button" class="btn btn-primary btn-sm" id="i_dcfReportButton">计算估值</button>
         <br>
     </div>
     <div class="col-md-12">
         <br>
-        <div id="J_valuation"></div>
+        <div id="J_report"></div>
     </div>
 </div>
-<script>
-    function calStockValuation() {
-        var valuation_url = "{{ url_for('valuation.dcf_report') }}"
-
-        var initial_free_cashflow = $("#inputInitialFreeCashFlow").val().trim();
-        var free_cashflow_growth = $("#inputFreeCashFlowGrowth").val().trim();
-        var discount_rate = $("#inputDiscountRate").val();
-        var perpetuity_value_growth = $("#inputPerpetuityValueGrowth").val();
-        var total_equity = $("#inputTotalEquity").val();
-        var mos = $("#inputMOS").val();
-
-        var a = validate_required(initial_free_cashflow, "初始现金流不能为空");
-        var b = validate_required(free_cashflow_growth, "现金流增长率不能为空");
-        if (!(a & b)) { return }
-
-        var params = {
-            initialCashFlow: initial_free_cashflow,
-            cashFlowGrowths: free_cashflow_growth,
-            totalEquity: total_equity,
-            g: perpetuity_value_growth,
-            discountRate: discount_rate,
-            mos: mos
-        }
-
-        $.ajax({
-            type: 'GET',
-            url: valuation_url,
-            data: params,
-            success: function (data) {
-                $("#J_valuation").hide().html(data).fadeIn(800);
-            }
-        })
-    }
-</script>
 {% endblock %}
