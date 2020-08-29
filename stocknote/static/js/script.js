@@ -120,7 +120,7 @@ $(document).ready(function () {
     }
 
     function check_float() {
-        this.value = this.value.replace(/[^\d\.]/g,'');
+        this.value = this.value.replace(/[^\d\.\-]/g,'');
     }
 
     function check_float_series() {
