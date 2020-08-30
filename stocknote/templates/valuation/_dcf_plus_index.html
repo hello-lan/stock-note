@@ -39,7 +39,7 @@ DCF + PE混合模型
                     <li>DR<sub>1</sub> : 第1年的派息比例</li>
                     <li>DR<sub>2</sub> : 第2年的派息比例</li>
                     <li>DR<sub>3</sub> : 第3至第5年的平均派息比例</li>
-                    <li>FP/E<sub>5</sub> : 第5年末的公允市盈率</li>
+                    <li>PE<sub>5</sub> : 第5年末的公允市盈率(参考附表：市盈率参考表)</li>
                 </ul>
                 <p>有了以上的已知参数和预测变量，就可以计算下列中间结果：</p>
                 <ul>
@@ -54,6 +54,82 @@ DCF + PE混合模型
                 <p class="text-center">FP<sub>0</sub>=D<sub>1</sub>/(1+r) + D<sub>2</sub>/(1+r)<sup>2</sup> +
                     D<sub>3</sub>/(1+r)<sup>3</sup> + D<sub>4</sub>/(1+r)<sup>4</sup> + D<sub>5</sub>/(1+r)<sup>5</sup>
                     + FP<sub>5</sub>/(1+r)<sup>5</sup></p>
+                <div>
+                    <br>
+                    <h5>附:市盈率参考表(原表参见<a class="load-content-btn" data-href="{{ url_for('valuation.pe_index') }}">PE模型</a>中的PEG估值)</h5>
+                    <table class="table table-bordered table-condensed">
+                        <thead>
+                            <tr>
+                                <th class="text-center">情形</th>
+                                <th class="text-center">第1年至第5年复合增长率</th>
+                                <th class="text-center">第1年至第5年权益自由现金流占净利润比例</th>
+                                <th class="text-center">公允市盈率</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr class="text-center">
+                                <td>情形1</td>
+                                <td>0%</td>
+                                <td>100%</td>
+                                <td>8.5</td>
+                            </tr>
+                            <tr class="text-center">
+                                <td>情形2</td>
+                                <td>5%</td>
+                                <td>100%</td>
+                                <td>10.4</td>
+                            </tr>
+                            <tr class="text-center">
+                                <td>情形3</td>
+                                <td>10%</td>
+                                <td>95%</td>
+                                <td>12.4</td>
+                            </tr>
+                            <tr class="text-center">
+                                <td>情形4</td>
+                                <td>20%</td>
+                                <td>90%</td>
+                                <td>17.6</td>
+                            </tr>
+                            <tr class="text-center">
+                                <td>情形5</td>
+                                <td>30%</td>
+                                <td>80%</td>
+                                <td>24.3</td>
+                            </tr>
+                            <tr class="text-center">
+                                <td>情形6</td>
+                                <td>50%</td>
+                                <td>70%</td>
+                                <td>45.6</td>
+                            </tr>
+                            <tr class="text-center">
+                                <td>情形7</td>
+                                <td>100%</td>
+                                <td>50%</td>
+                                <td>172.1</td>
+                            </tr>
+                            <tr class="text-center">
+                                <td>情形8</td>
+                                <td>-5%</td>
+                                <td>100%</td>
+                                <td>6.9</td>
+                            </tr>
+                            <tr class="text-center">
+                                <td>情形9</td>
+                                <td>-10%</td>
+                                <td>100%</td>
+                                <td>5.6</td>
+                            </tr>
+                            <tr class="text-center">
+                                <td>情形10</td>
+                                <td>-20%</td>
+                                <td>100%</td>
+                                <td>3.7</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>    
             </div>
         </div>
     </div>
@@ -124,7 +200,7 @@ DCF + PE混合模型
                 <tr class="text-center">
                     <td>PE<sub>5</sub></td>
                     <td><input type="text" id="PEInput" class="float-checker"></td>
-                    <td><small>估算第5年末的公允市盈率。可以结合企业所处的行业生命周期及企业离天花板的距离以及前5年的历史增速判断第6年至第10年的利润增速，参考<span class="text-primary">PE模型</span>中给出的经验表格做出估算</p></small></td>
+                    <td><small>估算第5年末的公允市盈率。可以结合企业所处的行业生命周期及企业离天花板的距离以及前5年的历史增速判断第6年至第10年的利润增速，参考<span class="text-primary">市盈率参考表</span>做出估算</p></small></td>
                 </tr>
             </tbody>
         </table>
