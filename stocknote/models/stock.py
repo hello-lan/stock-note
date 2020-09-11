@@ -133,6 +133,8 @@ class StockBalanceSheet(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     code = db.Column(db.String(10), index=True, nullable=False)
     account_date = db.Column(db.Date, nullable=False, index=True, comment="报告期")
+    total_assets = db.Column(db.Float, comment="总资产")
+    fixed_asset = db.Column(db.Float, comment="固定资产")
     account_receivable = db.Column(db.Float, comment="应收账款")
     pre_payment = db.Column(db.Float, comment="预付款项")
     inventory = db.Column(db.Float, comment="存货")

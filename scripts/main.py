@@ -219,6 +219,8 @@ def add_balance(code):
             balance = StockBalanceSheet(
                 code = code,
                 account_date = date.fromtimestamp(item["report_date"]/1000),
+                total_assets = item["total_assets"][0],
+                fixed_asset = item["fixed_asset"][0],
                 account_receivable = item["account_receivable"][0],
                 pre_payment = item["pre_payment"][0],
                 inventory = item["inventory"][0],
