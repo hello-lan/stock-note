@@ -1,4 +1,4 @@
-from stocknote.models.stock import StockGroup, Stock, StockIndicators, StockCashFlow, StockIncomeStatement
+from stocknote.models.stock import StockGroup, Stock, StockIndicators, StockCashFlow, StockIncomeStatement, StockBalanceSheet
 from stocknote.extensions import db
 
 
@@ -8,6 +8,14 @@ def get_stock_indicators(code):
                 .order_by(StockIndicators.account_date) \
                 .all()
     return indicators
+
+
+def get_stock_balance_sheet(code):
+    balances = StockBalanceSheet.query  \
+               .filter_by(code=code)  \
+               .order_by(StockBalanceSheet.account_date)  \
+               .all()
+    return balances 
 
 
 def get_cashflow_revenue_ratios(code):
@@ -22,3 +30,21 @@ def get_cashflow_revenue_ratios(code):
     for item in q:
         ratios[item.account_date] = 100 * item.net_operating_cashflow / item.revenue
     return ratios
+
+
+def get_account_receivable_ratio(code):
+    """应收账款占收入
+    """
+    ratiors = dict()
+    balances = get_stock_balance_sheet(code)
+    indicators = get_stock_indicators(code)
+    total_revenues = {indicator.account_date: indicator.total_revenue for indicator in indicators}
+    for b in balances:
+        d = b.account_date
+        total_revenue = total_revenues.get(d)
+        if total_revenue is None:
+            ratiors[d] = None
+        else:
+            ratiors[d] = b.account_receivable / total_revenue
+    return ratiors
+

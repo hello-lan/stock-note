@@ -5,7 +5,7 @@
             <th class="text-center">资产负债率</th>
             <th class="text-center">流动比率</th>
             <th class="text-center">速动比率</th>
-            <th class="text-center">已获利息倍数</th>
+            <th class="text-center">应收账款占收入</th>
         </tr>
     </thead>
     <tbody>
@@ -15,7 +15,7 @@
             <td>{{ item.asset_liab_ratio | round(2) }}%</td>
             <td>{{ item.current_ratio | round(2) }}</td>
             <td>{{ item.quick_ratio | round(2) }}</td>
-            <td>{{ item.number_of_times_interest_earned }}</td>
+            <td>{{ item.account_receivable_ratio | round(2)}}</td>
         </tr>
         {% endfor %}
     </tbody>

@@ -2,10 +2,12 @@ from flask import render_template, current_app, Blueprint, jsonify, flash, reque
 
 from operator import itemgetter, attrgetter
 
-from stocknote.models.stock import StockGroup, Stock, StockIndicators, StockCashFlow, StockIncomeStatement
+from stocknote.models.stock import (StockGroup, Stock, StockIndicators, StockCashFlow,
+        StockIncomeStatement, StockBalanceSheet)
 from stocknote.models.note import BasicInfo
 from stocknote.extensions import db
-from stocknote.services.stock_data import get_stock_indicators, get_cashflow_revenue_ratios
+from stocknote.services.stock_data import (get_stock_indicators, get_cashflow_revenue_ratios,
+        get_account_receivable_ratio)
 
 
 stock_bp = Blueprint("stock", __name__)
@@ -130,6 +132,7 @@ def income_percentage(code):
 @stock_bp.route("/<code>/financial-indicators", methods=["GET"])
 def financial_indicators(code):
     indicators = get_stock_indicators(code)
+    account_receivable_ratios = get_account_receivable_ratio(code)
     simple_indicators = []
     for item in indicators:
         new_item = dict()
@@ -140,6 +143,8 @@ def financial_indicators(code):
         new_item["current_ratio"] = item.current_ratio    # 流动比率
         new_item["quick_ratio"] = item.quick_ratio        # 速动比率
         new_item["number_of_times_interest_earned"] = "数据缺失"     # 已获利息倍数
+        new_item["account_receivable_ratio"] = account_receivable_ratios.get(item.account_date)  # 应收账款占收入
+        new_item["fixed_asset_ratio"] = "-"        # 固定资产占总资产比重
         simple_indicators.append(new_item)
     simple_indicators.sort(key=itemgetter("account_date"), reverse=True)
     return render_template("stock/parts/_indicators_table.html", indicators=simple_indicators)
