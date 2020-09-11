@@ -6,10 +6,10 @@
 
 ## Table of Contents
 
-- [Background](#background)
-- [Project Structure](#project-structure)
-- [Install](#install)
-- [Usage](#usage)
+  - [Background](#background)
+  - [Project Structure](#project-structure)
+  - [Install](#install)
+  - [Usage](#usage)
 
 
 
@@ -65,11 +65,15 @@ bash run.sh
 然后浏览器打打开 localhost:8000即可
 
 
+首次部署，先初始化数据库(建表)
 
-添加某只股票(以002003为例)的财务数据，在另一个终端中执行
+```
+flask initdb
+```
+
+然后添加某只股票(以002003为例)的财务数据，在另一个终端中执行
 
 ```
 $ cd scripts
 $ bash load_stockdata.sh 002003
 ```
-
