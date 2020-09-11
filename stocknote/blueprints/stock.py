@@ -129,8 +129,8 @@ def income_percentage(code):
     return render_template("stock/parts/_income_percentage_table.html", data=data)
 
 
-@stock_bp.route("/<code>/financial-indicators", methods=["GET"])
-def financial_indicators(code):
+@stock_bp.route("/<code>/financial-health", methods=["GET"])
+def financial_health(code):
     indicators = get_stock_indicators(code)
     account_receivable_ratios = get_account_receivable_ratio(code)
     simple_indicators = []
@@ -147,7 +147,7 @@ def financial_indicators(code):
         new_item["fixed_asset_ratio"] = "-"        # 固定资产占总资产比重
         simple_indicators.append(new_item)
     simple_indicators.sort(key=itemgetter("account_date"), reverse=True)
-    return render_template("stock/parts/_indicators_table.html", indicators=simple_indicators)
+    return render_template("stock/parts/_financial_health_table.html", indicators=simple_indicators)
 
 
 @stock_bp.route("/<code>/data/revenue", methods=["GET"])

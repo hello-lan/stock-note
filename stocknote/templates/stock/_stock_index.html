@@ -170,7 +170,7 @@
             <h5 class="text-success" id="health"><i class="glyphicon glyphicon-heart"></i> 财务健康</h5>
             <hr><br>
             <div class="col-md-12">
-                <div id="J_financialIndicatorsTable"></div>
+                <div id="J_financialHealthTable"></div>
             </div>
             <div class="col-md-12">
                 <div><a data-toggle="collapse" data-target="#i_finDesc">小贴士 <i class="ri-information-line"></i></a>
@@ -261,8 +261,8 @@
 
 
 <script>
-    // 财务指标表格
-    var financial_indicator_url = "{{ url_for('stock.financial_indicators', code=stock.code) }}";
+    // 财务健康指标表格
+    var financial_health_url = "{{ url_for('stock.financial_health', code=stock.code) }}";
     // 百分率利润表
     var income_percentage_url = "{{ url_for('stock.income_percentage', code=stock.code) }}";
     // 自由现金流量表
@@ -321,7 +321,7 @@
     $(function () {
         $('[data-toggle="popover"]').popover();   // 初始化bootstrap的弹出框
 
-        loadContent(financial_indicator_url, "J_financialIndicatorsTable");
+        loadContent(financial_health_url, "J_financialHealthTable");
         loadContent(income_percentage_url, "J_incomePercentageTable");
         loadContent(free_cashflow_url, "J_freeCashFlowTable");
         loadContent(dupont_analysis_url, "J_simpleDupontAnalysisTable");
