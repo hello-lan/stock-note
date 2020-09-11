@@ -7,4 +7,5 @@ code=$1
 python main.py add-cashflow -c $code
 python main.py add-indicators -c $code
 python main.py add-income -c $code
+python main.py add-balance -c $code
 

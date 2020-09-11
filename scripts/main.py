@@ -191,6 +191,45 @@ def add_income(code):
 
 
 @cli.command()
+@click.option("-c", "--code", default=None, help="股票代码")
+def add_balance(code):
+    """ 资产负债表
+    """
+    from crawlers.xueqiu import XueQiuCrawler
+    from stocknote.models.stock import StockBalanceSheet
+
+
+    crawler = XueQiuCrawler()
+
+    if code is None:
+        codes = map(attrgetter("code"), Stock.query.all())
+    else:
+        codes = [code]
+
+    for i, code in enumerate(codes):
+        sleep(1)
+        print(i, code)
+        if code.startswith("6"):
+            code_ = "SH" + code
+        else:
+            # 0、3开头
+            code_ = "SZ" + code
+        data = crawler.crawl_balance_sheet(code_)
+        for item in data["data"]["list"]:
+            balance = StockBalanceSheet(
+                code = code,
+                account_date = date.fromtimestamp(item["report_date"]/1000),
+                account_receivable = item["account_receivable"][0],
+                pre_payment = item["pre_payment"][0],
+                inventory = item["inventory"][0],
+                accounts_payable = item["accounts_payable"][0],
+                pre_receivable = item["pre_receivable"][0]               
+            )
+            db.session.add(balance)
+        db.session.commit()
+
+
+@cli.command()
 @click.option("-z", "--size", default=50, type=click.INT, help="股票代码")
 @click.option("-m", "--method", type=click.Choice(["m1", "m2"]), help="m1 -- 根据roa和roe筛选   m2 -- 《投资要义》中描述的方法")
 @click.option("-o", "--output", default="data/result.csv", type=click.Path(dir_okay=False, resolve_path=True))

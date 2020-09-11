@@ -122,4 +122,20 @@ class StockCashFlow(db.Model):
     net_investing_cashflow = db.Column(db.Float, comment="投资活动产生的现金流量净额")
     net_financing_cashflow = db.Column(db.Float, comment="筹资活动产生的现金流量净额")
     account_date = db.Column(db.Date, nullable=False, index=True, comment="报告期")
+
+
+class StockBalanceSheet(db.Model):
+    __tablename__ = "stock_balance_sheet"
+    __table_args__ = (
+        UniqueConstraint("code", "account_date", name="uk_code_date"),
+    )
+
+    id = db.Column(db.Integer, primary_key=True)
+    code = db.Column(db.String(10), index=True, nullable=False)
+    account_date = db.Column(db.Date, nullable=False, index=True, comment="报告期")
+    account_receivable = db.Column(db.Float, comment="应收账款")
+    pre_payment = db.Column(db.Float, comment="预付款项")
+    inventory = db.Column(db.Float, comment="存货")
+    accounts_payable = db.Column(db.Float, comment="应付账款")
+    pre_receivable = db.Column(db.Float, comment="预收款项")
     
