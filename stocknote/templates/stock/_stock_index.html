@@ -10,9 +10,23 @@
 {% endblock %}
 
 {% block content %}
-<br><br><br>
+<br><br>
 <div class="row">
     <div class="col-md-11">
+        <div class="row text-muted">
+            <div class="alert alert-warning" role="alert">
+                <h6>分析要点</h6>
+                <ol>
+                    <li><small>这是个什么样的生意？(毛利率、净利率、费用、现金流等情况,分解ROE判断公司经营是低利润率高周转率，还是高利润率低周转率，还是杠杆型)</small></li>
+                    <li><small>它的市场空间有多大？</small></li>
+                    <li><small>它是否有竞争优势？</small></li>
+                    <li><small>经营的历史和未来态势怎么样?</small></li>
+                    <li><small>主要的风险是什么？</small></li>
+                    <li><small>估值多少？</small></li>
+                </ol>
+            </div>
+        </div>
+        <br><br>
         <div class="row">
             <h5 class="text-success" id="annualReport"><i class="glyphicon glyphicon-link"></i> 年度报告</h5>
             <hr><br>
@@ -42,7 +56,8 @@
                 <ul class="nav nav-tabs" role="tablist">
                     <li role="presentation" class="active"><a href="#i_profitabilityIndicators"
                             aria-controls="i_profitabilityIndicators" role="tab" data-toggle="tab">盈利能力指标</a></li>
-                    <li role="presentation"><a href="#i_simpleDupontAnalysis" aria-controls="i_simpleDupontAnalysis" role="tab" data-toggle="tab">杜邦分析(简化版)</a></li>
+                    <li role="presentation"><a href="#i_simpleDupontAnalysis" aria-controls="i_simpleDupontAnalysis"
+                            role="tab" data-toggle="tab">杜邦分析(简化版)</a></li>
                     <li role="presentation"><a href="#i_freeCashFlow" aria-controls="i_freeCashFlow" role="tab"
                             data-toggle="tab">历史自由现金流</a></li>
                 </ul>
@@ -80,13 +95,15 @@
                     </div>
                     <div role="tabpanel" class="tab-pane" id="i_freeCashFlow">
                         <div id="J_freeCashFlowTable"></div>
-                        <p class="text-muted"><small>* 这边的<mark>自由现金流</mark>指的是<mark>经营活动产生的自由现金流</mark>, 通常<mark>自由现金流/销售收入 >= 5%</mark>就说明公司有较好的盈利性</small></p>
+                        <p class="text-muted"><small>* 这边的<mark>自由现金流</mark>指的是<mark>经营活动产生的自由现金流</mark>,
+                                通常<mark>自由现金流/销售收入 >= 5%</mark>就说明公司有较好的盈利性</small></p>
                     </div>
                 </div>
                 <br>
             </div>
             <div class="col-md-12">
-                <p>通过分析公司自由现金流、毛利率、净资产收益率、资产收益率来检验公司过去的盈利能力怎样，寻找竞争优势的证据(最好还要找同行业的其他公司做对比)。若公司显示较强的盈利能力，则进一步分析公司是否某方面的竞争优势，这些竞争优势有可能是:</p>
+                <p>通过分析公司自由现金流、毛利率、净资产收益率、资产收益率来检验公司过去的盈利能力怎样，寻找竞争优势的证据(最好还要找同行业的其他公司做对比)。若公司显示较强的盈利能力，则进一步分析公司是否某方面的竞争优势，这些竞争优势有可能是:
+                </p>
                 <ul>
                     <li>通过出众的技术或特色创造真实的差异化产品</li>
                     <li>通过一个信任的品牌或声誉创造可感知的差异化产品</li>
@@ -237,27 +254,26 @@
 <!-- Modal for edit basic info -->
 <div class="modal fade" id="i_editBasicInfoModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
     <div class="modal-dialog" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
-              aria-hidden="true">&times;</span></button>
-          <h4 class="modal-title" id="i_editBasicInfoModalLabel"></h4>
-        </div>
-        <div class="modal-body">
-          <div class="row">
-            <div class="col-md-12">
-                <textarea class="form-control" rows="3" id="i_basicInfoTextArea" data-field=""></textarea>
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                        aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="i_editBasicInfoModalLabel"></h4>
             </div>
-          </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-12">
+                        <textarea class="form-control" rows="3" id="i_basicInfoTextArea" data-field=""></textarea>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                <button type="button" class="btn btn-primary" data-dismiss="modal" onclick="editBasicInfo()">确认</button>
+            </div>
         </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
-          <button type="button" class="btn btn-primary" data-dismiss="modal"
-            onclick="editBasicInfo()">确认</button>
-        </div>
-      </div>
     </div>
-  </div>
+</div>
 
 
 <script>
@@ -291,7 +307,7 @@
         $.ajax({
             type: 'GET',
             url: basic_info_partial_url,
-            data: {"field": field},
+            data: { "field": field },
             contentType: 'application/json;charset=UTF-8',
             success: function (data) {
                 $("#i_basicInfoTextArea").val(data.desc);
@@ -305,7 +321,7 @@
         var cont = $("#i_basicInfoTextArea").val();
         var field = $("#i_basicInfoTextArea").attr("data-field");
 
-        var params = { "field": parseInt(field), "value": cont};
+        var params = { "field": parseInt(field), "value": cont };
         $.ajax({
             type: 'PATCH',
             url: basic_info_edit_url,
