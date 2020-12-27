@@ -6,22 +6,22 @@ from stocknote.models.stock import StockGroup, Stock, StockIncomeStatement, Stoc
 from stocknote.extensions import db
 
 
-group_bp = Blueprint("group", __name__)
+compare_bp = Blueprint("compare", __name__)
 
 
-@group_bp.route("/index")
+@compare_bp.route("/index")
 def index():
     groups = StockGroup.query.all()
-    return render_template("group/_group_index.html", groups=groups)
+    return render_template("compare/_index.html", groups=groups)
 
 
-@group_bp.route("/<int:group_id>/detail")
+@compare_bp.route("/<int:group_id>/detail")
 def group_detail(group_id):
     group = StockGroup.query.get_or_404(group_id)
-    return render_template("group/_group.html", group=group)
+    return render_template("compare/_group.html", group=group)
 
 
-@group_bp.route("/op/create-group", methods=["POST"])
+@compare_bp.route("/op/create-group", methods=["POST"])
 def api_op_create_group():
     data = request.get_json()
     if "name" not in data:
@@ -38,7 +38,7 @@ def api_op_create_group():
     return jsonify(message="创建成功")
 
 
-@group_bp.route("/op/remove-group", methods=["DELETE"])
+@compare_bp.route("/op/remove-group", methods=["DELETE"])
 def api_op_remove_group():
     data = request.get_json()
     if "group_id" not in data:
@@ -54,7 +54,7 @@ def api_op_remove_group():
     return jsonify(message="成功移除'%s'group" % group.name)
 
 
-@group_bp.route("/<int:group_id>/op/add-stock", methods=["POST"])
+@compare_bp.route("/<int:group_id>/op/add-stock", methods=["POST"])
 def api_op_add_stock(group_id):
     group = StockGroup.query.get_or_404(group_id)
 
@@ -73,7 +73,7 @@ def api_op_add_stock(group_id):
             return jsonify(message="股票添加成功！")
 
 
-@group_bp.route("/<int:group_id>/op/remove-stock", methods=['DELETE'])
+@compare_bp.route("/<int:group_id>/op/remove-stock", methods=['DELETE'])
 def api_op_remove_stock(group_id):
     group = StockGroup.query.get_or_404(group_id)
 
@@ -92,7 +92,7 @@ def api_op_remove_stock(group_id):
             return jsonify(message="股票移除成功！")
 
 
-@group_bp.route("/<int:group_id>/data/revenues", methods=["GET"])
+@compare_bp.route("/<int:group_id>/data/revenues", methods=["GET"])
 def api_data_revenues(group_id):
     group = StockGroup.query.get_or_404(group_id)
     stocks = group.stocks
@@ -118,7 +118,7 @@ def api_data_revenues(group_id):
     return jsonify(code=200, message="success", data=data)
 
 
-@group_bp.route("/<int:group_id>/data/gross-profit-margins", methods=["GET"])
+@compare_bp.route("/<int:group_id>/data/gross-profit-margins", methods=["GET"])
 def api_data_gross_profit_margins(group_id):
     group = StockGroup.query.get_or_404(group_id)
     stocks = group.stocks
@@ -145,7 +145,7 @@ def api_data_gross_profit_margins(group_id):
     return jsonify(code=200, message="success", data=data)
 
 
-@group_bp.route("/<int:group_id>/data/net-profit-margins", methods=["GET"])
+@compare_bp.route("/<int:group_id>/data/net-profit-margins", methods=["GET"])
 def api_data_net_profit_margins(group_id):
     group = StockGroup.query.get_or_404(group_id)
     stocks = group.stocks
@@ -172,7 +172,7 @@ def api_data_net_profit_margins(group_id):
     return jsonify(code=200, message="success", data=data)
 
 
-@group_bp.route("/<int:group_id>/data/free-cashflow-to-revenue")
+@compare_bp.route("/<int:group_id>/data/free-cashflow-to-revenue")
 def api_data_free_cashflow_to_revenue(group_id):
     group = StockGroup.query.get_or_404(group_id)
     stocks = group.stocks
@@ -203,7 +203,7 @@ def api_data_free_cashflow_to_revenue(group_id):
     return jsonify(code=200, message="success", data=data)
 
 
-@group_bp.route("/<int:group_id>/data/roe")
+@compare_bp.route("/<int:group_id>/data/roe")
 def api_data_roe(group_id):
     group = StockGroup.query.get_or_404(group_id)
     stocks = group.stocks
@@ -230,7 +230,7 @@ def api_data_roe(group_id):
     return jsonify(code=200, message="success", data=data)
 
 
-@group_bp.route("/<int:group_id>/data/roa")
+@compare_bp.route("/<int:group_id>/data/roa")
 def api_data_roa(group_id):
     group = StockGroup.query.get_or_404(group_id)
     stocks = group.stocks

@@ -34,7 +34,7 @@
         </div>
         <ul class="nav nav-sidebar" id="i_category">
           <li><a class="load-content-btn" role="button" data-href="{{ url_for('home.home') }}">主 页</a></li>
-          <li><a class="load-content-btn" role="button" data-href="{{ url_for('group.index') }}">竞争分析</a></li>
+          <li><a class="load-content-btn" role="button" data-href="{{ url_for('compare.index') }}">竞争分析</a></li>
           <li>
             <a data-toggle="collapse" href="#valuationTools">估值工具</a>
             <ul class="nav sub-menu collapse" id="valuationTools">
@@ -58,11 +58,11 @@
   <script src="/static/js/script.js"></script>
   <script type="text/javascript">
     var home_page_url = "{{ url_for('home.home') }}";
-    var group_page_url = "{{ url_for('group.index') }}";
+    var group_page_url = "{{ url_for('compare.index') }}";
     var stock_page_url = "{{ url_for('stock.stock_detail')}}";
 
-    var create_group_url = "{{url_for('group.api_op_create_group')}}";
-    var remove_group_url = "{{url_for('group.api_op_remove_group')}}";
+    var create_group_url = "{{url_for('compare.api_op_create_group')}}";
+    var remove_group_url = "{{url_for('compare.api_op_remove_group')}}";
     
     // 估值报告url
     var dcf_report_url = "{{ url_for('valuation.dcf_report') }}";

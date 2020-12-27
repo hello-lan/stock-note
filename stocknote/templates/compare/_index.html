@@ -2,7 +2,7 @@
 
 {% block breadcrumb %}
 <li>首页</li>
-<li class="active"><a class="load-content-btn" id="i_groupIndexPage" role="button" data-href="{{ url_for('group.index') }}">竞争分析</a></li>
+<li class="active"><a class="load-content-btn" id="i_groupIndexPage" role="button" data-href="{{ url_for('compare.index') }}">竞争分析</a></li>
 {% endblock %}
 
 {% block content_title %} 竞争分析 {% endblock %}
@@ -25,7 +25,7 @@
         <ul class="list-inline">
             {% for group in groups %}
             <li>
-                <a class="btn btn-link load-content-btn" role="button" data-href="{{ url_for('group.group_detail', group_id=group.id) }}">
+                <a class="btn btn-link load-content-btn" role="button" data-href="{{ url_for('compare.group_detail', group_id=group.id) }}">
                     {{ group.name }}
                     <i class="badge">{{ group.stocks.count() }}</i>
                 </a>
