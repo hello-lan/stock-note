@@ -7,7 +7,7 @@ from stocknote.models.stock import (StockGroup, Stock, StockIndicators, StockCas
 from stocknote.models.note import BasicInfo
 from stocknote.extensions import db
 from stocknote.services.stock_data import (get_stock_indicators, get_cashflow_revenue_ratios,
-        get_account_receivable_ratio)
+        get_account_receivable_ratio, get_stock_balance_sheet)
 
 
 stock_bp = Blueprint("stock", __name__)
@@ -252,3 +252,20 @@ def api_data_profitablity(code):
         }
 
     return jsonify(code=200, message="success", data=data)
+
+
+@stock_bp.route("/<code>/data/total-assets", methods=["GET"])
+def api_data_total_assets(code):
+    balances = get_stock_balance_sheet(code)
+    x_labels = []
+    values = []
+    for item in balances:
+        x_labels.append(item.account_date.strftime("%Y年报"))
+        values.append(float(item.total_assets))
+
+    data = {
+        "XLabels": x_labels,
+        "name": "总资产",
+        "values": values
+    }
+    return jsonify(data)
