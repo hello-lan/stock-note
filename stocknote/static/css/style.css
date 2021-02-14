@@ -97,3 +97,7 @@ hr {
 .bg-green {
     background-color: green;
 }
+
+.pre-line {
+	white-space: pre-line;
+}
