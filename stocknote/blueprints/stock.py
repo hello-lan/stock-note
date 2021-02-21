@@ -13,16 +13,6 @@ from stocknote.services.stock_data import (get_stock_indicators, get_cashflow_re
 stock_bp = Blueprint("stock", __name__)
 
 
-BASIC_INFO_FIELDS = {0: "scope", 
-                    1: "structure",
-                    2: "industry_chain",
-                    3: "sales_model",
-                    4: "actual_controller",
-                    5: "institutional_ownership",
-                    6: "bonus_and_offering",
-                    7: "competitors"}
-
-
 @stock_bp.route("/detail", methods=["GET"])
 def stock_detail():
     data = request.args
@@ -44,10 +34,9 @@ def basic_info(code):
 
 @stock_bp.route("/<code>/basic-info/partial", methods=["GET"])
 def get_partial_basic_info(code):
-    field_index = request.args.get("field", type=int)
-    if field_index is None:
+    field = request.args.get("field", type=str)
+    if field is None:
         return jsonify(message="未接收到请求参数.")
-    field = BASIC_INFO_FIELDS[field_index]
     info = BasicInfo.query.filter_by(code=code).first()
     desc = getattr(info, field, "")
     return jsonify(message="success", desc=desc)
@@ -59,8 +48,8 @@ def edit_basic_info(code):
     if "field" not in data:
         return jsonify(message="未接收到请求参数.")
     value = data["value"]
-    field_index = data["field"]
-    field = BASIC_INFO_FIELDS[field_index]
+    field = data["field"]
+    # fields = [field for field in BasicInfo.__dict__.keys() if not field.startswith("_")]
     info = BasicInfo.query.filter_by(code=code).first()
     if info is None:
         info = BasicInfo(code=code)

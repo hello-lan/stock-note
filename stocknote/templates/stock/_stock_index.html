@@ -326,7 +326,7 @@
         var cont = $("#i_basicInfoTextArea").val();
         var field = $("#i_basicInfoTextArea").attr("data-field");
 
-        var params = { "field": parseInt(field), "value": cont };
+        var params = { "field": field, "value": cont };
         $.ajax({
             type: 'PATCH',
             url: basic_info_edit_url,
