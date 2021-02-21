@@ -13,7 +13,14 @@ from stocknote.services.stock_data import (get_stock_indicators, get_cashflow_re
 stock_bp = Blueprint("stock", __name__)
 
 
-BASIC_INFO_FIELDS = ["scope", "structure","industry_chain", "sales_model", "actual_controller","institutional_ownership", "bonus_and_offering"]
+BASIC_INFO_FIELDS = {0: "scope", 
+                    1: "structure",
+                    2: "industry_chain",
+                    3: "sales_model",
+                    4: "actual_controller",
+                    5: "institutional_ownership",
+                    6: "bonus_and_offering",
+                    7: "competitors"}
 
 
 @stock_bp.route("/detail", methods=["GET"])

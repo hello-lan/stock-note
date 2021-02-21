@@ -119,6 +119,22 @@
                 </div>
             </td>
         </tr>
+        <tr>
+            <td class="text-center">竞争对手</td>
+            <td class="pre-line">{{ info.competitors | default('-', True)}}</td>
+            <td class="text-center">
+                <div class="dropdown">
+                    <span class="dropdown-toggle" id="basicInfoEditDropDownMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                        <i role="button" class="glyphicon glyphicon-option-horizontal"></i>
+                    </span>
+                    <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="basicInfoEditDropDownMenu" style="min-width:50px" >
+                        <li>
+                            <a role="btn" class="btn" onclick="showBasicInfoEditModal(this)" data-name="竞争对手" data-field="7"><i class="glyphicon glyphicon-pencil"></i>&nbsp;&nbsp;编辑</a>
+                        </li>
+                    </ul>
+                </div>
+            </td>
+        </tr>
     </tbody>
 </table>
 <p class="text-right text-muted"><small>更新时间:&nbsp;{{ info.update_time | default('-', True) }}</small></p>

@@ -46,5 +46,6 @@ class BasicInfo(db.Model):
     actual_controller = db.Column(db.String, default="-", comment="实际控制人")
     institutional_ownership = db.Column(db.String, default="-", comment="机构持股情况")
     bonus_and_offering = db.Column(db.String, default="-", comment="近几年分红与增发情况")
+    competitors = db.Column(db.String, default="-", comment="竞争对手")
     create_time = db.Column(db.DateTime, default=datetime.now)
     update_time = db.Column(db.DateTime, default=datetime.now, onupdate=datetime.now)
