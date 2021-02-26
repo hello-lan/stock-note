@@ -46,6 +46,22 @@
             <div class="col-md-12">
                 <div id="J_basicInfoTable"></div>
             </div>
+            <br><br>
+            <div class="col-md-12">
+                <div>资产负债表简表</div>
+                <div id="J_briefBalanceSheetTable"></div>
+                <div><a data-toggle="collapse" data-target="#i_balanceSheetReading">如何看资产负债表简表<i
+                    class="ri-information-line"></i></a>
+                </div>
+                <div id="i_balanceSheetReading" class="collapse">
+                    <br>
+                    <ul class="text-muted">
+                        <li><small>【1个金额】公司成长性的体现上，资产负债表领先于利润表，因为公司只有先增加流动资产和非流动资产，同时提高杠杆率，才能支持后续的收入和利润增长。如果一家公司的总资产不再增长或开始大幅萎缩（缩表)，那么这家公司的股价往往有很大的下跌风险</small></li>
+                        <li><small>【2个指标】资产负债率太高意味着公司面临的财务风险较高。不同行业的资产负债率天然时不一样的，需要将公司的资产负债率与行业龙头的数据比较；流动比率比较合适的值是2，即流动资产是流动负债的2倍</small></li>
+                        <li><small>【3个结构】资产结构、负债结构、所有者权益结构，这三个结构如果有变化，需要进一步查阅年报和公告了解原因，分析该变化对公司发展是否有益</small></li>
+                    </ul>
+                </div>
+            </div>
         </div>
         <br>
         <div class="row">
@@ -294,7 +310,8 @@
     var basic_info_url = "{{ url_for('stock.basic_info', code=stock.code) }}";
     var basic_info_partial_url = "{{ url_for('stock.get_partial_basic_info', code=stock.code) }}";
     var basic_info_edit_url = "{{ url_for('stock.edit_basic_info', code=stock.code) }}"
-
+    // brief balance sheet
+    var brief_balance_sheet_url = "{{ url_for('stock.api_data_brief_balance_sheet', code=stock.code) }}";
 
     function getDataAndPlotIncome(url, domId) {
         $.getJSON(url, function (data) {
@@ -347,6 +364,8 @@
         loadContent(free_cashflow_url, "J_freeCashFlowTable");
         loadContent(dupont_analysis_url, "J_simpleDupontAnalysisTable");
         loadContent(basic_info_url, "J_basicInfoTable");
+
+        loadContentV2(brief_balance_sheet_url, "J_briefBalanceSheetTable")
 
         // 成长性相关曲线图
         var revenue_url = "{{ url_for('stock.api_data_revenue', code=stock.code) }}";

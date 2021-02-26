@@ -13,6 +13,21 @@ function loadContent(url, domId="main", data={}) {
     });    
 }
 
+function loadContentV2(url, domId="main", data={}) {
+    $.ajax({
+        type: 'GET',
+        url: url,
+        data: data,
+        success: function (response) {
+            $('#' + domId).html(response.data.html);
+        },
+        error:function (jqXHR, textStatus, errorThrown) {
+            $('#' + domId).html(jqXHR.responseText);
+        },
+    });    
+}
+
+
 $(document).ready(function () {
     var ENTER_KEY = 13;
     var ESC_KEY = 27;

@@ -6,6 +6,7 @@
             <th class="text-center">流动比率</th>
             <th class="text-center">速动比率</th>
             <th class="text-center">应收账款占收入</th>
+            <th class="text-center">商誉净资产比</th>
         </tr>
     </thead>
     <tbody>
@@ -16,6 +17,7 @@
             <td>{{ (item.current_ratio | round(2)) if item.current_ratio is number else "-" }}</td>
             <td>{{ (item.quick_ratio | round(2)) if item.quick_ratio is number else "-" }}</td>
             <td>{{ (item.account_receivable_ratio | round(2)) if item.account_receivable_ratio is number else "-"}}</td>
+            <td>-</td>
         </tr>
         {% endfor %}
     </tbody>

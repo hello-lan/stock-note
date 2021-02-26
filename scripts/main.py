@@ -219,13 +219,22 @@ def add_balance(code):
             balance = StockBalanceSheet(
                 code = code,
                 account_date = date.fromtimestamp(item["report_date"]/1000),
-                total_assets = item["total_assets"][0],
                 fixed_asset = item["fixed_asset"][0],
                 account_receivable = item["account_receivable"][0],
                 pre_payment = item["pre_payment"][0],
                 inventory = item["inventory"][0],
                 accounts_payable = item["accounts_payable"][0],
-                pre_receivable = item["pre_receivable"][0]               
+                pre_receivable = item["pre_receivable"][0],
+                total_current_assets = item["total_current_assets"][0],
+                total_noncurrent_assets = item["total_noncurrent_assets"][0],
+                total_assets = item["total_assets"][0],
+                total_current_liab = item["total_current_liab"][0],
+                total_noncurrent_liab = item["total_noncurrent_liab"][0],
+                total_liab = item["total_liab"][0],
+                total_quity_atsopc = item["total_quity_atsopc"][0],
+                minority_equity = item["minority_equity"][0],
+                total_holders_equity = item["total_holders_equity"][0],
+                total_liab_and_holders_equity = item["total_liab_and_holders_equity"][0]           
             )
             db.session.add(balance)
         db.session.commit()

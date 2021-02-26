@@ -59,6 +59,19 @@ def edit_basic_info(code):
     return jsonify(message="%s更新成功" % field)
 
 
+@stock_bp.route("/api/data/brief-balance-sheet", methods=["GET"])
+def api_data_brief_balance_sheet():
+    code = request.args.get("code", type=str)
+    items = StockBalanceSheet.query \
+            .filter_by(code=code) \
+            .order_by(StockBalanceSheet.account_date.desc()) \
+            .limit(5).all()
+    return jsonify({"message": "successful",
+                    "data": {
+                       "html": render_template("stock/tables/_brief_balance_sheet.html", items=items)
+                       }
+                })
+
 @stock_bp.route("/<code>/free-cashflow", methods=["GET"])
 def free_cashflow(code):
     q = db.session.query(StockCashFlow.net_operating_cashflow, StockCashFlow.account_date, StockIncomeStatement.revenue, StockIncomeStatement.net_profit) \

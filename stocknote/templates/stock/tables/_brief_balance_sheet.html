@@ -1,0 +1,72 @@
+<table class="table table-bordered table-condensed table-sm">
+    <thead>
+        <tr>
+            <th class="text-center">报告期</th>
+            {% for item in items %}
+            <th class="text-center">{{ item.account_date}}</th>
+            {% endfor %}
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td class="text-center">流动资产合计</td>
+            {% for item in items %}
+            <td class="text-center">{{ item.total_current_assets }}</td>
+            {% endfor %}
+        </tr>
+        <tr>
+            <td class="text-center">非流动资产合计</td>
+            {% for item in items %}
+            <td class="text-center">{{ item.total_noncurrent_assets }}</td>
+            {% endfor %}
+        </tr>
+        <tr>
+            <th class="text-center">资产总计</th>
+            {% for item in items %}
+            <td class="text-center">{{ item.total_assets }}</td>
+            {% endfor %}
+        </tr>
+        <tr>
+            <td class="text-center">流动负债合计</td>
+            {% for item in items %}
+            <td class="text-center">{{ item.total_current_liab }}</td>
+            {% endfor %}
+        </tr>
+        <tr>
+            <td class="text-center">非流动负债合计</td>
+            {% for item in items %}
+            <td class="text-center">{{ item.total_noncurrent_liab }}</td>
+            {% endfor %}
+        </tr>
+        <tr>
+            <th class="text-center">负债合计</th>
+            {% for item in items %}
+            <td class="text-center">{{ item.total_liab }}</td>
+            {% endfor %}
+        </tr>
+        <tr>
+            <td class="text-center">归属母公司所有者权益合计</td>
+            {% for item in items %}
+            <td class="text-center">{{ item.total_quity_atsopc }}</td>
+            {% endfor %}
+        </tr>
+        <tr>
+            <td class="text-center">少数股东权益</td>
+            {% for item in items %}
+            <td class="text-center">{{ item.minority_equity }}</td>
+            {% endfor %}
+        </tr>
+        <tr>
+            <th class="text-center">所有者权益合计</th>
+            {% for item in items %}
+            <td class="text-center">{{ item.total_holders_equity }}</td>
+            {% endfor %}
+        </tr>
+        <tr>
+            <th class="text-center">负债和所有者权益总计</th>
+            {% for item in items %}
+            <td class="text-center">{{ item.total_liab_and_holders_equity }} </td>
+            {% endfor %}
+        </tr>
+    </tbody>
+</table>
