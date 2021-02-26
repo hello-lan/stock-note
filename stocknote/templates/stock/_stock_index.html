@@ -46,11 +46,11 @@
             <div class="col-md-12">
                 <div id="J_basicInfoTable"></div>
             </div>
-            <br><br>
             <div class="col-md-12">
-                <div>资产负债表简表</div>
+                <br><br>
+                <p><strong>资产负债表简表</strong></p>
                 <div id="J_briefBalanceSheetTable"></div>
-                <div><a data-toggle="collapse" data-target="#i_balanceSheetReading">如何看资产负债表简表<i
+                <div><a data-toggle="collapse" data-target="#i_balanceSheetReading">如何看资产负债表简表？<i
                     class="ri-information-line"></i></a>
                 </div>
                 <div id="i_balanceSheetReading" class="collapse">
@@ -60,6 +60,19 @@
                         <li><small>【2个指标】资产负债率太高意味着公司面临的财务风险较高。不同行业的资产负债率天然时不一样的，需要将公司的资产负债率与行业龙头的数据比较；流动比率比较合适的值是2，即流动资产是流动负债的2倍</small></li>
                         <li><small>【3个结构】资产结构、负债结构、所有者权益结构，这三个结构如果有变化，需要进一步查阅年报和公告了解原因，分析该变化对公司发展是否有益</small></li>
                     </ul>
+                </div>
+            </div>
+            <div class="col-md-12">
+                <br><br>
+                <p><strong>轻重资产结构</strong></p>
+                <div id="J_assetStructureTable"></div>
+                <div><a data-toggle="collapse" data-target="#i_assetStructureReading">轻资产与重资产分析<i
+                    class="ri-information-line"></i></a>
+                </div>
+                <div id="i_assetStructureReading" class="collapse text-muted">
+                    <br>
+                    <p><small>重资产公司通常需要不断投入资金进行维护、更新或升级，并产生大量折旧。重资产公司在一旦没有新需求后，已投入的产能退不出来；同时因为大量折旧和摊销的存在，必须有大量的产品来分摊，一旦产品销量下滑，单位成本需要分摊更多固定成本，这使企业滑向亏损的泥潭；而轻资产公司恰好避开了高固定成本，其产品或服务的成本，主要是可变成本，即使遭遇市场不景气，成本也会跟随销量下滑，使企业更容易在逆境中保持盈利能力。所以在有选择的情况下，建议尽量避开重资产企业。</small></p>
+                    <p><small>表格中"生产资产/总资产"占比大资产重，占比小的资产轻；"税前利润/生产资产"比值如果<span class="text-danger">显著高于</span>社会平均资本回报率(按银行贷款利率的两倍毛估),则属于轻资产公司，反之属于重资产公司。这里的生产物资参考了唐朝的《手把手教你读财报 新准则升级版》第172页中的定义，去掉了无形资产中的土地，即：生产资产 = 固定资产 + 在建工程 + 工程物资</small></p>
                 </div>
             </div>
         </div>
@@ -312,6 +325,8 @@
     var basic_info_edit_url = "{{ url_for('stock.edit_basic_info', code=stock.code) }}"
     // brief balance sheet
     var brief_balance_sheet_url = "{{ url_for('stock.api_data_brief_balance_sheet', code=stock.code) }}";
+    // asset structure
+    var asset_structure_url = "{{ url_for('stock.api_data_asset_structure', code=stock.code) }}";
 
     function getDataAndPlotIncome(url, domId) {
         $.getJSON(url, function (data) {
@@ -365,7 +380,8 @@
         loadContent(dupont_analysis_url, "J_simpleDupontAnalysisTable");
         loadContent(basic_info_url, "J_basicInfoTable");
 
-        loadContentV2(brief_balance_sheet_url, "J_briefBalanceSheetTable")
+        loadContentV2(brief_balance_sheet_url, "J_briefBalanceSheetTable");
+        loadContentV2(asset_structure_url, "J_assetStructureTable");
 
         // 成长性相关曲线图
         var revenue_url = "{{ url_for('stock.api_data_revenue', code=stock.code) }}";

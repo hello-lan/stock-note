@@ -1,0 +1,24 @@
+<table class="table table-bordered table-condensed table-sm">
+    <thead>
+        <tr>
+            <th class="text-center">报告期</th>
+            {% for item in items %}
+            <th class="text-center">{{ item.account_date}}</th>
+            {% endfor %}
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td class="text-center">生产资产/总资产</td>
+            {% for item in items %}
+            <td class="text-center">{{ item.productive_asset_ratio }}</td>
+            {% endfor %}
+        </tr>
+        <tr>
+            <td class="text-center">税前利润总额/生产资产</td>
+            {% for item in items %}
+            <td class="text-center">{{ item.profit_prdasset_ratio }}</td>
+            {% endfor %}
+        </tr>
+    </tbody>
+</table>

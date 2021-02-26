@@ -1,13 +1,15 @@
 from flask import render_template, current_app, Blueprint, jsonify, flash, request, abort
 
 from operator import itemgetter, attrgetter
+from collections import defaultdict
 
 from stocknote.models.stock import (StockGroup, Stock, StockIndicators, StockCashFlow,
         StockIncomeStatement, StockBalanceSheet)
 from stocknote.models.note import BasicInfo
 from stocknote.extensions import db
 from stocknote.services.stock_data import (get_stock_indicators, get_cashflow_revenue_ratios,
-        get_account_receivable_ratio, get_stock_balance_sheet)
+        get_account_receivable_ratio, get_stock_balance_sheet, get_productive_assets,
+        get_stock_income_statement)
 
 
 stock_bp = Blueprint("stock", __name__)
@@ -62,14 +64,42 @@ def edit_basic_info(code):
 @stock_bp.route("/api/data/brief-balance-sheet", methods=["GET"])
 def api_data_brief_balance_sheet():
     code = request.args.get("code", type=str)
-    items = StockBalanceSheet.query \
-            .filter_by(code=code) \
-            .order_by(StockBalanceSheet.account_date.desc()) \
-            .limit(5).all()
+    items = get_stock_balance_sheet(code, limit=5)
     return jsonify({"message": "successful",
                     "data": {
                        "html": render_template("stock/tables/_brief_balance_sheet.html", items=items)
-                       }
+                    }
+                })
+
+
+@stock_bp.route("/api/data/asset-structure")
+def api_data_asset_structure():
+    """ 资产结构 - 轻重资产
+    """
+    code = request.args.get("code", type=str)
+    limit = request.args.get("limit", 5, type=int)
+    productive_assets = get_productive_assets(code, limit=limit)
+    balance = get_stock_balance_sheet(code, limit=limit)
+    income_statement = get_stock_income_statement(code, limit=limit)
+
+    tmp = defaultdict(dict)
+    for item in balance:
+        dt = item.account_date
+        tmp[dt]["productive_asset_ratio"] = round(productive_assets[dt] / item.total_assets, 2)
+    for item in income_statement:
+        dt = item.account_date
+        prdasset = productive_assets.get(dt)
+        if prdasset:
+            tmp[dt]["profit_prdasset_ratio"] = round(item.profit_total_amt / productive_assets[dt], 2)
+    data = []
+    for dt, item in tmp.items():
+        item["account_date"] = dt
+        data.append(item)
+    data.sort(key=itemgetter("account_date"), reverse=True)
+    return jsonify({"message": "successful",
+                    "data": {
+                        "html": render_template("stock/tables/_asset_structure.html", items=data)
+                    }
                 })
 
 @stock_bp.route("/<code>/free-cashflow", methods=["GET"])

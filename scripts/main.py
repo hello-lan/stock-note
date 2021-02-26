@@ -234,7 +234,10 @@ def add_balance(code):
                 total_quity_atsopc = item["total_quity_atsopc"][0],
                 minority_equity = item["minority_equity"][0],
                 total_holders_equity = item["total_holders_equity"][0],
-                total_liab_and_holders_equity = item["total_liab_and_holders_equity"][0]           
+                total_liab_and_holders_equity = item["total_liab_and_holders_equity"][0],
+                fixed_asset_sum = item["fixed_asset_sum"][0],
+                construction_in_process = item["construction_in_process"][0],
+                project_goods_and_material = item["project_goods_and_material"][0]      
             )
             db.session.add(balance)
         db.session.commit()
