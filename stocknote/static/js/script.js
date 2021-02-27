@@ -351,7 +351,11 @@ function getDataAndPlotLines(data_url, domId){
     });
 }
 
-
+function getDataAndPlotBar(url, domId) {
+    $.getJSON(url, function (response) {
+        plotIncomeMixLineBar(domId, response.data["echarts_bar"]);
+    })
+}
 
 // 验证
 function validate_required(value,alerttxt="输入为空"){

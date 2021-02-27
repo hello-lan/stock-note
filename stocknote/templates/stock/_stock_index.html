@@ -343,12 +343,6 @@
     // 五力分析
     var five_forces_url = "{{ url_for('stock.api_data_five_forces', code=stock.code) }}";
 
-    function getDataAndPlotIncome(url, domId) {
-        $.getJSON(url, function (data) {
-            plotIncomeMixLineBar(domId, data);
-        })
-    }
-
     // 显示公司基本信息编辑框
     function showBasicInfoEditModal(obj) {
         var name = $(obj).attr("data-name");
@@ -406,10 +400,10 @@
         var net_profit_url = "{{ url_for('stock.api_data_net_profit', code=stock.code) }}";
         var total_assets_url = "{{ url_for('stock.api_data_total_assets', code=stock.code) }}";
 
-        getDataAndPlotIncome(revenue_url, "J_growthRevenueChart");
-        getDataAndPlotIncome(net_profit_nrgal_url, "J_growthNetProfitNrgalChart");
-        getDataAndPlotIncome(net_profit_url, "J_growthNetProfitChart");
-        getDataAndPlotIncome(total_assets_url, "J_totalAssetsChart");
+        getDataAndPlotBar(revenue_url, "J_growthRevenueChart");
+        getDataAndPlotBar(net_profit_nrgal_url, "J_growthNetProfitNrgalChart");
+        getDataAndPlotBar(net_profit_url, "J_growthNetProfitChart");
+        getDataAndPlotBar(total_assets_url, "J_totalAssetsChart");
 
         // 盈利能力相关曲线图
         var profitability_url = "{{ url_for('stock.api_data_profitablity', code=stock.code) }}";

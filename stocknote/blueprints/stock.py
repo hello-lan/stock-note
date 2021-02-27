@@ -235,9 +235,12 @@ def financial_health(code):
     return render_template("stock/parts/_financial_health_table.html", indicators=simple_indicators)
 
 
-@stock_bp.route("/<code>/data/revenue", methods=["GET"])
-def api_data_revenue(code):
-    indicators = get_stock_indicators(code)
+@stock_bp.route("/api/data/revenue", methods=["GET"])
+def api_data_revenue():
+    code = request.args.get("code", type=str)
+    limit = request.args.get("limit", 10, type=int)
+
+    indicators = get_stock_indicators(code, limit=limit)
     x_labels = []
     values = []
     rates = []   # 同比
@@ -256,14 +259,19 @@ def api_data_revenue(code):
         "values": values,
         "rates": rates
     }
-    return jsonify(income)
+    return jsonify({"message": "successful",
+                    "data": {"echarts_bar": income}
+                })
 
 
-@stock_bp.route("/<code>/data/net-profit-nrgal", methods=["GET"])
-def api_data_net_profit_nrgal(code):
+@stock_bp.route("/api/data/net-profit-nrgal", methods=["GET"])
+def api_data_net_profit_nrgal():
     """扣非净利润
     """
-    indicators = get_stock_indicators(code)
+    code = request.args.get("code", type=str)
+    limit = request.args.get("limit", 10, type=int)
+
+    indicators = get_stock_indicators(code, limit=limit)
     x_labels = []
     values = []
     rates = []   # 同比
@@ -282,12 +290,17 @@ def api_data_net_profit_nrgal(code):
         "values": values,
         "rates": rates
     }
-    return jsonify(income)
+    return jsonify({"message": "successful",
+                    "data": {"echarts_bar": income}
+                })
 
 
-@stock_bp.route("/<code>/data/net-profit", methods=["GET"])
-def api_data_net_profit(code):
-    indicators = get_stock_indicators(code)
+@stock_bp.route("/data/net-profit", methods=["GET"])
+def api_data_net_profit():
+    code = request.args.get("code", type=str)
+    limit = request.args.get("limit", 10, type=int)
+
+    indicators = get_stock_indicators(code, limit=limit)
     x_labels = []
     values = []
     rates = []
@@ -306,7 +319,9 @@ def api_data_net_profit(code):
         "values": values,
         "rates": rates
     }
-    return jsonify(income)
+    return jsonify({"message": "successful",
+                    "data": {"echarts_bar": income}
+                })
 
 
 @stock_bp.route("/api/data/profitablity", methods=["GET"])
@@ -344,9 +359,12 @@ def api_data_profitablity():
                 })
 
 
-@stock_bp.route("/<code>/data/total-assets", methods=["GET"])
-def api_data_total_assets(code):
-    balances = get_stock_balance_sheet(code)
+@stock_bp.route("/api/data/total-assets", methods=["GET"])
+def api_data_total_assets():
+    code = request.args.get("code", type=str)
+    limit = request.args.get("limit", 10, type=int)
+
+    balances = get_stock_balance_sheet(code, limit=limit)
     x_labels = []
     values = []
     for item in balances:
@@ -358,4 +376,6 @@ def api_data_total_assets(code):
         "name": "总资产",
         "values": values
     }
-    return jsonify(data)
+    return jsonify({"message": "successful",
+                    "data": {"echarts_bar": data}
+                })
