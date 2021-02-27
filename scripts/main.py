@@ -237,7 +237,14 @@ def add_balance(code):
                 total_liab_and_holders_equity = item["total_liab_and_holders_equity"][0],
                 fixed_asset_sum = item["fixed_asset_sum"][0],
                 construction_in_process = item["construction_in_process"][0],
-                project_goods_and_material = item["project_goods_and_material"][0]      
+                project_goods_and_material = item["project_goods_and_material"][0],
+                goodwill = item["goodwill"][0],
+                currency_funds = item["currency_funds"][0],
+                st_loan = item["st_loan"][0],
+                lt_loan = item["lt_loan"][0],
+                bond_payable = item["bond_payable"][0],
+                tradable_fnncl_liab = item["tradable_fnncl_liab"][0],
+                noncurrent_liab_due_in1y = item["noncurrent_liab_due_in1y"][0],  
             )
             db.session.add(balance)
         db.session.commit()
