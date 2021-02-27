@@ -63,7 +63,7 @@
                 </div>
             </div>
             <div class="col-md-12">
-                <br><br>
+                <br>
                 <p><strong>轻重资产结构</strong></p>
                 <div id="J_assetStructureTable"></div>
                 <div><a data-toggle="collapse" data-target="#i_assetStructureReading">轻资产与重资产分析<i
@@ -79,14 +79,28 @@
         <br>
         <div class="row">
             <h5 class="text-success" id="competitiveEdge"><i class="glyphicon glyphicon-star"></i> 竞争优势</h5>
-            <hr><br>
+            <hr>
+            <div class="col-md-12">
+                <p>通过分析公司自由现金流、毛利率、净资产收益率、资产收益率来检验公司过去的盈利能力怎样，寻找竞争优势的证据(最好还要找同行业的其他公司做对比)。若公司显示较强的盈利能力，则进一步分析公司是否某方面的竞争优势，这些竞争优势有可能是:
+                </p>
+                <ul>
+                    <li>通过出众的技术或特色创造真实的差异化产品</li>
+                    <li>通过一个信任的品牌或声誉创造可感知的差异化产品</li>
+                    <li>降低成本并以更低的价格提供相似的产品和服务</li>
+                    <li>通过创造高的转换成本锁定消费者</li>
+                    <li>通过建立高进入壁垒把竞争者阻挡在外面</li>
+                </ul>
+                <br>
+            </div>
             <div class="col-md-12">
                 <!-- Nav tabs -->
                 <ul class="nav nav-tabs" role="tablist">
                     <li role="presentation" class="active"><a href="#i_profitabilityIndicators"
                             aria-controls="i_profitabilityIndicators" role="tab" data-toggle="tab">盈利能力指标</a></li>
                     <li role="presentation"><a href="#i_simpleDupontAnalysis" aria-controls="i_simpleDupontAnalysis"
-                            role="tab" data-toggle="tab">杜邦分析(简化版)</a></li>
+                            role="tab" data-toggle="tab">ROE分析</a></li>
+                    <li role="presentation"><a href="#i_fiveForcesAnalysis" aria-controls="i_fiveForcesAnalysis"
+                        role="tab" data-toggle="tab">五力分析</a></li>
                     <li role="presentation"><a href="#i_freeCashFlow" aria-controls="i_freeCashFlow" role="tab"
                             data-toggle="tab">历史自由现金流</a></li>
                 </ul>
@@ -122,6 +136,16 @@
                         </div>
                         <br>
                     </div>
+                    <div role="tabpanel" class="tab-pane" id="i_fiveForcesAnalysis">
+                        <div id="J_fiveForcesTable"></div>
+                        <p class="text-muted"><small>五力图分析框架中，行业的盈利能力由五种力量决定：现有公司的竞争、新进入者的威胁、替代品的威胁、购买方的谈判能力、供应方的谈判能力。</small></p>
+                        <ul class="text-muted">
+                            <li><small>【毛利率】可以体现竞争环境(现有公司的竞争、新进者、替代品)对行业盈利能力的影响，一个行业的毛利率越低，通常说明竞争越充分</small></li>
+                            <li><small>【应收账款占比】与【预收账款占比】体现了公司与下游客户的谈判能力</small></li>
+                            <li><small>【应付账款占比】与【预付账款占比】体现了公司与上游供应商的关系</small></li>
+                        </ul>
+
+                    </div>
                     <div role="tabpanel" class="tab-pane" id="i_freeCashFlow">
                         <div id="J_freeCashFlowTable"></div>
                         <p class="text-muted"><small>* 这边的<mark>自由现金流</mark>指的是<mark>经营活动产生的自由现金流</mark>,
@@ -129,17 +153,6 @@
                     </div>
                 </div>
                 <br>
-            </div>
-            <div class="col-md-12">
-                <p>通过分析公司自由现金流、毛利率、净资产收益率、资产收益率来检验公司过去的盈利能力怎样，寻找竞争优势的证据(最好还要找同行业的其他公司做对比)。若公司显示较强的盈利能力，则进一步分析公司是否某方面的竞争优势，这些竞争优势有可能是:
-                </p>
-                <ul>
-                    <li>通过出众的技术或特色创造真实的差异化产品</li>
-                    <li>通过一个信任的品牌或声誉创造可感知的差异化产品</li>
-                    <li>降低成本并以更低的价格提供相似的产品和服务</li>
-                    <li>通过创造高的转换成本锁定消费者</li>
-                    <li>通过建立高进入壁垒把竞争者阻挡在外面</li>
-                </ul>
             </div>
             <div class="col-md-12">
                 <br>
@@ -327,6 +340,8 @@
     var brief_balance_sheet_url = "{{ url_for('stock.api_data_brief_balance_sheet', code=stock.code) }}";
     // asset structure
     var asset_structure_url = "{{ url_for('stock.api_data_asset_structure', code=stock.code) }}";
+    // 五力分析
+    var five_forces_url = "{{ url_for('stock.api_data_five_forces', code=stock.code) }}";
 
     function getDataAndPlotIncome(url, domId) {
         $.getJSON(url, function (data) {
@@ -382,6 +397,7 @@
 
         loadContentV2(brief_balance_sheet_url, "J_briefBalanceSheetTable");
         loadContentV2(asset_structure_url, "J_assetStructureTable");
+        loadContentV2(five_forces_url, "J_fiveForcesTable");
 
         // 成长性相关曲线图
         var revenue_url = "{{ url_for('stock.api_data_revenue', code=stock.code) }}";

@@ -1,0 +1,24 @@
+<table class="table table-bordered table-condensed">
+    <thead>
+        <tr>
+            <th class="text-center">报告期</th>
+            <th class="text-center">毛利率</th>
+            <th class="text-center">应收账款占比</th>
+            <th class="text-center">预收账款占比</th>
+            <th class="text-center">应付账款占比</th>
+            <th class="text-center">预付账款占比</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for item in items %}
+        <tr class="text-center">
+            <th class="text-center">{{ item.account_date }}</th>
+            <td>{{ item.gross_selling_ratio | round(2) }}</td>
+            <td>{{ item.account_receivable_ratio | round(2) }}</td>
+            <td>{{ item.pre_receivable_ratio | round(2) }}</td>
+            <td>{{ item.accounts_payable_ratio | round(2) }}</td>
+            <td>{{ item.pre_payment_ratio | round(2) }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>

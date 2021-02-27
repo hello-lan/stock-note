@@ -79,11 +79,11 @@ def api_data_asset_structure():
     code = request.args.get("code", type=str)
     limit = request.args.get("limit", 5, type=int)
     productive_assets = get_productive_assets(code, limit=limit)
-    balance = get_stock_balance_sheet(code, limit=limit)
+    balances = get_stock_balance_sheet(code, limit=limit)
     income_statement = get_stock_income_statement(code, limit=limit)
 
     tmp = defaultdict(dict)
-    for item in balance:
+    for item in balances:
         dt = item.account_date
         tmp[dt]["productive_asset_ratio"] = round(productive_assets[dt] / item.total_assets, 2)
     for item in income_statement:
@@ -97,10 +97,40 @@ def api_data_asset_structure():
         data.append(item)
     data.sort(key=itemgetter("account_date"), reverse=True)
     return jsonify({"message": "successful",
-                    "data": {
-                        "html": render_template("stock/tables/_asset_structure.html", items=data)
-                    }
+                    "data": {"html": render_template("stock/tables/_asset_structure.html", items=data)}
                 })
+
+
+@stock_bp.route("/api/data/five-forces", methods=["GET"])
+def api_data_five_forces():
+    code = request.args.get("code", type=str)
+    limit = request.args.get("limit", 5, type=int)
+
+    balances = get_stock_balance_sheet(code, limit=limit)
+    income_statement = get_stock_income_statement(code, limit=limit)
+    indicators = get_stock_indicators(code, limit=limit)
+
+    revenues = {item.account_date: item.total_revenue for item in income_statement}
+    gross_ratios = {item.account_date: item.gross_selling_rate * 0.01 for item in indicators}
+    
+    items = []
+    for bln in balances:
+        dt = bln.account_date
+        revenue = revenues.get(dt)
+        if not revenue:
+            continue
+        item = dict()
+        item["account_date"] = dt
+        item["account_receivable_ratio"] = bln.account_receivable / revenue
+        item["pre_payment_ratio"] = bln.pre_payment / revenue
+        item["accounts_payable_ratio"] = bln.accounts_payable / revenue
+        item["pre_receivable_ratio"] = bln.pre_receivable / revenue
+        item["gross_selling_ratio"] = gross_ratios.get(dt)
+        items.append(item)
+    return jsonify({"message": "successful",
+                    "data": {"html": render_template("stock/tables/_five_forces.html", items=items)}
+                })
+
 
 @stock_bp.route("/<code>/free-cashflow", methods=["GET"])
 def free_cashflow(code):

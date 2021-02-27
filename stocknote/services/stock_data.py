@@ -3,12 +3,14 @@ from stocknote.models.stock import (StockGroup, Stock, StockIndicators,
 from stocknote.extensions import db
 
 
-def get_stock_indicators(code):
-    indicators = StockIndicators.query \
-                .filter_by(code=code) \
-                .order_by(StockIndicators.account_date) \
-                .all()
-    return indicators
+def get_stock_indicators(code, limit=None):
+    q = StockIndicators.query \
+        .filter_by(code=code) \
+        .order_by(StockIndicators.account_date.desc())
+    if isinstance(limit, int):
+        return q.limit(limit).all()
+    else:
+        return q.all()
 
 
 def get_stock_balance_sheet(code, limit=None):
