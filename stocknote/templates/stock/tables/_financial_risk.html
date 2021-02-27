@@ -13,7 +13,7 @@
     <tbody>
         {% for item in indicators%}
         <tr class="text-center">
-            <td>{{ item.account_date }}</td>
+            <th class="text-center">{{ item.account_date }}</th>
             <td>{{ (item.asset_liab_ratio | round(2)) if item.asset_liab_ratio is number else "-" }}%</td>
             <td>{{ (item.currency_interest_liab_ratio | round(2)) if item.currency_interest_liab_ratio is number else "-" }}</td>
             <td>{{ (item.current_ratio | round(2)) if item.current_ratio is number else "-" }}</td>
