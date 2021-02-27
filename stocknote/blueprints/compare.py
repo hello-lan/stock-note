@@ -115,7 +115,9 @@ def api_data_revenues(group_id):
         "x_ticks": [d.strftime("%Y") for d in dates],
         "values": values
         }
-    return jsonify(code=200, message="success", data=data)
+    return jsonify({"message": "success",
+                    "data": {"echarts_lines": data}
+                })
 
 
 @compare_bp.route("/<int:group_id>/data/gross-profit-margins", methods=["GET"])
@@ -142,7 +144,9 @@ def api_data_gross_profit_margins(group_id):
         "x_ticks": [d.strftime("%Y") for d in dates],
         "values": values
         }
-    return jsonify(code=200, message="success", data=data)
+    return jsonify({"message": "success",
+                    "data": {"echarts_lines": data}
+                })
 
 
 @compare_bp.route("/<int:group_id>/data/net-profit-margins", methods=["GET"])
@@ -169,7 +173,9 @@ def api_data_net_profit_margins(group_id):
         "x_ticks": [d.strftime("%Y") for d in dates],
         "values": values
         }
-    return jsonify(code=200, message="success", data=data)
+    return jsonify({"message": "success",
+                    "data": {"echarts_lines": data}
+                })
 
 
 @compare_bp.route("/<int:group_id>/data/free-cashflow-to-revenue")
@@ -200,7 +206,9 @@ def api_data_free_cashflow_to_revenue(group_id):
         "x_ticks": [d.strftime("%Y") for d in dates],
         "values": values
         }
-    return jsonify(code=200, message="success", data=data)
+    return jsonify({"message": "success",
+                    "data": {"echarts_lines": data}
+                })
 
 
 @compare_bp.route("/<int:group_id>/data/roe")
@@ -227,7 +235,9 @@ def api_data_roe(group_id):
         "x_ticks": [d.strftime("%Y") for d in dates],
         "values": values
         }
-    return jsonify(code=200, message="success", data=data)
+    return jsonify({"message": "success",
+                    "data": {"echarts_lines": data}
+                })
 
 
 @compare_bp.route("/<int:group_id>/data/roa")
@@ -254,4 +264,6 @@ def api_data_roa(group_id):
         "x_ticks": [d.strftime("%Y") for d in dates],
         "values": values
         }
-    return jsonify(code=200, message="success", data=data)
+    return jsonify({"message": "success",
+                    "data": {"echarts_lines": data}
+                })
