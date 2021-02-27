@@ -1,0 +1,22 @@
+<table class="table table-bordered table-condensed">
+    <thead>
+        <tr>
+            <th class="text-center">报告期</th>
+            <th class="text-center">应收账款周转率</th>
+            <th class="text-center">存货周转率</th>
+            <th class="text-center">固定资产周转率</th>
+            <th class="text-center">总资产周转率</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for item in items %}
+        <tr class="text-center">
+            <th>{{ item.account_date }}</th>
+            <td>{{ item.accounts_receivable_turnover }}</td>
+            <td>{{ item.inventory_turnover }}</td>
+            <td>{{ item.fixed_asset_turnover_ratio }}</td>
+            <td>{{ item.total_capital_turnover }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>

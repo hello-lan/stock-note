@@ -236,6 +236,18 @@
         </div>
         <br>
         <div class="row">
+            <h5 class="text-success" id="OperationCapability"><i class="glyphicon glyphicon-refresh"></i> 营运能力</h5>
+            <hr><br>
+            <div class="col-md-12">
+                <div id="J_operationCapabilityTable"></div>
+            </div>
+            <div class="col-md-12">
+                <br>
+                <p class="text-left text-default"><a><i class="ri-message-3-line"></i> 分析笔记</a></p>
+            </div>
+        </div>       
+        <br>
+        <div class="row">
             <h5 class="text-success" id="financialRisk"><i class="glyphicon glyphicon-heart"></i> 财务风险</h5>
             <hr><br>
             <div class="col-md-12">
@@ -345,6 +357,8 @@
     var roe_analysis_url = "{{ url_for('stock.api_data_roe_analysis', code=stock.code) }}";
     // 五力分析
     var five_forces_url = "{{ url_for('stock.api_data_five_forces', code=stock.code) }}";
+    // 营运能力
+    var operation_capability_url = "{{ url_for('stock.api_data_operation_capability', code=stock.code) }}";
     // 财务健康指标表格
     var financial_risk_url = "{{ url_for('stock.api_data_financial_risk', code=stock.code) }}";
 
@@ -398,6 +412,7 @@
         loadContentV2(five_forces_url, "J_fiveForcesTable");
         loadContentV2(roe_analysis_url, "J_ROEAnalysisTable");
         loadContentV2(financial_risk_url, "J_financialRiskTable");
+        loadContentV2(operation_capability_url, "J_operationCapabilityTable");
 
         // 成长性相关曲线图
         var revenue_url = "{{ url_for('stock.api_data_revenue', code=stock.code) }}";

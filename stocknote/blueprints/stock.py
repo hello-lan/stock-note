@@ -192,6 +192,17 @@ def api_data_roe_analysis():
                 })
 
 
+@stock_bp.route("/api/data/operation-capability", methods=["GET"])
+def api_data_operation_capability():
+    code = request.args.get("code", type=str)
+    limit = request.args.get("limit", 10, type=int)
+    indicators = get_stock_indicators(code, limit=limit)
+
+    return jsonify({"message": "successful",
+                    "data": {"html": render_template("stock/tables/_turnover.html", items=indicators)}
+                })    
+
+
 @stock_bp.route("/<code>/income-percentage", methods=["GET"])
 def income_percentage(code):
     """百分率利润表
