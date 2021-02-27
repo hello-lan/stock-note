@@ -26,31 +26,40 @@ def stock_detail():
     return render_template("stock/_stock_index.html", stock=stock)
 
 
-@stock_bp.route("/<code>/basic-info", methods=["GET"])
-def basic_info(code):
+@stock_bp.route("/basic-info", methods=["GET"])
+def api_data_basic_info():
+    code = request.args.get("code", type=str)
     info = BasicInfo.query.filter_by(code=code).first()
     if info is None:
         info = {}
-    return render_template("stock/parts/_basic_info_table.html", info=info)
+    return jsonify({"message": "successful",
+                    "data": {"html": render_template("stock/tables/_basic_info.html", info=info)}
+                })
 
 
-@stock_bp.route("/<code>/basic-info/partial", methods=["GET"])
-def get_partial_basic_info(code):
+@stock_bp.route("/basic-info/partial", methods=["GET"])
+def api_data_partial_basic_info():
+    code = request.args.get("code", type=str)
+
     field = request.args.get("field", type=str)
     if field is None:
         return jsonify(message="未接收到请求参数.")
     info = BasicInfo.query.filter_by(code=code).first()
     desc = getattr(info, field, "")
-    return jsonify(message="success", desc=desc)
+    return jsonify({"message": "success",
+                    "data": {"desc": desc}
+                })
 
 
-@stock_bp.route("/<code>/basic-info/edit", methods=["PATCH"])
-def edit_basic_info(code):
+@stock_bp.route("/basic-info/edit", methods=["PATCH"])
+def api_op_edit_basic_info():
     data = request.get_json()
-    if "field" not in data:
-        return jsonify(message="未接收到请求参数.")
-    value = data["value"]
-    field = data["field"]
+    try:
+        code = data["code"]
+        field = data["field"]
+        value = data["value"]
+    except:
+        return jsonify(message="未接收到完整的请求参数.")
     # fields = [field for field in BasicInfo.__dict__.keys() if not field.startswith("_")]
     info = BasicInfo.query.filter_by(code=code).first()
     if info is None:
@@ -58,7 +67,9 @@ def edit_basic_info(code):
     setattr(info, field, value)
     db.session.add(info)
     db.session.commit()
-    return jsonify(message="%s更新成功" % field)
+    return jsonify({"message": "%s更新成功" % field,
+                    "data": {}
+                    })
 
 
 @stock_bp.route("/api/data/brief-balance-sheet", methods=["GET"])
@@ -158,9 +169,12 @@ def free_cashflow(code):
     return render_template("stock/parts/_cashflow_table.html", cashflows=data)
 
 
-@stock_bp.route("/<code>/simple-dupont-analysis", methods=["GET"])
-def simple_dupont_analysis(code):
-    indicators = get_stock_indicators(code)
+@stock_bp.route("/api/data/roe-analysis", methods=["GET"])
+def api_data_roe_analysis():
+    code = request.args.get("code", type=str)
+    limit = request.args.get("limit", 10, type=int)
+
+    indicators = get_stock_indicators(code, limit=limit)
     items = []
     for indicator in indicators:
         item = dict()
@@ -172,7 +186,9 @@ def simple_dupont_analysis(code):
         items.append(item)
     items.sort(key=itemgetter("account_date"), reverse=True)
 
-    return render_template("stock/parts/_dupont_analysis_table.html", items=items)
+    return jsonify({"message": "successful",
+                    "data": {"html": render_template("stock/tables/_roe.html", items=items)}
+                })
 
 
 @stock_bp.route("/<code>/income-percentage", methods=["GET"])
@@ -293,9 +309,12 @@ def api_data_net_profit(code):
     return jsonify(income)
 
 
-@stock_bp.route("/<code>/data/profitablity", methods=["GET"])
-def api_data_profitablity(code):
-    indicators = get_stock_indicators(code)
+@stock_bp.route("/api/data/profitablity", methods=["GET"])
+def api_data_profitablity():
+    code = request.args.get("code", type=str)
+    limit = request.args.get("limit", 10, type=int)
+
+    indicators = get_stock_indicators(code, limit=limit)
     x_ticks = []
     mll, jll, roa, roe = [], [], [], []
     for item in indicators:
@@ -320,7 +339,9 @@ def api_data_profitablity(code):
             }
         }
 
-    return jsonify(code=200, message="success", data=data)
+    return jsonify({"message":"success",
+                    "data": {"echarts_lines": data}
+                })
 
 
 @stock_bp.route("/<code>/data/total-assets", methods=["GET"])

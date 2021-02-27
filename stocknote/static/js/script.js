@@ -336,7 +336,7 @@ function getDataAndPlotLines(data_url, domId){
         data: JSON.stringify({}),
         contentType: 'application/json;charset=UTF-8',
         success: function (response) {
-            var data = response.data;
+            var data = response.data.echarts_lines;
             var yLabel = data.y_label;
             var xTicks = data.x_ticks;
             var values = data.values;

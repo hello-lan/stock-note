@@ -2,7 +2,7 @@
 
 {% block breadcrumb %}
 <li>个股</li>
-<li class="active">{{stock.name}}</li>
+<li class="active" id="i_brc" data-code="{{ stock.code }}">{{stock.name}}</li>
 {% endblock %}
 
 {% block content_title %}
@@ -97,7 +97,7 @@
                 <ul class="nav nav-tabs" role="tablist">
                     <li role="presentation" class="active"><a href="#i_profitabilityIndicators"
                             aria-controls="i_profitabilityIndicators" role="tab" data-toggle="tab">盈利能力指标</a></li>
-                    <li role="presentation"><a href="#i_simpleDupontAnalysis" aria-controls="i_simpleDupontAnalysis"
+                    <li role="presentation"><a href="#i_ROEAnalysis" aria-controls="i_ROEAnalysis"
                             role="tab" data-toggle="tab">ROE分析</a></li>
                     <li role="presentation"><a href="#i_fiveForcesAnalysis" aria-controls="i_fiveForcesAnalysis"
                         role="tab" data-toggle="tab">五力分析</a></li>
@@ -122,8 +122,8 @@
                         </div>
                         <br>
                     </div>
-                    <div role="tabpanel" class="tab-pane" id="i_simpleDupontAnalysis">
-                        <div id="J_simpleDupontAnalysisTable"></div>
+                    <div role="tabpanel" class="tab-pane" id="i_ROEAnalysis">
+                        <div id="J_ROEAnalysisTable"></div>
                         <div class="alert alert-warning" role="alert">
                             <p class="text-center text-muted">净资产收益率(ROE) = 销售净利率 &times; 资产周转率 &times; 财务杠杆比率</p>
                             <br>
@@ -330,16 +330,16 @@
     var income_percentage_url = "{{ url_for('stock.income_percentage', code=stock.code) }}";
     // 自由现金流量表
     var free_cashflow_url = "{{ url_for('stock.free_cashflow', code=stock.code) }}";
-    // 简化版杜邦分析
-    var dupont_analysis_url = "{{ url_for('stock.simple_dupont_analysis', code=stock.code) }}";
     // 公司基本信息
-    var basic_info_url = "{{ url_for('stock.basic_info', code=stock.code) }}";
-    var basic_info_partial_url = "{{ url_for('stock.get_partial_basic_info', code=stock.code) }}";
-    var basic_info_edit_url = "{{ url_for('stock.edit_basic_info', code=stock.code) }}"
+    var basic_info_url = "{{ url_for('stock.api_data_basic_info', code=stock.code) }}";
+    var basic_info_partial_url = "{{ url_for('stock.api_data_partial_basic_info', code=stock.code) }}";
+    var basic_info_edit_url = "{{ url_for('stock.api_op_edit_basic_info') }}";
     // brief balance sheet
     var brief_balance_sheet_url = "{{ url_for('stock.api_data_brief_balance_sheet', code=stock.code) }}";
     // asset structure
     var asset_structure_url = "{{ url_for('stock.api_data_asset_structure', code=stock.code) }}";
+    // roe分析
+    var roe_analysis_url = "{{ url_for('stock.api_data_roe_analysis', code=stock.code) }}";
     // 五力分析
     var five_forces_url = "{{ url_for('stock.api_data_five_forces', code=stock.code) }}";
 
@@ -355,33 +355,34 @@
         var field = $(obj).attr("data-field");
         $("#i_editBasicInfoModalLabel").text(name);
         $("#i_basicInfoTextArea").attr("data-field", field);
-
+        
         $.ajax({
             type: 'GET',
             url: basic_info_partial_url,
-            data: { "field": field },
+            data: { "field": field},
             contentType: 'application/json;charset=UTF-8',
-            success: function (data) {
-                $("#i_basicInfoTextArea").val(data.desc);
+            success: function (response) {
+                $("#i_basicInfoTextArea").val(response.data.desc);
                 $("#i_editBasicInfoModal").modal("show");
             }
         });
-
+        
     }
-
+    
     function editBasicInfo() {
         var cont = $("#i_basicInfoTextArea").val();
         var field = $("#i_basicInfoTextArea").attr("data-field");
+        var code = $("#i_brc").attr("data-code");
 
-        var params = { "field": field, "value": cont };
+        var params = { "field": field, "value": cont, "code": code};
         $.ajax({
             type: 'PATCH',
             url: basic_info_edit_url,
             data: JSON.stringify(params),
             contentType: 'application/json;charset=UTF-8',
-            success: function (data) {
-                alert(data["message"]);
-                loadContent(basic_info_url, "J_basicInfoTable");
+            success: function (response) {
+                alert(response["message"]);
+                loadContentV2(basic_info_url, "J_basicInfoTable");
             }
         });
     }
@@ -392,12 +393,12 @@
         loadContent(financial_health_url, "J_financialHealthTable");
         loadContent(income_percentage_url, "J_incomePercentageTable");
         loadContent(free_cashflow_url, "J_freeCashFlowTable");
-        loadContent(dupont_analysis_url, "J_simpleDupontAnalysisTable");
-        loadContent(basic_info_url, "J_basicInfoTable");
-
+        
+        loadContentV2(basic_info_url, "J_basicInfoTable");
         loadContentV2(brief_balance_sheet_url, "J_briefBalanceSheetTable");
         loadContentV2(asset_structure_url, "J_assetStructureTable");
         loadContentV2(five_forces_url, "J_fiveForcesTable");
+        loadContentV2(roe_analysis_url, "J_ROEAnalysisTable");
 
         // 成长性相关曲线图
         var revenue_url = "{{ url_for('stock.api_data_revenue', code=stock.code) }}";
