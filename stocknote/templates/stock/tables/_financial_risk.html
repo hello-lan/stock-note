@@ -3,6 +3,7 @@
         <tr>
             <th class="text-center">报告期</th>
             <th class="text-center">资产负债率</th>
+            <th class="text-center">现金债务比</th>
             <th class="text-center">流动比率</th>
             <th class="text-center">速动比率</th>
             <th class="text-center">应收账款占收入</th>
@@ -14,10 +15,11 @@
         <tr class="text-center">
             <td>{{ item.account_date }}</td>
             <td>{{ (item.asset_liab_ratio | round(2)) if item.asset_liab_ratio is number else "-" }}%</td>
+            <td>{{ (item.currency_interest_liab_ratio | round(2)) if item.currency_interest_liab_ratio is number else "-" }}</td>
             <td>{{ (item.current_ratio | round(2)) if item.current_ratio is number else "-" }}</td>
             <td>{{ (item.quick_ratio | round(2)) if item.quick_ratio is number else "-" }}</td>
             <td>{{ (item.account_receivable_ratio | round(2)) if item.account_receivable_ratio is number else "-"}}</td>
-            <td>-</td>
+            <td>{{ (item.goodwill_ratio | round(2)) if item.goodwill_ratio is number else "-" }}</td>
         </tr>
         {% endfor %}
     </tbody>

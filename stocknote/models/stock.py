@@ -133,6 +133,7 @@ class StockBalanceSheet(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     code = db.Column(db.String(10), index=True, nullable=False)
     account_date = db.Column(db.Date, nullable=False, index=True, comment="报告期")
+    currency_funds = db.Column(db.Float, comment="货币现金")
     total_current_assets = db.Column(db.Float, comment="流动资产合计")
     total_noncurrent_assets = db.Column(db.Float, comment="非流动资产合计")
     total_assets = db.Column(db.Float, comment="资产总计")
@@ -152,4 +153,9 @@ class StockBalanceSheet(db.Model):
     inventory = db.Column(db.Float, comment="存货")
     accounts_payable = db.Column(db.Float, comment="应付账款")
     pre_receivable = db.Column(db.Float, comment="预收款项")
-    
+    goodwill = db.Column(db.Float, comment="商誉")
+    st_loan = db.Column(db.Float, comment="短期借款")
+    lt_loan = db.Column(db.Float, comment="长期借款")
+    bond_payable = db.Column(db.Float, comment="应付债券")
+    tradable_fnncl_liab = db.Column(db.Float, comment="交易性金融负债")
+    noncurrent_liab_due_in1y = db.Column(db.Float, comment="一年到期的非流动负债")

@@ -10,6 +10,7 @@ from stocknote.extensions import db
 from stocknote.services.stock_data import (get_stock_indicators, get_cashflow_revenue_ratios,
         get_account_receivable_ratio, get_stock_balance_sheet, get_productive_assets,
         get_stock_income_statement)
+from stocknote.utils.function import none_to_zeros
 
 
 stock_bp = Blueprint("stock", __name__)
@@ -214,25 +215,42 @@ def income_percentage(code):
     return render_template("stock/parts/_income_percentage_table.html", data=data)
 
 
-@stock_bp.route("/<code>/financial-health", methods=["GET"])
-def financial_health(code):
+@stock_bp.route("/api/data/financial-health", methods=["GET"])
+def api_data_financial_risk():
+    code = request.args.get("code", type=str)
+    limit = request.args.get("limit", 10, type=int)
+
     indicators = get_stock_indicators(code)
     account_receivable_ratios = get_account_receivable_ratio(code)
+    balances = get_stock_balance_sheet(code)
+
+    goodwill_ratios = dict()
+    currency_interest_liab_ratios = dict()
+    for bln in balances:
+        dt = bln.account_date
+        goodwill_ratios[dt] = none_to_zeros(bln.goodwill)/bln.total_holders_equity
+        interest_bearing_liab = none_to_zeros(bln.st_loan) + none_to_zeros(bln.lt_loan) + none_to_zeros(bln.bond_payable) \
+                            + none_to_zeros(bln.tradable_fnncl_liab) + none_to_zeros(bln.noncurrent_liab_due_in1y)  # 有息负债
+        currency_interest_liab_ratios[dt] = bln.currency_funds / interest_bearing_liab if interest_bearing_liab !=0 else float("inf")
+
     simple_indicators = []
     for item in indicators:
+        dt = item.account_date
         new_item = dict()
-        new_item["account_date"] = item.account_date 
+        new_item["account_date"] = dt 
         new_item["asset_liab_ratio"] = item.asset_liab_ratio   # 资产负债率
         new_item["equity_multiplier"] = item.equity_multiplier    # 权益乘数
         new_item["equity_ratio"] = item.equity_ratio      # 产权比率
         new_item["current_ratio"] = item.current_ratio    # 流动比率
         new_item["quick_ratio"] = item.quick_ratio        # 速动比率
-        new_item["number_of_times_interest_earned"] = "数据缺失"     # 已获利息倍数
-        new_item["account_receivable_ratio"] = account_receivable_ratios.get(item.account_date)  # 应收账款占收入
-        new_item["fixed_asset_ratio"] = "-"        # 固定资产占总资产比重
+        new_item["account_receivable_ratio"] = account_receivable_ratios.get(dt)  # 应收账款占收入
+        new_item["goodwill_ratio"] = goodwill_ratios.get(dt)
+        new_item["currency_interest_liab_ratio"] = currency_interest_liab_ratios.get(dt)
         simple_indicators.append(new_item)
     simple_indicators.sort(key=itemgetter("account_date"), reverse=True)
-    return render_template("stock/parts/_financial_health_table.html", indicators=simple_indicators)
+    return jsonify({"message": "successful",
+                    "data": {"html": render_template("stock/tables/_financial_risk.html", indicators=simple_indicators)}
+                })
 
 
 @stock_bp.route("/api/data/revenue", methods=["GET"])

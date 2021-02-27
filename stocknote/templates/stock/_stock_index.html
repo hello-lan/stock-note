@@ -236,10 +236,10 @@
         </div>
         <br>
         <div class="row">
-            <h5 class="text-success" id="health"><i class="glyphicon glyphicon-heart"></i> 财务健康</h5>
+            <h5 class="text-success" id="financialRisk"><i class="glyphicon glyphicon-heart"></i> 财务风险</h5>
             <hr><br>
             <div class="col-md-12">
-                <div id="J_financialHealthTable"></div>
+                <div id="J_financialRiskTable"></div>
             </div>
             <div class="col-md-12">
                 <div><a data-toggle="collapse" data-target="#i_finDesc">小贴士 <i class="ri-information-line"></i></a>
@@ -293,7 +293,7 @@
                 <li><a href="#competitiveEdge"> - 竞争优势</a></li>
                 <li><a href="#growth"> - 成长性</a></li>
                 <li><a href="#profitability"> - 收益性</a></li>
-                <li><a href="#health"> - 财务健康</a></li>
+                <li><a href="#financialRisk"> - 财务风险</a></li>
                 <li><a href="#risk"> - 潜在风险</a></li>
                 <li><a href="#valuation"> - 估值</a></li>
                 <li><a href="#note"> - 我的笔记</a></li>
@@ -329,8 +329,6 @@
 
 
 <script>
-    // 财务健康指标表格
-    var financial_health_url = "{{ url_for('stock.financial_health', code=stock.code) }}";
     // 百分率利润表
     var income_percentage_url = "{{ url_for('stock.income_percentage', code=stock.code) }}";
     // 自由现金流量表
@@ -347,6 +345,8 @@
     var roe_analysis_url = "{{ url_for('stock.api_data_roe_analysis', code=stock.code) }}";
     // 五力分析
     var five_forces_url = "{{ url_for('stock.api_data_five_forces', code=stock.code) }}";
+    // 财务健康指标表格
+    var financial_risk_url = "{{ url_for('stock.api_data_financial_risk', code=stock.code) }}";
 
     // 显示公司基本信息编辑框
     function showBasicInfoEditModal(obj) {
@@ -389,7 +389,6 @@
     $(function () {
         $('[data-toggle="popover"]').popover();   // 初始化bootstrap的弹出框
 
-        loadContent(financial_health_url, "J_financialHealthTable");
         loadContent(income_percentage_url, "J_incomePercentageTable");
         loadContent(free_cashflow_url, "J_freeCashFlowTable");
         
@@ -398,6 +397,7 @@
         loadContentV2(asset_structure_url, "J_assetStructureTable");
         loadContentV2(five_forces_url, "J_fiveForcesTable");
         loadContentV2(roe_analysis_url, "J_ROEAnalysisTable");
+        loadContentV2(financial_risk_url, "J_financialRiskTable");
 
         // 成长性相关曲线图
         var revenue_url = "{{ url_for('stock.api_data_revenue', code=stock.code) }}";
