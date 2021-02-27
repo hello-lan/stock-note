@@ -276,14 +276,26 @@
         </div>
         <br>
         <div class="row">
-            <h5 class="text-success" id="risk"><i class="glyphicon glyphicon-warning-sign"></i> 潜在风险</h5>
+            <h5 class="text-success" id="abnormalRisk"><i class="glyphicon glyphicon-warning-sign"></i> 异常风险</h5>
             <hr><br>
             <div class="col-md-12">
-                <p>买入股票之前，思考所有潜在的负面因素，这能帮助你在坏消息的苗头显露出来时做出更明智的决定。试着思考下：当你想买入的时候，为什么某些人更愿意卖出？</p>
+                <div id="J_abnormalDataTable"></div>
             </div>
             <div class="col-md-12">
-                <br>
-                <p class="text-left text-default"><a role="button"><i class="ri-message-3-line"></i> 分析笔记</a></p>
+                <div><a data-toggle="collapse" data-target="#i_abnormalDataReading">异常数据解读<i
+                    class="ri-information-line"></i></a>
+                </div>
+                <div id="i_abnormalDataReading" class="collapse">
+                    <br>
+                    <ul class="text-muted">
+                        <li><small>【资产减值损失】这个科目中包含了计提的坏账，企业可以通过大幅计提坏账，而第二年又转回来，从而在两个年度中调整利润</small></li>
+                        <li><small>【其他应收款】其他应收款并不是重要科目，但如果这个科目的金额特别大，则可能企业把说不清楚或方便入账的项目塞到了其他应收款里</small></li>
+                        <li><small>【存货】1. 有些公司会先过渡性地计提存货跌价准备，然后再把它们转回来，从而实现利润在不同年度的转移；2. 也有公司通过虚构商品采购流出资金，再将资金流回企业，虚增利润； 3.通过加大生产，降低单位产品的成本， 从而欺诈性地提升毛利率，虚增本期利润</small></li>
+                        <li><small>【在建工程】在建工程不需要计提折旧，如果一家公司在建工程数目巨大，持续多年不转入固定资产科目，也没有合理的解释，则可能有两种情况：1. 工程已完工，但公司为了避免折旧，美化利润，故意不将其转入固定资产；2. 有些公司通过在建工程将钱支付给了虚构或关联的承建人或供应商，再以采购本公司商品或服务的名义，变成营业收入流回公司。</small></li>
+                        <li><small>【应付职工薪酬】通过过度计提应付职工薪酬在两个不同年度之间重新分配利润</small></li>
+                    </ul>
+                    <p class="text-muted"><small>以上数据如果出现异常，需要一步阅读年报，探查原因，防止踩雷</small></p>
+                </div>
             </div>
         </div>
         <br>
@@ -305,8 +317,9 @@
                 <li><a href="#competitiveEdge"> - 竞争优势</a></li>
                 <li><a href="#growth"> - 成长性</a></li>
                 <li><a href="#profitability"> - 收益性</a></li>
+                <li><a href="#OperationCapability"> - 运营能力</a></li>
                 <li><a href="#financialRisk"> - 财务风险</a></li>
-                <li><a href="#risk"> - 潜在风险</a></li>
+                <li><a href="#abnormalRisk"> - 异常风险</a></li>
                 <li><a href="#valuation"> - 估值</a></li>
                 <li><a href="#note"> - 我的笔记</a></li>
             </ul>
@@ -361,6 +374,8 @@
     var operation_capability_url = "{{ url_for('stock.api_data_operation_capability', code=stock.code) }}";
     // 财务健康指标表格
     var financial_risk_url = "{{ url_for('stock.api_data_financial_risk', code=stock.code) }}";
+    // 异常数据
+    var abnormal_data_url = "{{ url_for('stock.api_data_abnormal_data', code=stock.code) }}";
 
     // 显示公司基本信息编辑框
     function showBasicInfoEditModal(obj) {
@@ -413,6 +428,7 @@
         loadContentV2(roe_analysis_url, "J_ROEAnalysisTable");
         loadContentV2(financial_risk_url, "J_financialRiskTable");
         loadContentV2(operation_capability_url, "J_operationCapabilityTable");
+        loadContentV2(abnormal_data_url, "J_abnormalDataTable");
 
         // 成长性相关曲线图
         var revenue_url = "{{ url_for('stock.api_data_revenue', code=stock.code) }}";

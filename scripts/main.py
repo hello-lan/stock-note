@@ -244,7 +244,9 @@ def add_balance(code):
                 lt_loan = item["lt_loan"][0],
                 bond_payable = item["bond_payable"][0],
                 tradable_fnncl_liab = item["tradable_fnncl_liab"][0],
-                noncurrent_liab_due_in1y = item["noncurrent_liab_due_in1y"][0],  
+                noncurrent_liab_due_in1y = item["noncurrent_liab_due_in1y"][0],
+                payroll_payable = item["payroll_payable"][0],
+                othr_receivables = item["othr_receivables"][0]
             )
             db.session.add(balance)
         db.session.commit()

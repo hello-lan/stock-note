@@ -152,6 +152,7 @@ class StockBalanceSheet(db.Model):
     pre_payment = db.Column(db.Float, comment="预付款项")
     inventory = db.Column(db.Float, comment="存货")
     accounts_payable = db.Column(db.Float, comment="应付账款")
+    othr_receivables = db.Column(db.Float, comment="其他应收款")
     pre_receivable = db.Column(db.Float, comment="预收款项")
     goodwill = db.Column(db.Float, comment="商誉")
     st_loan = db.Column(db.Float, comment="短期借款")
@@ -159,3 +160,4 @@ class StockBalanceSheet(db.Model):
     bond_payable = db.Column(db.Float, comment="应付债券")
     tradable_fnncl_liab = db.Column(db.Float, comment="交易性金融负债")
     noncurrent_liab_due_in1y = db.Column(db.Float, comment="一年到期的非流动负债")
+    payroll_payable = db.Column(db.Float, comment="应付职工薪酬")
