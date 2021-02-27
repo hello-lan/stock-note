@@ -241,6 +241,7 @@ def api_data_revenue():
     limit = request.args.get("limit", 10, type=int)
 
     indicators = get_stock_indicators(code, limit=limit)
+    indicators.sort(key=attrgetter("account_date"))
     x_labels = []
     values = []
     rates = []   # 同比
@@ -272,6 +273,7 @@ def api_data_net_profit_nrgal():
     limit = request.args.get("limit", 10, type=int)
 
     indicators = get_stock_indicators(code, limit=limit)
+    indicators.sort(key=attrgetter("account_date"))
     x_labels = []
     values = []
     rates = []   # 同比
@@ -301,6 +303,8 @@ def api_data_net_profit():
     limit = request.args.get("limit", 10, type=int)
 
     indicators = get_stock_indicators(code, limit=limit)
+    indicators.sort(key=attrgetter("account_date"))
+
     x_labels = []
     values = []
     rates = []
@@ -330,6 +334,8 @@ def api_data_profitablity():
     limit = request.args.get("limit", 10, type=int)
 
     indicators = get_stock_indicators(code, limit=limit)
+    indicators.sort(key=attrgetter("account_date"))
+
     x_ticks = []
     mll, jll, roa, roe = [], [], [], []
     for item in indicators:
@@ -365,6 +371,8 @@ def api_data_total_assets():
     limit = request.args.get("limit", 10, type=int)
 
     balances = get_stock_balance_sheet(code, limit=limit)
+    balances.sort(key=attrgetter("account_date"))
+
     x_labels = []
     values = []
     for item in balances:
@@ -372,10 +380,35 @@ def api_data_total_assets():
         values.append(float(item.total_assets))
 
     data = {
-        "XLabels": x_labels,
+        "xLabels": x_labels,
         "name": "总资产",
-        "values": values
+        "values": values,
     }
     return jsonify({"message": "successful",
                     "data": {"echarts_bar": data}
                 })
+
+
+@stock_bp.route("/api/data/holders_equity", methods=["GET"])
+def api_data_total_holders_equity():
+    code = request.args.get("code", type=str)
+    limit = request.args.get("limit", 10, type=int)
+
+    balances = get_stock_balance_sheet(code, limit=limit)
+    balances.sort(key=attrgetter("account_date"))
+
+    x_labels = []
+    values = []
+
+    for bln in balances:
+        x_labels.append(bln.account_date.strftime("%Y年报"))
+        values.append(float(bln.total_holders_equity))        
+
+    holders_equity = {
+        "xLabels": x_labels,
+        "name": "净资产",
+        "values": values,
+    }
+
+    return jsonify({"message": "successful",
+                    "data": {"echarts_bar": holders_equity}})

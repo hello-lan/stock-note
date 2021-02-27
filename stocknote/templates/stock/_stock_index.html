@@ -172,8 +172,10 @@
                             data-toggle="tab">净利润</a></li>
                     <li role="presentation"><a href="#i_growthNetProfitNrgal" aria-controls="i_growthNetProfitNrgal"
                             role="tab" data-toggle="tab">扣非净利润</a></li>
+                    <li role="presentation"><a href="#i_totalHoldersEquity" aria-controls="i_totalHoldersEquity"
+                            role="tab" data-toggle="tab">净资产</a></li>
                     <li role="presentation"><a href="#i_totalAssets" aria-controls="i_totalAssets"
-                            role="tab" data-toggle="tab">总资产</a></li>
+                        role="tab" data-toggle="tab">总资产</a></li>
                 </ul>
                 <br>
                 <!-- Tab panes -->
@@ -186,6 +188,9 @@
                     </div>
                     <div role="tabpanel" class="tab-pane" id="i_growthNetProfitNrgal">
                         <div id="J_growthNetProfitNrgalChart" style="width: 600px;height:300px;"></div>
+                    </div>
+                    <div role="tabpanel" class="tab-pane" id="i_totalHoldersEquity">
+                        <div id="J_totalHoldersEquityChart" style="width: 600px;height:300px;"></div>
                     </div>
                     <div role="tabpanel" class="tab-pane" id="i_totalAssets">
                         <div id="J_totalAssetsChart" style="width: 600px;height:300px;"></div>
@@ -398,11 +403,13 @@
         var revenue_url = "{{ url_for('stock.api_data_revenue', code=stock.code) }}";
         var net_profit_nrgal_url = "{{ url_for('stock.api_data_net_profit_nrgal', code=stock.code) }}";
         var net_profit_url = "{{ url_for('stock.api_data_net_profit', code=stock.code) }}";
+        var total_holders_equity_url = "{{ url_for('stock.api_data_total_holders_equity', code=stock.code) }}";
         var total_assets_url = "{{ url_for('stock.api_data_total_assets', code=stock.code) }}";
 
         getDataAndPlotBar(revenue_url, "J_growthRevenueChart");
         getDataAndPlotBar(net_profit_nrgal_url, "J_growthNetProfitNrgalChart");
         getDataAndPlotBar(net_profit_url, "J_growthNetProfitChart");
+        getDataAndPlotBar(total_holders_equity_url, "J_totalHoldersEquityChart");
         getDataAndPlotBar(total_assets_url, "J_totalAssetsChart");
 
         // 盈利能力相关曲线图
