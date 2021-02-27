@@ -133,10 +133,10 @@ def api_data_five_forces():
             continue
         item = dict()
         item["account_date"] = dt
-        item["account_receivable_ratio"] = bln.account_receivable / revenue
-        item["pre_payment_ratio"] = bln.pre_payment / revenue
-        item["accounts_payable_ratio"] = bln.accounts_payable / revenue
-        item["pre_receivable_ratio"] = bln.pre_receivable / revenue
+        item["account_receivable_ratio"] = none_to_zeros(bln.account_receivable) / revenue
+        item["pre_payment_ratio"] = none_to_zeros(bln.pre_payment) / revenue
+        item["accounts_payable_ratio"] = none_to_zeros(bln.accounts_payable) / revenue
+        item["pre_receivable_ratio"] = none_to_zeros(bln.pre_receivable) / revenue
         item["gross_selling_ratio"] = gross_ratios.get(dt)
         items.append(item)
     return jsonify({"message": "successful",
