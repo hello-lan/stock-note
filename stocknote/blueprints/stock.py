@@ -315,7 +315,7 @@ def api_data_net_profit_nrgal():
                 })
 
 
-@stock_bp.route("/data/net-profit", methods=["GET"])
+@stock_bp.route("/api/data/net-profit", methods=["GET"])
 def api_data_net_profit():
     code = request.args.get("code", type=str)
     limit = request.args.get("limit", 10, type=int)
