@@ -284,7 +284,7 @@ def api_data_abnormal_data():
         item["payroll_payable"] = bln.payroll_payable
         item["asset_impairment_loss"] = losses.get(dt)
         items.append(item)
-    items.sort(key=itemgetter("account_date"))
+    items.sort(key=itemgetter("account_date"), reverse=True)
 
     return jsonify({"message": "successful",
                     "data": {"html": render_template("stock/tables/_abnormal_data.html", items=items)}
