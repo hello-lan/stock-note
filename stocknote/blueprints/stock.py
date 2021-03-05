@@ -203,11 +203,14 @@ def api_data_operation_capability():
                 })    
 
 
-@stock_bp.route("/<code>/income-percentage", methods=["GET"])
-def income_percentage(code):
+@stock_bp.route("/api/data/income-percentage", methods=["GET"])
+def api_data_income_percentage():
     """百分率利润表
     """
-    q = StockIncomeStatement.query.filter_by(code=code).order_by(StockIncomeStatement.account_date.desc())
+    code = request.args.get("code", type=str)
+    limit = request.args.get("limit", 10, type=int)
+    q = get_stock_income_statement(code, limit=limit)
+
     data = []
     for item in q:
         revenue = item.revenue
@@ -223,7 +226,9 @@ def income_percentage(code):
         new_item["sales_fee"] = 100 * item.sales_fee / revenue
         new_item["financing_expenses"] = 100 * item.financing_expenses / revenue if item.financing_expenses is not None else 0
         data.append(new_item)
-    return render_template("stock/parts/_income_percentage_table.html", data=data)
+    return jsonify({"message": "successful",
+                    "data": {"html": render_template("stock/tables/_income_percentage.html", data=data)}
+                })
 
 
 @stock_bp.route("/api/data/financial-health", methods=["GET"])

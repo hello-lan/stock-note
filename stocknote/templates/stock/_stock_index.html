@@ -108,6 +108,7 @@
                     <li role="presentation"><a href="#i_freeCashFlow" aria-controls="i_freeCashFlow" role="tab"
                             data-toggle="tab">历史自由现金流</a></li>
                 </ul>
+                <br>
                 <!-- Tab panes -->
                 <div class="tab-content">
                     <div role="tabpanel" class="tab-pane active" id="i_profitabilityIndicators">
@@ -342,7 +343,7 @@
 
 <script>
     // 百分率利润表
-    var income_percentage_url = "{{ url_for('stock.income_percentage', code=stock.code) }}";
+    var income_percentage_url = "{{ url_for('stock.api_data_income_percentage', code=stock.code) }}";
     // 自由现金流量表
     var free_cashflow_url = "{{ url_for('stock.free_cashflow', code=stock.code) }}";
     // 公司基本信息
@@ -405,7 +406,6 @@
     $(function () {
         $('[data-toggle="popover"]').popover();   // 初始化bootstrap的弹出框
 
-        loadContent(income_percentage_url, "J_incomePercentageTable");
         loadContent(free_cashflow_url, "J_freeCashFlowTable");
         
         loadContentV2(basic_info_url, "J_basicInfoTable");
@@ -413,6 +413,7 @@
         loadContentV2(asset_structure_url, "J_assetStructureTable");
         loadContentV2(five_forces_url, "J_fiveForcesTable");
         loadContentV2(roe_analysis_url, "J_ROEAnalysisTable");
+        loadContentV2(income_percentage_url, "J_incomePercentageTable");
         loadContentV2(financial_risk_url, "J_financialRiskTable");
         loadContentV2(operation_capability_url, "J_operationCapabilityTable");
         loadContentV2(abnormal_data_url, "J_abnormalDataTable");
