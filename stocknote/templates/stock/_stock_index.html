@@ -262,7 +262,7 @@
         </div>
         <br>
         <div class="row">
-            <h5 class="text-success" id="abnormalRisk"><i class="glyphicon glyphicon-warning-sign"></i> 异常风险</h5>
+            <h5 class="text-success" id="abnormalRisk"><i class="glyphicon glyphicon-warning-sign"></i> 排雷</h5>
             <hr><br>
             <div class="col-md-12">
                 <div id="J_abnormalDataTable"></div>
@@ -284,6 +284,9 @@
                         <p>以上数据如果出现异常，需要一步阅读年报，探查原因，防止踩雷</p>
                     </small>
                 </div>
+            </div>
+            <div class="col-md-12">
+                <div id="J_warningCurrencyFunds"></div>
             </div>
         </div>
         <br>
@@ -307,7 +310,7 @@
                 <li><a href="#profitability"> - 收益性</a></li>
                 <li><a href="#OperationCapability"> - 运营能力</a></li>
                 <li><a href="#financialRisk"> - 财务风险</a></li>
-                <li><a href="#abnormalRisk"> - 异常风险</a></li>
+                <li><a href="#abnormalRisk"> - 排雷</a></li>
                 <li><a href="#valuation"> - 估值</a></li>
                 <li><a href="#note"> - 我的笔记</a></li>
             </ul>
@@ -364,6 +367,7 @@
     var financial_risk_url = "{{ url_for('stock.api_data_financial_risk', code=stock.code) }}";
     // 异常数据
     var abnormal_data_url = "{{ url_for('stock.api_data_abnormal_data', code=stock.code) }}";
+    var warning_currency_funds_url = "{{ url_for('stock.api_data_warning_currency_funds', code=stock.code) }}";
 
     // 显示公司基本信息编辑框
     function showBasicInfoEditModal(obj) {
@@ -417,6 +421,7 @@
         loadContentV2(financial_risk_url, "J_financialRiskTable");
         loadContentV2(operation_capability_url, "J_operationCapabilityTable");
         loadContentV2(abnormal_data_url, "J_abnormalDataTable");
+        loadContentV2(warning_currency_funds_url, "J_warningCurrencyFunds")
 
         // 成长性相关曲线图
         var revenue_url = "{{ url_for('stock.api_data_revenue', code=stock.code) }}";

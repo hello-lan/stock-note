@@ -5,7 +5,7 @@ from stocknote.models.stock import (StockGroup, Stock, StockIndicators,
 from stocknote.extensions import db
 
 
-@lru_cache(maxsize=5)
+@lru_cache(maxsize=1)
 def get_stock_indicators(code, limit=None):
     q = StockIndicators.query \
         .filter_by(code=code) \
@@ -16,7 +16,7 @@ def get_stock_indicators(code, limit=None):
         return q.all()
 
 
-@lru_cache(maxsize=5)
+@lru_cache(maxsize=1)
 def get_stock_balance_sheet(code, limit=None):
     q = StockBalanceSheet.query  \
         .filter_by(code=code)  \
@@ -27,7 +27,7 @@ def get_stock_balance_sheet(code, limit=None):
         return q.all()
 
 
-@lru_cache(maxsize=5)
+@lru_cache(maxsize=1)
 def get_stock_income_statement(code, limit=None):
     q = StockIncomeStatement.query  \
         .filter_by(code=code)  \

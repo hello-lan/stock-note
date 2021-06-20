@@ -1,0 +1,36 @@
+<div><p><a data-toggle="collapse" data-target="#i_warningCurrencyFundsNote">货币现金<i
+    class="ri-information-line"></i></a></p>
+</div>
+<div id="i_warningCurrencyFundsNote" class="collapse text-muted">
+    <small>
+        <p>值得怀疑的货币资金，其典型特征有三种：1)高现金，高负债；2)高现金，高规模；3)高现金，高紧张</p>
+        <ul class="list-unstyled">
+            <li>【高现金】通常货币资金占总资产的比例超过20%视为“高现金”。对高现金需要先分析其是否与定增募资有关？是否内保外贷，吃利息差？是否境外资金，期末集中汇款？否则需要警惕！！</li>
+            <li>【高负债】一般指资产负债率超过70%。在高负债的情况下还保有高额现金及高额的财务费用势必对上市公司净利润造成很大的影响。</li>
+            <li>【高规模】指的是上市公司的期末货币资金超过当期营业收入。高额货币资金不去做理财投资且利息收入偏低，其货币资金保有动机存疑。</li>
+            <li>【高紧张】指的是控股股东现金流紧张且大比例质押股权，而上市公司虽盈利客观且具备分红条件，却长期未有高比例分红，这也值得令人着重怀疑。</li>
+        </ul>
+    </small>
+</div>
+<table class="table table-bordered table-condensed">
+    <thead>
+        <tr>
+            <th class="text-center">报告期</th>
+            <th class="text-center">货币资金</th>
+            <th class="text-center">货币资金/总资产</th>
+            <th class="text-center">资产负债率</th>
+            <th class="text-center">货币现金/营业收入</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for item in items %}
+        <tr class="text-center">
+            <th class="text-center">{{ item.account_date }}</th>
+            <td>{{ item.currency_funds }}</td>
+            <td>{{ item.crcfnd_assets_ratio | round(3) }}</td>
+            <td>{{ item.asset_liab_ratio | round(3) }}</td>
+            <td>{{ item.crcfnd_revenue_ratio | round(3) }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>

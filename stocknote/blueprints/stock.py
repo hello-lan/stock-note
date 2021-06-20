@@ -473,3 +473,31 @@ def api_data_total_holders_equity():
 
     return jsonify({"message": "successful",
                     "data": {"echarts_bar": holders_equity}})
+
+
+## 排雷
+@stock_bp.route("/api/data/warning/currency_funds", methods=["GET"])
+def api_data_warning_currency_funds():
+    """ 货币资金排雷
+    """
+    code = request.args.get("code", type=str)
+    limit = request.args.get("limit", 5, type=int)
+
+    income_statement = get_stock_income_statement(code, limit=limit)
+    balances = get_stock_balance_sheet(code, limit=limit)
+
+    revenues = {item.account_date: item.total_revenue for item in income_statement}
+    items = []
+    for bl in balances:
+        item = {}
+        item["account_date"] = bl.account_date
+        item["currency_funds"] = bl.currency_funds
+        item["crcfnd_assets_ratio"] = bl.currency_funds / bl.total_assets
+        item["asset_liab_ratio"] = bl.total_liab / bl.total_assets
+        item["crcfnd_revenue_ratio"] = bl.currency_funds /  revenues.get(bl.account_date)
+        items.append(item)     
+
+    items.sort(key=itemgetter("account_date"), reverse=True)
+    return jsonify({"message":"successful",
+                    "data": {"html": render_template("stock/tables/_warning_currency_funds.html", items=items)}
+                    })

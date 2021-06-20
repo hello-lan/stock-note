@@ -24,6 +24,7 @@ def create_app(config_name=None):
     register_blueprints(app)
     register_commands(app)
     register_errors(app)
+    register_jinjia2_filter(app)
     return app
 
 
@@ -85,3 +86,15 @@ def register_commands(app):
             click.echo('Drop tables.')
         db.create_all()
         click.echo('Initialized database.')
+
+
+def register_jinjia2_filter(app):
+    """ 自定义jinjia2过滤器
+    """
+    @app.template_filter("round")
+    def round_ignore_none(value, precision=2, filled_value="-"):
+        if value is None:
+            return filled_value
+        else:
+            return round(value, precision)
+
