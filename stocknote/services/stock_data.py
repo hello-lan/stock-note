@@ -68,6 +68,22 @@ def get_account_receivable_ratio(code):
             ratiors[d] = b.account_receivable / total_revenue
     return ratiors
 
+def get_bills_receivable_ratio(code):
+    """ 应收票据占收入
+    """
+    ratiors = dict()
+    balances = get_stock_balance_sheet(code)
+    indicators = get_stock_indicators(code)
+    total_revenues = {indicator.account_date: indicator.total_revenue for indicator in indicators}
+    for b in balances:
+        d = b.account_date
+        total_revenue = total_revenues.get(d)
+        if total_revenue is None:
+            ratiors[d] = None
+        else:
+            ratiors[d] = b.bills_receivable / total_revenue
+    return ratiors
+
 
 def get_productive_assets(code, limit=None):
     """生产资产 = 固定资产 + 在建工程 + 生产物资

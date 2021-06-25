@@ -9,7 +9,7 @@ from stocknote.models.note import BasicInfo
 from stocknote.extensions import db
 from stocknote.services.stock_data import (get_stock_indicators, get_cashflow_revenue_ratios,
         get_account_receivable_ratio, get_stock_balance_sheet, get_productive_assets,
-        get_stock_income_statement)
+        get_stock_income_statement, get_bills_receivable_ratio)
 from stocknote.utils.function import none_to_zeros
 
 
@@ -501,3 +501,35 @@ def api_data_warning_currency_funds():
     return jsonify({"message":"successful",
                     "data": {"html": render_template("stock/tables/_warning_currency_funds.html", items=items)}
                     })
+
+@stock_bp.route("/api/data/warning/account_receivable", methods=["GET"])
+def api_data_warning_account_receivable():
+    """ 应收票据排雷
+    """
+    code = request.args.get("code", type=str)
+    limit = request.args.get("limit", 5, type=int)
+
+    balances = get_stock_balance_sheet(code, limit=limit)
+    indicatos = get_stock_indicators(code, limit=limit)
+    actdt_to_rcvb_turnover_days = {ind.account_date:ind.receivable_turnover_days for ind in indicatos}
+
+    ac_ratios = get_account_receivable_ratio(code)
+    bc_ratios = get_bills_receivable_ratio(code)
+    items = []
+    for bl in balances:
+        item = {}
+        act_dt = bl.account_date
+        item["account_date"] = act_dt
+        item["act_rcvb_ratio"] = ac_ratios.get(act_dt)
+        item["bills_rcvb_ratio"] = bc_ratios.get(act_dt)
+        item["bills_rcvb"] = bl.bills_receivable
+        item["bill_payable"] = bl.bill_payable
+        item["act_rcvb_turnover_days"] = actdt_to_rcvb_turnover_days.get(act_dt)
+        item["othr_rcvb_ratio"] = bl.othr_receivables / bl.total_assets if isinstance(bl.othr_receivables, float) else None
+        items.append(item)
+    items.sort(key=itemgetter("account_date"), reverse=True)
+    return jsonify({"message": "successful",
+                    "data": {"html": render_template("stock/tables/_warning_account_receivable.html", items=items)}
+                    })
+
+
