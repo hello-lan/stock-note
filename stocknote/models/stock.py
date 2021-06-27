@@ -160,6 +160,7 @@ class StockBalanceSheet(db.Model):
     st_loan = db.Column(db.Float, comment="短期借款")
     lt_loan = db.Column(db.Float, comment="长期借款")
     bond_payable = db.Column(db.Float, comment="应付债券")
+    tradable_fnncl_assets = db.Column(db.Float, comment="交易性金融资产")
     tradable_fnncl_liab = db.Column(db.Float, comment="交易性金融负债")
     noncurrent_liab_due_in1y = db.Column(db.Float, comment="一年到期的非流动负债")
     payroll_payable = db.Column(db.Float, comment="应付职工薪酬")

@@ -291,6 +291,9 @@
             <div class="col-md-12">
                 <div id="J_warningAccountReceivable"></div>
             </div>
+            <div class="col-md-12">
+                <div id="J_warningOtherAssets"></div>
+            </div>
         </div>
         <br>
         <div class="row">
@@ -372,6 +375,7 @@
     var abnormal_data_url = "{{ url_for('stock.api_data_abnormal_data', code=stock.code) }}";
     var warning_currency_funds_url = "{{ url_for('stock.api_data_warning_currency_funds', code=stock.code) }}";
     var warning_account_receivable_url = "{{ url_for('stock.api_data_warning_account_receivable', code=stock.code) }}";
+    var warning_other_assets_url = "{{ url_for('stock.api_data_warning_other_assets', code=stock.code) }}";
 
     // 显示公司基本信息编辑框
     function showBasicInfoEditModal(obj) {
@@ -427,6 +431,7 @@
         loadContentV2(abnormal_data_url, "J_abnormalDataTable");
         loadContentV2(warning_currency_funds_url, "J_warningCurrencyFunds")
         loadContentV2(warning_account_receivable_url, "J_warningAccountReceivable")
+        loadContentV2(warning_other_assets_url, "J_warningOtherAssets")
 
         // 成长性相关曲线图
         var revenue_url = "{{ url_for('stock.api_data_revenue', code=stock.code) }}";

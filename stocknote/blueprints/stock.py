@@ -533,3 +533,31 @@ def api_data_warning_account_receivable():
                     })
 
 
+@stock_bp.route("/api/data/warning/other_assets", methods=["GET"])
+def api_data_warning_other_assets():
+    """排雷--存货、交易性金融资产、固定资产、在建工程
+    """
+    code = request.args.get("code", type=str)
+    limit = request.args.get("limit", 10, type=int)
+
+    balances = get_stock_balance_sheet(code, limit=limit)
+    indicatos = get_stock_indicators(code, limit=limit)
+
+    act_dt_to_fixed_asset_trunover_ratio = {ind.account_date:ind.fixed_asset_turnover_ratio for ind in indicatos}
+    act_dt_to_inventory_turnover_days = {ind.account_date:ind.inventory_turnover_days for ind in indicatos}
+
+    items = []
+    for bl in balances:
+        item = {}
+        act_dt = bl.account_date
+        item["account_date"] = bl.account_date
+        item["inventory_ratio"] =  bl.inventory / bl.total_assets if isinstance(bl.inventory, float) else None
+        item["construction_in_process_ratio"] = bl.construction_in_process / bl.total_assets if isinstance(bl.construction_in_process, float) else None
+        item["tradable_fnncl_assets_ratio"] = bl.tradable_fnncl_assets / bl.total_assets if isinstance(bl.tradable_fnncl_assets, float) else None
+        item["fixed_asset_turnover_ratio"] = act_dt_to_fixed_asset_trunover_ratio.get(act_dt)
+        item["inventory_turnover_days"] = act_dt_to_inventory_turnover_days.get(act_dt)
+        items.append(item)
+    items.sort(key=itemgetter("account_date"), reverse=True)
+    return jsonify({"message": "successful",
+                    "data": {"html": render_template("stock/tables/_warning_other_assets.html", items=items)}
+                    })

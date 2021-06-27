@@ -1,0 +1,41 @@
+<div><p><a data-toggle="collapse" data-target="#i_warningAssets">存货、固定资产、在建工程、交易性金融资产<i
+    class="ri-information-line"></i></a></p>
+</div>
+<div id="i_warningAssets" class="collapse text-muted">
+    <small>
+        <ul class="list-unstyled">
+            <li>【存货】1. 有些公司会先过渡性地计提存货跌价准备，然后再把它们转回来，从而实现利润在不同年度的转移；2. 也有公司通过虚构商品采购流出资金，再将资金流回企业，虚增利润； 3.通过加大生产，降低单位产品的成本， 从而欺诈性地提升毛利率，虚增本期利润</li>
+            <li>【存货周转天数】与同行对比。出于谨慎的目的，需要考虑存货的明细，通过仔细分析上市公司所在行业的特点判断存货中哪一项构成更重要。综合判断公司的存货周转天数的优劣。</li>
+            <li>【交易性金融资产】交易性金融资产主要是指股票、债券、基金等可以短期获利的资产，若其在总资产中占比比较高，可能对上市公司损益造成较大的影响，那么我们还要判断上市公司所持有的证券等资产的未来行情</li>
+            <li>【固定资产】与同行或自身往期比较，这个数值过低，可能意味这公司资产利用效率偏低；这个数值过高，可能意味这公司产品质量难以得到有效的保障，此种情况下，公司产品往往还会有比较低的毛利率。此外，固定资产周转率过低或过高可能分别意味着固定资产或营业收入的虚增（需要做进一步的深入分析）</li>
+            <li>【在建工程】应尤为关注项目进度与转固情况。项目进度缓慢，远未按预定日程完工，除了正常的解释以外，还有可能与募投资金挪作他用有关，或是为了发挥在建工程利息资本化的优势降低上市公司当期财务费用。若在此基础上毫不转固，那么就有可能是为了减少当期固定资产折旧。</li>
+        </ul>
+    </small>
+</div>
+<table class="table table-bordered table-condensed">
+    <thead>
+        <tr>
+            <th class="text-center">报告期</th>
+            <th class="text-center">存货/总资产</th>
+            <th class="text-center">存货周转天数</th>
+            <th class="text-center">固定资产周转率</th>
+            <th class="text-center">在建工程/总资产</th>
+            <th class="text-center">交易性金融资产/总资产</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for item in items %}
+        <tr class="text-center">
+            <th class="text-center">{{ item.account_date }}</th>
+            <td>{{ item.inventory_ratio | round(3) }}</td>
+            <td>{{ item.inventory_turnover_days | round(2) }}</td>
+            <td>{{ item.fixed_asset_turnover_ratio | round(2) }}</td>
+            <td>{{ item.construction_in_process_ratio | round(3) }}</td>
+            <td>{{ item.tradable_fnncl_assets_ratio | round(3) }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+
+<br>
