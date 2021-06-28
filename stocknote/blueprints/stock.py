@@ -269,33 +269,6 @@ def api_data_financial_risk():
                 })
 
 
-@stock_bp.route("/api/data/abnormal-data", methods=["GET"])
-def api_data_abnormal_data():
-    code = request.args.get("code", type=str)
-    limit = request.args.get("limit", 10, type=int)
-
-    income_statement = get_stock_income_statement(code, limit=limit)
-    balances = get_stock_balance_sheet(code, limit=limit)
-
-    losses = {icm.account_date: none_to_zeros(icm.asset_impairment_loss) for icm in income_statement}
-    items = []
-    for bln in balances:
-        item = dict()
-        dt = bln.account_date
-        item["account_date"] = dt
-        item["construction_in_process"] = bln.construction_in_process
-        item["inventory"] = bln.inventory
-        item["othr_receivables"] = bln.othr_receivables
-        item["payroll_payable"] = bln.payroll_payable
-        item["asset_impairment_loss"] = losses.get(dt)
-        items.append(item)
-    items.sort(key=itemgetter("account_date"), reverse=True)
-
-    return jsonify({"message": "successful",
-                    "data": {"html": render_template("stock/tables/_abnormal_data.html", items=items)}
-                })
-
-
 @stock_bp.route("/api/data/revenue", methods=["GET"])
 def api_data_revenue():
     code = request.args.get("code", type=str)

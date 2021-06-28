@@ -265,27 +265,6 @@
             <h5 class="text-success" id="abnormalRisk"><i class="glyphicon glyphicon-warning-sign"></i> 排雷</h5>
             <hr><br>
             <div class="col-md-12">
-                <div id="J_abnormalDataTable"></div>
-            </div>
-            <div class="col-md-12">
-                <div><a data-toggle="collapse" data-target="#i_abnormalDataReading">异常数据解读<i
-                    class="ri-information-line"></i></a>
-                </div>
-                <br>
-                <div id="i_abnormalDataReading" class="collapse text-muted">
-                    <small>
-                        <ul>
-                            <li>【资产减值损失】这个科目中包含了计提的坏账，企业可以通过大幅计提坏账，而第二年又转回来，从而在两个年度中调整利润</li>
-                            <li>【其他应收款】其他应收款并不是重要科目，但如果这个科目的金额特别大，则可能企业把说不清楚或方便入账的项目塞到了其他应收款里</li>
-                            <li>【存货】1. 有些公司会先过渡性地计提存货跌价准备，然后再把它们转回来，从而实现利润在不同年度的转移；2. 也有公司通过虚构商品采购流出资金，再将资金流回企业，虚增利润； 3.通过加大生产，降低单位产品的成本， 从而欺诈性地提升毛利率，虚增本期利润</li>
-                            <li>【在建工程】在建工程不需要计提折旧，如果一家公司在建工程数目巨大，持续多年不转入固定资产科目，也没有合理的解释，则可能有两种情况：1. 工程已完工，但公司为了避免折旧，美化利润，故意不将其转入固定资产；2. 有些公司通过在建工程将钱支付给了虚构或关联的承建人或供应商，再以采购本公司商品或服务的名义，变成营业收入流回公司。</li>
-                            <li>【应付职工薪酬】通过过度计提应付职工薪酬在两个不同年度之间重新分配利润</li>
-                        </ul>
-                        <p>以上数据如果出现异常，需要一步阅读年报，探查原因，防止踩雷</p>
-                    </small>
-                </div>
-            </div>
-            <div class="col-md-12">
                 <div id="J_warningCurrencyFunds"></div>
             </div>
             <div class="col-md-12">
@@ -372,7 +351,6 @@
     // 财务健康指标表格
     var financial_risk_url = "{{ url_for('stock.api_data_financial_risk', code=stock.code) }}";
     // 异常数据
-    var abnormal_data_url = "{{ url_for('stock.api_data_abnormal_data', code=stock.code) }}";
     var warning_currency_funds_url = "{{ url_for('stock.api_data_warning_currency_funds', code=stock.code) }}";
     var warning_account_receivable_url = "{{ url_for('stock.api_data_warning_account_receivable', code=stock.code) }}";
     var warning_other_assets_url = "{{ url_for('stock.api_data_warning_other_assets', code=stock.code) }}";
@@ -428,7 +406,6 @@
         loadContentV2(income_percentage_url, "J_incomePercentageTable");
         loadContentV2(financial_risk_url, "J_financialRiskTable");
         loadContentV2(operation_capability_url, "J_operationCapabilityTable");
-        loadContentV2(abnormal_data_url, "J_abnormalDataTable");
         loadContentV2(warning_currency_funds_url, "J_warningCurrencyFunds")
         loadContentV2(warning_account_receivable_url, "J_warningAccountReceivable")
         loadContentV2(warning_other_assets_url, "J_warningOtherAssets")
