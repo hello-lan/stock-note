@@ -167,7 +167,7 @@ def free_cashflow(code):
         pre_cf = item.net_operating_cashflow
         data.append(new_item)
     data.sort(key=itemgetter("account_date"), reverse=True)
-    return render_template("stock/parts/_cashflow_table.html", cashflows=data)
+    return render_template("stock/tables/_cashflow.html", cashflows=data)
 
 
 @stock_bp.route("/api/data/roe-analysis", methods=["GET"])
