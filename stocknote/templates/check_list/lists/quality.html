@@ -232,7 +232,6 @@
 </table>
 <!-- 存放数据用来被js读取 -->
 <div id="i_cacheData" data-code="{{code}}" 
-    data-url = "{{ url_for('check_list.api_data_quality', code=code) }}"
     data-partial-url="{{ url_for('check_list.api_data_quality_partial', code=code) }}"
     data-partial-edit-url="{{ url_for('check_list.api_op_edit_quality_partial') }}">
 </div>

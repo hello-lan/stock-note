@@ -26,8 +26,8 @@ body {
       </div>
       <div id="navbar" class="collapse navbar-collapse">
         <ul class="nav navbar-nav">
-          <li class="active"><a href="#quality" id="i_first_list" data-url="{{ url_for('check_list.api_data_quality', code=stock.code)}}" onclick="loadCheckList(this)">质量检查清单</a></li>
-          <li><a href="#risk" data-url="{{ url_for('check_list.api_data_risk', code=stock.code)}}" onclick="loadCheckList(this)">避雷检查清单</a></li>
+          <li class="active"><a href="#quality" id="i_first_list" data-url="{{ url_for('check_list.api_data_quality', code=stock.code)}}">质量检查清单</a></li>
+          <li><a href="#risk" data-url="{{ url_for('check_list.api_data_risk', code=stock.code)}}">避雷检查清单</a></li>
           <li><a href="#valuate">估值检查清单</a></li>
         </ul>
       </div><!--/.nav-collapse -->
@@ -79,12 +79,18 @@ body {
     }
     
     $(function () {
-        loadCheckList("#i_first_list");
+        loadCheckList("#navbar li.active > a");
     })
 
+    // 点击navbar时切换active状态,并加载对应的检查清单
+    $("#navbar > ul > li").click(function(){
+        $("#navbar > ul > li").removeClass("active");
+        $(this).addClass("active");
+        var obj = $(this).children("a");
+        loadCheckList(obj);
+	})
 
-    var checklist_quality_edit_url = "";
-    // 显示公司基本信息编辑框
+    // 显示清单编辑框
     function showCheckListEditModal(obj) {
         var partial_data_url = $("#i_cacheData").attr("data-partial-url");
         var name = $(obj).attr("data-name");
@@ -103,7 +109,7 @@ body {
         });
     }
 
-    // to do
+    // 编辑更新清单
     function editCheckList() {
         var edit_url = $("#i_cacheData").attr("data-partial-edit-url")
         var code = $("#i_cacheData").attr("data-code");
@@ -118,7 +124,8 @@ body {
             contentType: 'application/json;charset=UTF-8',
             success: function (response) {
                 alert(response["message"]);
-                loadCheckList("#i_cacheData")
+                // 刷新检查清单（加载激活状态的检查清单）
+                loadCheckList("#navbar li.active > a");
             }
         });
     }
