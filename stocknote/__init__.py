@@ -9,6 +9,7 @@ from stocknote.blueprints.compare import compare_bp
 from stocknote.blueprints.stock import stock_bp
 from stocknote.blueprints.individual import individual_bp
 from stocknote.blueprints.valuation import valuation_bp
+from stocknote.blueprints.check_list import checklist_bp
 from stocknote.extensions import db
 from stocknote.settings import config
 
@@ -38,6 +39,7 @@ def register_blueprints(app):
     app.register_blueprint(stock_bp, url_prefix="/stock")
     app.register_blueprint(individual_bp, url_prefix="/individual")
     app.register_blueprint(valuation_bp, url_prefix="/valuation")
+    app.register_blueprint(checklist_bp, url_prefix="/check-list")
 
 
 def register_errors(app):
@@ -97,4 +99,15 @@ def register_jinjia2_filter(app):
             return filled_value
         else:
             return round(value, precision)
+
+    @app.template_filter("date")
+    def date(value,filled_value="-"):
+        if hasattr(value,"date"):
+            dt = value.date
+            if callable(dt):
+                return dt()
+            else:
+                return dt
+        else:
+            return filled_value
 
