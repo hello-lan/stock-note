@@ -63,7 +63,7 @@ class CheckListQuality(db.Model):
     financial_security = db.Column(db.Text, default="-", comment="财务安全情况")
     financial_stability = db.Column(db.Text, default="-", comment="财务数据稳定性")
     dividend = db.Column(db.Text, default="-", comment="分红情况")
-    othr_indicators_comparison = db.Column(db.Text, default="-", comment="其他指标对比情况")
+    othr_indicators_comparision = db.Column(db.Text, default="-", comment="其他指标对比情况")
     customers = db.Column(db.Text, default="-", comment="客户是谁")
     products = db.Column(db.Text, default="-", comment="提供的产品或服务")
     value_proposition = db.Column(db.Text, default="-", comment="公司的价值主张")

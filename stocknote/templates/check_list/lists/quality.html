@@ -15,12 +15,10 @@
     </thead>
     <tbody>
         <tr>
+            {% set desc_profitablity = '盈利能力指标：历年ROE情况、毛利率、费用率和净利润率。可以用杜邦分析工具将企业财务数据统一起来，理解ROE的来源和变化的原因。' %}
             <td rowspan="8" style="vertical-align: middle">公司过去多年的财务数据如何？有无重大疑问？财务表现是否优秀？</td>
-            <td>
-                盈利能力指标：历年ROE情况、毛利率、费用率和净利润率。可以用杜邦分析工具将企业财务数据统一起来，理解ROE的来源和变化的原因。
-
-            </td>
-            <td class="pre-line">{{ checklist.profitability | default('-', True)}}</td>
+            <td style="vertical-align: middle">{{ desc_profitablity }}</td>
+            <td class="pre-line" style="vertical-align: middle">{{ checklist.profitability | default('-', True)}}</td>
             <td class="text-center" style="vertical-align: middle">
                 <div class="dropdown">
                     <span class="dropdown-toggle" id="checklistEditDropDownMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
@@ -28,15 +26,16 @@
                     </span>
                     <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="checklistEditDropDownMenu" style="min-width:50px" >
                         <li>
-                            <a role="btn" class="btn" onclick="showCheckListEditModal(this)" data-name="盈利能力" data-field="profitability"><i class="glyphicon glyphicon-pencil"></i>&nbsp;&nbsp;编辑</a>
+                            <a role="btn" class="btn" onclick="showCheckListEditModal(this)" data-desc="{{ desc_profitablity }}" data-field="profitability"><i class="glyphicon glyphicon-pencil"></i>&nbsp;&nbsp;编辑</a>
                         </li>
                     </ul>
                 </div>
             </td>
         </tr>
         <tr>
-            <td>成长能力指标：历年的营收和扣非净利润的增长率</td>
-            <td class="pre-line">{{ checklist.growth | default('-', True)}}</td>
+            {% set desc_growth = '成长能力指标：历年的营收和扣非净利润的增长率' %}
+            <td style="vertical-align: middle">{{ desc_growth }}</td>
+            <td class="pre-line" style="vertical-align: middle">{{ checklist.growth | default('-', True)}}</td>
             <td class="text-center" style="vertical-align: middle">
                 <div class="dropdown">
                     <span class="dropdown-toggle" id="checklistEditDropDownMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
@@ -44,189 +43,597 @@
                     </span>
                     <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="checklistEditDropDownMenu" style="min-width:50px" >
                         <li>
-                            <a role="btn" class="btn" onclick="showCheckListEditModal(this)" data-name="成长能力" data-field="growth"><i class="glyphicon glyphicon-pencil"></i>&nbsp;&nbsp;编辑</a>
+                            <a role="btn" class="btn" onclick="showCheckListEditModal(this)" data-desc="{{desc_growth}}" data-field="growth"><i class="glyphicon glyphicon-pencil"></i>&nbsp;&nbsp;编辑</a>
                         </li>
                     </ul>
                 </div>
             </td>
         </tr>
         <tr>
-            <td>现金流状况指标：经营活动现金流量净额与净利润的比值、应收账款占营业收入的比重、预收账款占营业收入的比重、自由现金流等</td>
-            <td class="pre-line">{{ checklist.cashflow | default('-', True)}}</td>
-            <td></td>
+            {% set desc_cashflow = '现金流状况指标：经营活动现金流量净额与净利润的比值、应收账款占营业收入的比重、预收账款占营业收入的比重、自由现金流等' %}
+            <td style="vertical-align: middle">{{ desc_cashflow }}</td>
+            <td class="pre-line" style="vertical-align: middle">{{ checklist.cashflow | default('-', True)}}</td>
+            <td class="text-center" style="vertical-align: middle">
+                <div class="dropdown">
+                    <span class="dropdown-toggle" id="checklistEditDropDownMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                        <i role="button" class="glyphicon glyphicon-option-horizontal"></i>
+                    </span>
+                    <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="checklistEditDropDownMenu" style="min-width:50px" >
+                        <li>
+                            <a role="btn" class="btn" onclick="showCheckListEditModal(this)" data-desc="{{desc_cashflow}}" data-field="cashflow"><i class="glyphicon glyphicon-pencil"></i>&nbsp;&nbsp;编辑</a>
+                        </li>
+                    </ul>
+                </div>
+            </td>
         </tr>
         <tr>
-            <td>运营能力指标：总资产周转率、应收账款周转天数、存货周转天数</td>
-            <td class="pre-line">{{ checklist.operation_capability | default('-', True)}}</td>
-            <td></td>
+            {% set desc_operation_capbility = '运营能力指标：总资产周转率、应收账款周转天数、存货周转天数' %}
+            <td style="vertical-align: middle">{{ desc_operation_capbility }}</td>
+            <td class="pre-line" style="vertical-align: middle">{{ checklist.operation_capability | default('-', True)}}</td>
+            <td class="text-center" style="vertical-align: middle">
+                <div class="dropdown">
+                    <span class="dropdown-toggle" id="checklistEditDropDownMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                        <i role="button" class="glyphicon glyphicon-option-horizontal"></i>
+                    </span>
+                    <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="checklistEditDropDownMenu" style="min-width:50px" >
+                        <li>
+                            <a role="btn" class="btn" onclick="showCheckListEditModal(this)" data-desc="{{desc_operation_capbility }}" data-field="operation_capability"><i class="glyphicon glyphicon-pencil"></i>&nbsp;&nbsp;编辑</a>
+                        </li>
+                    </ul>
+                </div>
+            </td>
         </tr>
         <tr>
-            <td>财务安全性指标：资产负债率、流动比率、速动比率、股票质押比例等</td>
-            <td class="pre-line">{{ checklist.financial_security | default('-', True)}}</td>
-            <td></td>
+            {% set desc_financial_security = '财务安全性指标：资产负债率、流动比率、速动比率、股票质押比例等' %}
+            <td style="vertical-align: middle">{{ desc_financial_security }}</td>
+            <td class="pre-line" style="vertical-align: middle">{{ checklist.financial_security | default('-', True)}}</td>
+            <td class="text-center" style="vertical-align: middle">
+                <div class="dropdown">
+                    <span class="dropdown-toggle" id="checklistEditDropDownMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                        <i role="button" class="glyphicon glyphicon-option-horizontal"></i>
+                    </span>
+                    <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="checklistEditDropDownMenu" style="min-width:50px" >
+                        <li>
+                            <a role="btn" class="btn" onclick="showCheckListEditModal(this)" data-desc="{{desc_financial_security }}" data-field="financial_security"><i class="glyphicon glyphicon-pencil"></i>&nbsp;&nbsp;编辑</a>
+                        </li>
+                    </ul>
+                </div>
+            </td>
         </tr>
         <tr>
-            <td>财务数据的稳定性：企业经营是大起大落还是平稳增长？</td>
-            <td class="pre-line">{{ checklist.financial_stability | default('-', True)}}</td>
-            <td></td>
+            {% set desc_financial_stability = '财务数据的稳定性：企业经营是大起大落还是平稳增长？' %}
+            <td style="vertical-align: middle">{{ desc_financial_stability }}</td>
+            <td class="pre-line" style="vertical-align: middle">{{ checklist.financial_stability | default('-', True)}}</td>
+             <td class="text-center" style="vertical-align: middle">
+                <div class="dropdown">
+                    <span class="dropdown-toggle" id="checklistEditDropDownMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                        <i role="button" class="glyphicon glyphicon-option-horizontal"></i>
+                    </span>
+                    <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="checklistEditDropDownMenu" style="min-width:50px" >
+                        <li>
+                            <a role="btn" class="btn" onclick="showCheckListEditModal(this)" data-desc="{{desc_financial_stability}}" data-field="financial_stability"><i class="glyphicon glyphicon-pencil"></i>&nbsp;&nbsp;编辑</a>
+                        </li>
+                    </ul>
+                </div>
+            </td>
         </tr>
         <tr>
-            <td>回报股东的能力和意愿：历年融资和分红情况</td>
-            <td class="pre-line">{{ checklist.devidend | default('-', True)}}</td>
-            <td></td>
+            {% set desc_devidend = '回报股东的能力和意愿：历年融资和分红情况' %}
+            <td style="vertical-align: middle">{{ desc_devidend }}</td>
+            <td class="pre-line" style="vertical-align: middle">{{ checklist.dividend | default('-', True)}}</td>
+             <td class="text-center" style="vertical-align: middle">
+                <div class="dropdown">
+                    <span class="dropdown-toggle" id="checklistEditDropDownMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                        <i role="button" class="glyphicon glyphicon-option-horizontal"></i>
+                    </span>
+                    <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="checklistEditDropDownMenu" style="min-width:50px" >
+                        <li>
+                            <a role="btn" class="btn" onclick="showCheckListEditModal(this)" data-desc="{{desc_devidend}}" data-field="dividend"><i class="glyphicon glyphicon-pencil"></i>&nbsp;&nbsp;编辑</a>
+                        </li>
+                    </ul>
+                </div>
+            </td>
         </tr>
         <tr>
-            <td>各种财务数据的同行比较</td>
-            <td class="pre-line">{{ checklist.othr_indicatos_comparision | default('-', True)}}</td>
-            <td></td>
+            {% set desc_othr_indicators_comparision = '各种财务数据的同行比较' %}
+            <td style="vertical-align: middle">{{ desc_othr_indicators_comparision }}</td>
+            <td class="pre-line" style="vertical-align: middle">{{ checklist.othr_indicators_comparision | default('-', True)}}</td>
+             <td class="text-center" style="vertical-align: middle">
+                <div class="dropdown">
+                    <span class="dropdown-toggle" id="checklistEditDropDownMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                        <i role="button" class="glyphicon glyphicon-option-horizontal"></i>
+                    </span>
+                    <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="checklistEditDropDownMenu" style="min-width:50px" >
+                        <li>
+                            <a role="btn" class="btn" onclick="showCheckListEditModal(this)" data-desc="{{desc_othr_indicators_comparision }}" data-field="othr_indicators_comparision"><i class="glyphicon glyphicon-pencil"></i>&nbsp;&nbsp;编辑</a>
+                        </li>
+                    </ul>
+                </div>
+            </td>
         </tr>
         <tr>
+            {% set desc_customers = '公司的客户是谁？' %}
             <td rowspan="7" style="vertical-align: middle">公司的商业模式是什么样的？</td>
-            <td>公司的客户是谁？</td>
-            <td class="pre-line">{{ checklist.customers | default('-', True)}}</td>
-            <td></td>
+            <td style="vertical-align: middle">{{ desc_customers }}</td>
+            <td class="pre-line" style="vertical-align: middle">{{ checklist.customers | default('-', True)}}</td>
+             <td class="text-center" style="vertical-align: middle">
+                <div class="dropdown">
+                    <span class="dropdown-toggle" id="checklistEditDropDownMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                        <i role="button" class="glyphicon glyphicon-option-horizontal"></i>
+                    </span>
+                    <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="checklistEditDropDownMenu" style="min-width:50px" >
+                        <li>
+                            <a role="btn" class="btn" onclick="showCheckListEditModal(this)" data-desc="{{desc_customers}}" data-field="customers"><i class="glyphicon glyphicon-pencil"></i>&nbsp;&nbsp;编辑</a>
+                        </li>
+                    </ul>
+                </div>
+            </td>
         </tr>
         <tr>
-            <td>公司提供什么样的产品和服务？</td>
-            <td class="pre-line">{{ checklist.products | default('-', True)}}</td>
-            <td></td>
+            {% set desc_products = '公司提供什么样的产品和服务？' %}
+            <td style="vertical-align: middle">{{ desc_products }}</td>
+            <td class="pre-line" style="vertical-align: middle">{{ checklist.products | default('-', True)}}</td>
+             <td class="text-center" style="vertical-align: middle">
+                <div class="dropdown">
+                    <span class="dropdown-toggle" id="checklistEditDropDownMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                        <i role="button" class="glyphicon glyphicon-option-horizontal"></i>
+                    </span>
+                    <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="checklistEditDropDownMenu" style="min-width:50px" >
+                        <li>
+                            <a role="btn" class="btn" onclick="showCheckListEditModal(this)" data-desc="{{desc_products}}" data-field="products"><i class="glyphicon glyphicon-pencil"></i>&nbsp;&nbsp;编辑</a>
+                        </li>
+                    </ul>
+                </div>
+            </td>
         </tr>
         <tr>
-            <td>公司的价值主张是什么？解决了客户什么样的需求和痛点？</td>
-            <td class="pre-line">{{ checklist.value_proposition | default('-', True)}}</td>
-            <td></td>
+            {% set desc_value_proposition = '公司的价值主张是什么？解决了客户什么样的需求和痛点？' %}
+            <td style="vertical-align: middle">{{ desc_value_proposition }}</td>
+            <td class="pre-line" style="vertical-align: middle">{{ checklist.value_proposition | default('-', True)}}</td>
+             <td class="text-center" style="vertical-align: middle">
+                <div class="dropdown">
+                    <span class="dropdown-toggle" id="checklistEditDropDownMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                        <i role="button" class="glyphicon glyphicon-option-horizontal"></i>
+                    </span>
+                    <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="checklistEditDropDownMenu" style="min-width:50px" >
+                        <li>
+                            <a role="btn" class="btn" onclick="showCheckListEditModal(this)" data-desc="{{desc_value_proposition}}" data-field="value_proposition"><i class="glyphicon glyphicon-pencil"></i>&nbsp;&nbsp;编辑</a>
+                        </li>
+                    </ul>
+                </div>
+            </td>
         </tr>
         <tr>
-            <td>公司的内外部价值链是怎样的？</td>
-            <td class="pre-line">{{ checklist.value_chain | default('-', True)}}</td>
-            <td></td>
+            {% set desc_value_chain = '公司的内外部价值链是怎样的？' %}
+            <td style="vertical-align: middle">{{ desc_value_chain }}</td>
+            <td class="pre-line" style="vertical-align: middle">{{ checklist.value_chain | default('-', True)}}</td>
+             <td class="text-center" style="vertical-align: middle">
+                <div class="dropdown">
+                    <span class="dropdown-toggle" id="checklistEditDropDownMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                        <i role="button" class="glyphicon glyphicon-option-horizontal"></i>
+                    </span>
+                    <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="checklistEditDropDownMenu" style="min-width:50px" >
+                        <li>
+                            <a role="btn" class="btn" onclick="showCheckListEditModal(this)" data-desc="{{desc_value_chain}}" data-field="value_chain"><i class="glyphicon glyphicon-pencil"></i>&nbsp;&nbsp;编辑</a>
+                        </li>
+                    </ul>
+                </div>
+            </td>
         </tr>
         <tr>
-            <td>公司的盈利模式是怎样的？</td>
-            <td class="pre-line">{{ checklist.profit_model | default('-', True)}}</td>
-            <td></td>
+            {% set desc_profit_model = '公司的盈利模式是怎样的？' %}
+            <td style="vertical-align: middle">{{ desc_profit_model }}</td>
+            <td class="pre-line" style="vertical-align: middle">{{ checklist.profit_model | default('-', True)}}</td>
+             <td class="text-center" style="vertical-align: middle">
+                <div class="dropdown">
+                    <span class="dropdown-toggle" id="checklistEditDropDownMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                        <i role="button" class="glyphicon glyphicon-option-horizontal"></i>
+                    </span>
+                    <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="checklistEditDropDownMenu" style="min-width:50px" >
+                        <li>
+                            <a role="btn" class="btn" onclick="showCheckListEditModal(this)" data-desc="{{desc_profit_model}}" data-field="profit_model"><i class="glyphicon glyphicon-pencil"></i>&nbsp;&nbsp;编辑</a>
+                        </li>
+                    </ul>
+                </div>
+            </td>
         </tr>
         <tr>
-            <td>公司所从事业务的生意特性是怎样的？</td>
-            <td class="pre-line">{{ checklist.business_characteristic | default('-', True)}}</td>
-            <td></td>
+            {% set desc_business_characteristics = '公司所从事业务的生意特性是怎样的？' %}
+            <td style="vertical-align: middle">{{ desc_business_characteristics }}</td>
+            <td class="pre-line" style="vertical-align: middle">{{ checklist.business_characteristics | default('-', True)}}</td>
+             <td class="text-center" style="vertical-align: middle">
+                <div class="dropdown">
+                    <span class="dropdown-toggle" id="checklistEditDropDownMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                        <i role="button" class="glyphicon glyphicon-option-horizontal"></i>
+                    </span>
+                    <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="checklistEditDropDownMenu" style="min-width:50px" >
+                        <li>
+                            <a role="btn" class="btn" onclick="showCheckListEditModal(this)" data-desc="{{desc_business_characteristics}}" data-field="business_characteristics"><i class="glyphicon glyphicon-pencil"></i>&nbsp;&nbsp;编辑</a>
+                        </li>
+                    </ul>
+                </div>
+            </td>
         </tr>
         <tr>
-            <td>公司的自由现金流状况如何？</td>
-            <td class="pre-line">{{ checklist.free_cashflow | default('-', True)}}</td>
-            <td></td>
+            {% set desc_free_cashflow = '公司的自由现金流状况如何？' %}
+            <td style="vertical-align: middle">{{ desc_free_cashflow }}</td>
+            <td class="pre-line" style="vertical-align: middle">{{ checklist.free_cashflow | default('-', True)}}</td>
+             <td class="text-center" style="vertical-align: middle">
+                <div class="dropdown">
+                    <span class="dropdown-toggle" id="checklistEditDropDownMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                        <i role="button" class="glyphicon glyphicon-option-horizontal"></i>
+                    </span>
+                    <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="checklistEditDropDownMenu" style="min-width:50px" >
+                        <li>
+                            <a role="btn" class="btn" onclick="showCheckListEditModal(this)" data-desc="{{desc_free_cashflow}}" data-field="free_cashflow"><i class="glyphicon glyphicon-pencil"></i>&nbsp;&nbsp;编辑</a>
+                        </li>
+                    </ul>
+                </div>
+            </td>
         </tr>
         <tr>
+            {% set desc_market_spaces = '公司的产品和服务市场空间有多大？行业未来前景如何？' %}
             <td rowspan="2" style="vertical-align: middle">公司未来的成长空间大小，成长动力是什么</td>
-            <td>公司的产品和服务市场空间有多大？行业未来前景如何？</td>
-            <td class="pre-line">{{ checklist.market_spaces | default('-', True)}}</td>
-            <td></td>
+            <td style="vertical-align: middle">{{ desc_market_spaces }}</td>
+            <td class="pre-line" style="vertical-align: middle">{{ checklist.market_spaces | default('-', True)}}</td>
+             <td class="text-center" style="vertical-align: middle">
+                <div class="dropdown">
+                    <span class="dropdown-toggle" id="checklistEditDropDownMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                        <i role="button" class="glyphicon glyphicon-option-horizontal"></i>
+                    </span>
+                    <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="checklistEditDropDownMenu" style="min-width:50px" >
+                        <li>
+                            <a role="btn" class="btn" onclick="showCheckListEditModal(this)" data-desc="{{desc_market_spaces}}" data-field="market_spaces"><i class="glyphicon glyphicon-pencil"></i>&nbsp;&nbsp;编辑</a>
+                        </li>
+                    </ul>
+                </div>
+            </td>
         </tr>
         <tr>
-            <td>分析企业未来成长动力来自何处:随着行业增长销量的增加、占领更多的市场份额、扩展更多的地域、产品提价、产品结构升级、开发新产品、进入新的业务领域、收购兼并等</td>
-            <td class="pre-line">{{ checklist.growth_momentum | default('-', True)}}</td>
-            <td></td>
+            {% set desc_growth_momentum = '分析企业未来成长动力来自何处:随着行业增长销量的增加、占领更多的市场份额、扩展更多的地域、产品提价、产品结构升级、开发新产品、进入新的业务领域、收购兼并等' %}
+            <td style="vertical-align: middle">{{ desc_growth_momentum }}</td>
+            <td class="pre-line" style="vertical-align: middle">{{ checklist.growth_momentum | default('-', True)}}</td>
+             <td class="text-center" style="vertical-align: middle">
+                <div class="dropdown">
+                    <span class="dropdown-toggle" id="checklistEditDropDownMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                        <i role="button" class="glyphicon glyphicon-option-horizontal"></i>
+                    </span>
+                    <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="checklistEditDropDownMenu" style="min-width:50px" >
+                        <li>
+                            <a role="btn" class="btn" onclick="showCheckListEditModal(this)" data-desc="{{desc_growth_momentum}}" data-field="growth_momentum"><i class="glyphicon glyphicon-pencil"></i>&nbsp;&nbsp;编辑</a>
+                        </li>
+                    </ul>
+                </div>
+            </td>
         </tr>
         <tr>
+            {% set desc_potters_five_forces = '”波特五力模型“分析：公司对上游客户的议价能力、对下游客户的议价能力、相对于竞争对手的竞争优势、替代品的威胁、潜在进入者的威胁' %}
             <td rowspan="3" style="vertical-align: middle">公司有没有宽阔的护城河？体现在哪方面？</td>
-            <td>”波特五力模型“分析：公司对上游客户的议价能力、对下游客户的议价能力、相对于竞争对手的竞争优势、替代品的威胁、潜在进入者的威胁</td>
-            <td class="pre-line">{{ checklist.potters_five_forces | default('-', True)}}</td>
-            <td></td>
+            <td style="vertical-align: middle">{{ desc_potters_five_forces }}</td>
+            <td class="pre-line" style="vertical-align: middle">{{ checklist.potters_five_forces | default('-', True)}}</td>
+             <td class="text-center" style="vertical-align: middle">
+                <div class="dropdown">
+                    <span class="dropdown-toggle" id="checklistEditDropDownMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                        <i role="button" class="glyphicon glyphicon-option-horizontal"></i>
+                    </span>
+                    <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="checklistEditDropDownMenu" style="min-width:50px" >
+                        <li>
+                            <a role="btn" class="btn" onclick="showCheckListEditModal(this)" data-desc="{{desc_potters_five_forces}}" data-field="potters_five_forces"><i class="glyphicon glyphicon-pencil"></i>&nbsp;&nbsp;编辑</a>
+                        </li>
+                    </ul>
+                </div>
+            </td>
         </tr>
         <tr>
-            <td>分析公司护城河体现在哪些方面：品牌、规模经济、网络效应、技术专利、政府特许、特殊资源、低成本优势等</td>
-            <td class="pre-line">{{ checklist.moat | default('-', True)}}</td>
-            <td></td>
+            {% set desc_moat = '分析公司护城河体现在哪些方面：品牌、规模经济、网络效应、技术专利、政府特许、特殊资源、低成本优势等' %}
+            <td style="vertical-align: middle">{{ desc_moat }}</td>
+            <td class="pre-line" style="vertical-align: middle">{{ checklist.moat | default('-', True)}}</td>
+             <td class="text-center" style="vertical-align: middle">
+                <div class="dropdown">
+                    <span class="dropdown-toggle" id="checklistEditDropDownMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                        <i role="button" class="glyphicon glyphicon-option-horizontal"></i>
+                    </span>
+                    <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="checklistEditDropDownMenu" style="min-width:50px" >
+                        <li>
+                            <a role="btn" class="btn" onclick="showCheckListEditModal(this)" data-desc="{{desc_moat}}" data-field="moat"><i class="glyphicon glyphicon-pencil"></i>&nbsp;&nbsp;编辑</a>
+                        </li>
+                    </ul>
+                </div>
+            </td>
         </tr>
         <tr>
-            <td>经过综合分析，判断企业是否具有宽阔的护城河，以及护城河强弱的级别</td>
-            <td class="pre-line">{{ checklist.moat_level | default('-', True)}}</td>
-            <td></td>
+            {% set desc_moat_level = '经过综合分析，判断企业是否具有宽阔的护城河，以及护城河强弱的级别' %}
+            <td style="vertical-align: middle">{{ desc_moat_level }}</td>
+            <td class="pre-line" style="vertical-align: middle">{{ checklist.moat_level | default('-', True)}}</td>
+             <td class="text-center" style="vertical-align: middle">
+                <div class="dropdown">
+                    <span class="dropdown-toggle" id="checklistEditDropDownMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                        <i role="button" class="glyphicon glyphicon-option-horizontal"></i>
+                    </span>
+                    <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="checklistEditDropDownMenu" style="min-width:50px" >
+                        <li>
+                            <a role="btn" class="btn" onclick="showCheckListEditModal(this)" data-desc="{{desc_moat_level}}" data-field="moat_level"><i class="glyphicon glyphicon-pencil"></i>&nbsp;&nbsp;编辑</a>
+                        </li>
+                    </ul>
+                </div>
+            </td>
         </tr>
         <tr>
+            {% set desc_management_ethics = '通过媒体报道、访谈、视频、股东大会等各种渠道收集信息对管理层的道德和能力进行判断。观察实际控制人和管理层的格局、价值观、敏锐度、行动力' %}
             <td style="vertical-align: middle">公司管理层是否德才兼备</td>
-            <td>通过媒体报道、访谈、视频、股东大会等各种渠道收集信息对管理层的道德和能力进行判断。观察实际控制人和管理层的格局、价值观、敏锐度、行动力</td>
-            <td class="pre-line">{{ checklist.management_ethics | default('-', True)}}</td>
-            <td></td>
+            <td style="vertical-align: middle">{{ desc_management_ethics }}</td>
+            <td class="pre-line" style="vertical-align: middle">{{ checklist.management_ethics | default('-', True)}}</td>
+             <td class="text-center" style="vertical-align: middle">
+                <div class="dropdown">
+                    <span class="dropdown-toggle" id="checklistEditDropDownMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                        <i role="button" class="glyphicon glyphicon-option-horizontal"></i>
+                    </span>
+                    <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="checklistEditDropDownMenu" style="min-width:50px" >
+                        <li>
+                            <a role="btn" class="btn" onclick="showCheckListEditModal(this)" data-desc="{{desc_management_ethics}}" data-field="management_ethics"><i class="glyphicon glyphicon-pencil"></i>&nbsp;&nbsp;编辑</a>
+                        </li>
+                    </ul>
+                </div>
+            </td>
         </tr>
         <tr>
+            {% set desc_major_shareholders = '公司的主要股东是谁？' %}
             <td rowspan="6" style="vertical-align: middle">公司治理结构如何</td>
-            <td>公司的主要股东是谁？</td>
-            <td class="pre-line">{{ checklist.major_shareholders | default('-', True)}}</td>
-            <td></td>
+            <td style="vertical-align: middle">{{ desc_major_shareholders }}</td>
+            <td class="pre-line" style="vertical-align: middle">{{ checklist.major_shareholders | default('-', True)}}</td>
+             <td class="text-center" style="vertical-align: middle">
+                <div class="dropdown">
+                    <span class="dropdown-toggle" id="checklistEditDropDownMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                        <i role="button" class="glyphicon glyphicon-option-horizontal"></i>
+                    </span>
+                    <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="checklistEditDropDownMenu" style="min-width:50px" >
+                        <li>
+                            <a role="btn" class="btn" onclick="showCheckListEditModal(this)" data-desc="{{desc_major_shareholders}}" data-field="major_shareholders"><i class="glyphicon glyphicon-pencil"></i>&nbsp;&nbsp;编辑</a>
+                        </li>
+                    </ul>
+                </div>
+            </td>
         </tr>
         <tr>
-            <td>实际控制人是谁</td>
-            <td class="pre-line">{{ checklist.actual_controller | default('-', True)}}</td>
-            <td></td>
+            {% set desc_actual_controller = '实际控制人是谁' %}
+            <td style="vertical-align: middle">{{ desc_actual_controller }}</td>
+            <td class="pre-line" style="vertical-align: middle">{{ checklist.actual_controller | default('-', True)}}</td>
+             <td class="text-center" style="vertical-align: middle">
+                <div class="dropdown">
+                    <span class="dropdown-toggle" id="checklistEditDropDownMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                        <i role="button" class="glyphicon glyphicon-option-horizontal"></i>
+                    </span>
+                    <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="checklistEditDropDownMenu" style="min-width:50px" >
+                        <li>
+                            <a role="btn" class="btn" onclick="showCheckListEditModal(this)" data-desc="{{desc_actual_controller}}" data-field="actual_controller"><i class="glyphicon glyphicon-pencil"></i>&nbsp;&nbsp;编辑</a>
+                        </li>
+                    </ul>
+                </div>
+            </td>
         </tr>
         <tr>
-            <td>公司是国企还是民企？</td>
-            <td class="pre-line">{{ checklist.state_or_private | default('-', True)}}</td>
-            <td></td>
+            {% set desc_state_or_private = '公司是国企还是民企？' %}
+            <td style="vertical-align: middle">{{ desc_state_or_private }}</td>
+            <td class="pre-line" style="vertical-align: middle">{{ checklist.state_or_private | default('-', True)}}</td>
+             <td class="text-center" style="vertical-align: middle">
+                <div class="dropdown">
+                    <span class="dropdown-toggle" id="checklistEditDropDownMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                        <i role="button" class="glyphicon glyphicon-option-horizontal"></i>
+                    </span>
+                    <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="checklistEditDropDownMenu" style="min-width:50px" >
+                        <li>
+                            <a role="btn" class="btn" onclick="showCheckListEditModal(this)" data-desc="{{desc_state_or_private}}" data-field="state_or_private"><i class="glyphicon glyphicon-pencil"></i>&nbsp;&nbsp;编辑</a>
+                        </li>
+                    </ul>
+                </div>
+            </td>
         </tr>
         <tr>
-            <td>管理层和主要骨干有没有持股？</td>
-            <td class="pre-line">{{ checklist.management_shareholding | default('-', True)}}</td>
-            <td></td>
+            {% set desc_management_shareholding = '管理层和主要骨干有没有持股？' %}
+            <td style="vertical-align: middle">{{ desc_management_shareholding }}</td>
+            <td class="pre-line" style="vertical-align: middle">{{ checklist.management_shareholding | default('-', True)}}</td>
+             <td class="text-center" style="vertical-align: middle">
+                <div class="dropdown">
+                    <span class="dropdown-toggle" id="checklistEditDropDownMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                        <i role="button" class="glyphicon glyphicon-option-horizontal"></i>
+                    </span>
+                    <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="checklistEditDropDownMenu" style="min-width:50px" >
+                        <li>
+                            <a role="btn" class="btn" onclick="showCheckListEditModal(this)" data-desc="{{desc_management_shareholding}}" data-field="management_shareholding"><i class="glyphicon glyphicon-pencil"></i>&nbsp;&nbsp;编辑</a>
+                        </li>
+                    </ul>
+                </div>
+            </td>
         </tr>
         <tr>
-            <td>股权质押情况</td>
-            <td class="pre-line">{{ checklist.equity_pledge | default('-', True)}}</td>
-            <td></td>
+            {% set desc_equity_pledge = '股权质押情况' %}
+            <td style="vertical-align: middle">{{ desc_equity_pledge }}</td>
+            <td class="pre-line" style="vertical-align: middle">{{ checklist.equity_pledge | default('-', True)}}</td>
+             <td class="text-center" style="vertical-align: middle">
+                <div class="dropdown">
+                    <span class="dropdown-toggle" id="checklistEditDropDownMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                        <i role="button" class="glyphicon glyphicon-option-horizontal"></i>
+                    </span>
+                    <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="checklistEditDropDownMenu" style="min-width:50px" >
+                        <li>
+                            <a role="btn" class="btn" onclick="showCheckListEditModal(this)" data-desc="{{desc_equity_pledge}}" data-field="equity_pledge"><i class="glyphicon glyphicon-pencil"></i>&nbsp;&nbsp;编辑</a>
+                        </li>
+                    </ul>
+                </div>
+            </td>
         </tr>
         <tr>
-            <td>公司制度化运作还是高度依赖企业家个人？</td>
-            <td class="pre-line">{{ checklist.institutionalize | default('-', True)}}</td>
-            <td></td>
+            {% set desc_institutionalize = '公司制度化运作还是高度依赖企业家个人？' %}
+            <td style="vertical-align: middle">{{ desc_institutionalize }}</td>
+            <td class="pre-line" style="vertical-align: middle">{{ checklist.institutionalize | default('-', True)}}</td>
+             <td class="text-center" style="vertical-align: middle">
+                <div class="dropdown">
+                    <span class="dropdown-toggle" id="checklistEditDropDownMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                        <i role="button" class="glyphicon glyphicon-option-horizontal"></i>
+                    </span>
+                    <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="checklistEditDropDownMenu" style="min-width:50px" >
+                        <li>
+                            <a role="btn" class="btn" onclick="showCheckListEditModal(this)" data-desc="{{desc_institutionalize}}" data-field="institutionalize"><i class="glyphicon glyphicon-pencil"></i>&nbsp;&nbsp;编辑</a>
+                        </li>
+                    </ul>
+                </div>
+            </td>
         </tr>
         <tr>
+            {% set desc_corporate_culture = '公司的管理质量、核心价值观和企业文化是什么样的？' %}
             <td rowspan="3" style="vertical-align: middle">公司企业文化如何？</td>
-            <td>公司的管理质量、核心价值观和企业文化是什么样的？</td>
-            <td class="pre-line">{{ checklist.corporate_culture | default('-', True)}}</td>
-            <td></td>
+            <td style="vertical-align: middle">{{ desc_corporate_culture }}</td>
+            <td class="pre-line" style="vertical-align: middle">{{ checklist.corporate_culture | default('-', True)}}</td>
+             <td class="text-center" style="vertical-align: middle">
+                <div class="dropdown">
+                    <span class="dropdown-toggle" id="checklistEditDropDownMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                        <i role="button" class="glyphicon glyphicon-option-horizontal"></i>
+                    </span>
+                    <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="checklistEditDropDownMenu" style="min-width:50px" >
+                        <li>
+                            <a role="btn" class="btn" onclick="showCheckListEditModal(this)" data-desc="{{desc_corporate_culture}}" data-field="corporate_culture"><i class="glyphicon glyphicon-pencil"></i>&nbsp;&nbsp;编辑</a>
+                        </li>
+                    </ul>
+                </div>
+            </td>
         </tr>
         <tr>
-            <td>是短期利益导向还是非常重视创造长期价值？</td>
-            <td class="pre-line">{{ checklist.interist_orientation | default('-', True)}}</td>
-            <td></td>
+            {% set desc_interest_oriention = '是短期利益导向还是非常重视创造长期价值？' %}
+            <td style="vertical-align: middle">{{ desc_interest_oriention }}</td>
+            <td class="pre-line" style="vertical-align: middle">{{ checklist.interest_orientation | default('-', True)}}</td>
+             <td class="text-center" style="vertical-align: middle">
+                <div class="dropdown">
+                    <span class="dropdown-toggle" id="checklistEditDropDownMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                        <i role="button" class="glyphicon glyphicon-option-horizontal"></i>
+                    </span>
+                    <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="checklistEditDropDownMenu" style="min-width:50px" >
+                        <li>
+                            <a role="btn" class="btn" onclick="showCheckListEditModal(this)" data-desc="{{desc_interest_oriention}}" data-field="interest_orientation"><i class="glyphicon glyphicon-pencil"></i>&nbsp;&nbsp;编辑</a>
+                        </li>
+                    </ul>
+                </div>
+            </td>
         </tr>
         <tr>
-            <td>公司如何对待员工、股东、供应商、客户、合作伙伴、竞争对手和社会公众等利益相关者？</td>
-            <td class="pre-line">{{ checklist.attitude | default('-', True)}}</td>
-            <td></td>
+            {% set desc_attitude = '公司如何对待员工、股东、供应商、客户、合作伙伴、竞争对手和社会公众等利益相关者？' %}
+            <td style="vertical-align: middle">{{ desc_attitude }}</td>
+            <td class="pre-line" style="vertical-align: middle">{{ checklist.attitude | default('-', True)}}</td>
+             <td class="text-center" style="vertical-align: middle">
+                <div class="dropdown">
+                    <span class="dropdown-toggle" id="checklistEditDropDownMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                        <i role="button" class="glyphicon glyphicon-option-horizontal"></i>
+                    </span>
+                    <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="checklistEditDropDownMenu" style="min-width:50px" >
+                        <li>
+                            <a role="btn" class="btn" onclick="showCheckListEditModal(this)" data-desc="{{desc_attitude}}" data-field="attitude"><i class="glyphicon glyphicon-pencil"></i>&nbsp;&nbsp;编辑</a>
+                        </li>
+                    </ul>
+                </div>
+            </td>
         </tr>
         <tr>
+            {% set desc_weakness = '公司存在哪些劣势或软肋？' %}
             <td rowspan="5" style="vertical-align: middle">公司存在哪些劣势？未来可能存在哪些风险？有哪些负面因素？</td>
-            <td>公司存在哪些劣势或软肋？</td>
-            <td class="pre-line">{{ checklist.weakness | default('-', True)}}</td>
-            <td></td>
+            <td style="vertical-align: middle">{{ desc_weakness }}</td>
+            <td class="pre-line" style="vertical-align: middle">{{ checklist.weakness | default('-', True)}}</td>
+             <td class="text-center" style="vertical-align: middle">
+                <div class="dropdown">
+                    <span class="dropdown-toggle" id="checklistEditDropDownMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                        <i role="button" class="glyphicon glyphicon-option-horizontal"></i>
+                    </span>
+                    <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="checklistEditDropDownMenu" style="min-width:50px" >
+                        <li>
+                            <a role="btn" class="btn" onclick="showCheckListEditModal(this)" data-desc="{{desc_weakness}}" data-field="weakness"><i class="glyphicon glyphicon-pencil"></i>&nbsp;&nbsp;编辑</a>
+                        </li>
+                    </ul>
+                </div>
+            </td>
         </tr>
         <tr>
-            <td>关于公司有哪些负面观点、负面消息？是否影响公司的投资价值？</td>
-            <td class="pre-line">{{ checklist.negative_news | default('-', True)}}</td>
-            <td></td>
+            {% set desc_negative_news = '关于公司有哪些负面观点、负面消息？是否影响公司的投资价值？' %}
+            <td style="vertical-align: middle">{{ desc_negative_news }}</td>
+            <td class="pre-line" style="vertical-align: middle">{{ checklist.negative_news | default('-', True)}}</td>
+             <td class="text-center" style="vertical-align: middle">
+                <div class="dropdown">
+                    <span class="dropdown-toggle" id="checklistEditDropDownMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                        <i role="button" class="glyphicon glyphicon-option-horizontal"></i>
+                    </span>
+                    <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="checklistEditDropDownMenu" style="min-width:50px" >
+                        <li>
+                            <a role="btn" class="btn" onclick="showCheckListEditModal(this)" data-desc="{{desc_negative_news}}" data-field="negative_news"><i class="glyphicon glyphicon-pencil"></i>&nbsp;&nbsp;编辑</a>
+                        </li>
+                    </ul>
+                </div>
+            </td>
         </tr>
         <tr>
-            <td>公司发展可能存在哪些风险？</td>
-            <td class="pre-line">{{ checklist.potential_risk | default('-', True)}}</td>
-            <td></td>
+            {% set desc_potential_risk = '公司发展可能存在哪些风险？' %}
+            <td style="vertical-align: middle">{{ desc_potential_risk }}</td>
+            <td class="pre-line" style="vertical-align: middle">{{ checklist.potential_risk | default('-', True)}}</td>
+             <td class="text-center" style="vertical-align: middle">
+                <div class="dropdown">
+                    <span class="dropdown-toggle" id="checklistEditDropDownMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                        <i role="button" class="glyphicon glyphicon-option-horizontal"></i>
+                    </span>
+                    <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="checklistEditDropDownMenu" style="min-width:50px" >
+                        <li>
+                            <a role="btn" class="btn" onclick="showCheckListEditModal(this)" data-desc="{{desc_potential_risk}}" data-field="potential_risk"><i class="glyphicon glyphicon-pencil"></i>&nbsp;&nbsp;编辑</a>
+                        </li>
+                    </ul>
+                </div>
+            </td>
         </tr>
         <tr>
-            <td>未来有什么原因可能会导致公司衰落甚至倒闭？</td>
-            <td class="pre-line">{{ checklist.decline_prossibility | default('-', True)}}</td>
-            <td></td>
+            {% set desc_decline_prossibility = '未来有什么原因可能会导致公司衰落甚至倒闭？' %}
+            <td style="vertical-align: middle">{{ desc_decline_prossibility }}</td>
+            <td class="pre-line" style="vertical-align: middle">{{ checklist.decline_prossibility | default('-', True)}}</td>
+             <td class="text-center" style="vertical-align: middle">
+                <div class="dropdown">
+                    <span class="dropdown-toggle" id="checklistEditDropDownMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                        <i role="button" class="glyphicon glyphicon-option-horizontal"></i>
+                    </span>
+                    <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="checklistEditDropDownMenu" style="min-width:50px" >
+                        <li>
+                            <a role="btn" class="btn" onclick="showCheckListEditModal(this)" data-desc="{{desc_decline_prossibility}}" data-field="decline_prossibility"><i class="glyphicon glyphicon-pencil"></i>&nbsp;&nbsp;编辑</a>
+                        </li>
+                    </ul>
+                </div>
+            </td>
         </tr>
         <tr>
-            <td>如果出现最差的情况，公司能否维持生产和发展？</td>
-            <td class="pre-line">{{ checklist.tenacity | default('-', True)}}</td>
-            <td></td>
+            {% set desc_tenacity = '如果出现最差的情况，公司能否维持生产和发展？' %}
+            <td style="vertical-align: middle">{{ desc_tenacity }}</td>
+            <td class="pre-line" style="vertical-align: middle">{{ checklist.tenacity | default('-', True)}}</td>
+             <td class="text-center" style="vertical-align: middle">
+                <div class="dropdown">
+                    <span class="dropdown-toggle" id="checklistEditDropDownMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                        <i role="button" class="glyphicon glyphicon-option-horizontal"></i>
+                    </span>
+                    <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="checklistEditDropDownMenu" style="min-width:50px" >
+                        <li>
+                            <a role="btn" class="btn" onclick="showCheckListEditModal(this)" data-desc="{{desc_tenacity}}" data-field="tenacity"><i class="glyphicon glyphicon-pencil"></i>&nbsp;&nbsp;编辑</a>
+                        </li>
+                    </ul>
+                </div>
+            </td>
         </tr>
         <tr>
+            {% set desc_past_explainable = '重点在于理解其过往为何而优秀' %}
             <td style="vertical-align: middle">对公司的定性分析能否解释公司过往的经营业绩？</td>
-            <td>重点在于理解其过往为何而优秀</td>
-            <td class="pre-line">{{ checklist.past_explainable | default('-', True)}}</td>
-            <td></td>
+            <td style="vertical-align: middle">{{ desc_past_explainable }}</td>
+            <td class="pre-line" style="vertical-align: middle">{{ checklist.past_explainable | default('-', True)}}</td>
+             <td class="text-center" style="vertical-align: middle">
+                <div class="dropdown">
+                    <span class="dropdown-toggle" id="checklistEditDropDownMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                        <i role="button" class="glyphicon glyphicon-option-horizontal"></i>
+                    </span>
+                    <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="checklistEditDropDownMenu" style="min-width:50px" >
+                        <li>
+                            <a role="btn" class="btn" onclick="showCheckListEditModal(this)" data-desc="{{desc_past_explainable}}" data-field="past_explainable"><i class="glyphicon glyphicon-pencil"></i>&nbsp;&nbsp;编辑</a>
+                        </li>
+                    </ul>
+                </div>
+            </td>
         </tr>
     </tbody>
 </table>

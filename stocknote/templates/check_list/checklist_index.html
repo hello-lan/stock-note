@@ -26,6 +26,7 @@ body {
       </div>
       <div id="navbar" class="collapse navbar-collapse">
         <ul class="nav navbar-nav">
+            <li><a href="#info">基本信息</a></li>
           <li class="active"><a href="#quality" id="i_first_list" data-url="{{ url_for('check_list.api_data_quality', code=stock.code)}}">质量检查清单</a></li>
           <li><a href="#risk" data-url="{{ url_for('check_list.api_data_risk', code=stock.code)}}">避雷检查清单</a></li>
           <li><a href="#valuate">估值检查清单</a></li>
@@ -50,7 +51,7 @@ body {
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
                         aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title" id="i_editCheckListModalLabel"></h4>
+                <p class="modal-title text-muted" id="i_editCheckListModalLabel"></p>
             </div>
             <div class="modal-body">
                 <div class="row">
@@ -93,7 +94,7 @@ body {
     // 显示清单编辑框
     function showCheckListEditModal(obj) {
         var partial_data_url = $("#i_cacheData").attr("data-partial-url");
-        var name = $(obj).attr("data-name");
+        var name = $(obj).attr("data-desc");
         var field = $(obj).attr("data-field");
         $("#i_editCheckListModalLabel").text(name);
         $("#i_checkListTextArea").attr("data-field", field);
