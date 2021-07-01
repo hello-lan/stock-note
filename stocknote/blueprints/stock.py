@@ -27,6 +27,15 @@ def stock_detail():
     return render_template("stock/_stock_index.html", stock=stock)
 
 
+@stock_bp.route("/financial-statement", methods=["GET"])
+def api_data_financial_statement():
+    code = request.args.get("code", type=str)
+    stock = Stock.query.filter_by(code=code).first_or_404()
+    html = render_template("stock/_stock_index.html", stock=stock)
+    return jsonify({"message": "successful",
+                    "data": {"html": html}
+                })
+
 @stock_bp.route("/basic-info", methods=["GET"])
 def api_data_basic_info():
     code = request.args.get("code", type=str)

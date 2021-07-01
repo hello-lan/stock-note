@@ -26,8 +26,8 @@ body {
       </div>
       <div id="navbar" class="collapse navbar-collapse">
         <ul class="nav navbar-nav">
-            <li><a href="#info">基本信息</a></li>
-          <li class="active"><a href="#quality" id="i_first_list" data-url="{{ url_for('check_list.api_data_quality', code=stock.code)}}">质量检查清单</a></li>
+          <li class="active"><a href="#info" id="i_first_list" data-url="{{ url_for('stock.api_data_financial_statement', code=stock.code)}}">基本信息</a></li>
+          <li><a href="#quality" data-url="{{ url_for('check_list.api_data_quality', code=stock.code)}}">质量检查清单</a></li>
           <li><a href="#risk" data-url="{{ url_for('check_list.api_data_risk', code=stock.code)}}">避雷检查清单</a></li>
           <li><a href="#valuate">估值检查清单</a></li>
         </ul>
