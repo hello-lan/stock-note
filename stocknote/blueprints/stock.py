@@ -27,11 +27,11 @@ def stock_detail():
     return render_template("stock/_stock_index.html", stock=stock)
 
 
-@stock_bp.route("/financial-statement", methods=["GET"])
-def api_data_financial_statement():
+@stock_bp.route("/report", methods=["GET"])
+def api_data_report():
     code = request.args.get("code", type=str)
     stock = Stock.query.filter_by(code=code).first_or_404()
-    html = render_template("stock/_stock_index.html", stock=stock)
+    html = render_template("stock/report/report_index.html", stock=stock)
     return jsonify({"message": "successful",
                     "data": {"html": html}
                 })
@@ -43,7 +43,7 @@ def api_data_basic_info():
     if info is None:
         info = {}
     return jsonify({"message": "successful",
-                    "data": {"html": render_template("stock/tables/_basic_info.html", info=info)}
+                    "data": {"html": render_template("stock/report/tables/_basic_info.html", info=info)}
                 })
 
 
@@ -88,7 +88,7 @@ def api_data_brief_balance_sheet():
     items = get_stock_balance_sheet(code, limit=5)
     return jsonify({"message": "successful",
                     "data": {
-                       "html": render_template("stock/tables/_brief_balance_sheet.html", items=items)
+                       "html": render_template("stock/report/tables/_brief_balance_sheet.html", items=items)
                     }
                 })
 
@@ -118,7 +118,7 @@ def api_data_asset_structure():
         data.append(item)
     data.sort(key=itemgetter("account_date"), reverse=True)
     return jsonify({"message": "successful",
-                    "data": {"html": render_template("stock/tables/_asset_structure.html", items=data)}
+                    "data": {"html": render_template("stock/report/tables/_asset_structure.html", items=data)}
                 })
 
 
@@ -149,7 +149,7 @@ def api_data_five_forces():
         item["gross_selling_ratio"] = gross_ratios.get(dt)
         items.append(item)
     return jsonify({"message": "successful",
-                    "data": {"html": render_template("stock/tables/_five_forces.html", items=items)}
+                    "data": {"html": render_template("stock/report/tables/_five_forces.html", items=items)}
                 })
 
 
@@ -176,7 +176,7 @@ def free_cashflow(code):
         pre_cf = item.net_operating_cashflow
         data.append(new_item)
     data.sort(key=itemgetter("account_date"), reverse=True)
-    return render_template("stock/tables/_cashflow.html", cashflows=data)
+    return render_template("stock/report/tables/_cashflow.html", cashflows=data)
 
 
 @stock_bp.route("/api/data/roe-analysis", methods=["GET"])
@@ -197,7 +197,7 @@ def api_data_roe_analysis():
     items.sort(key=itemgetter("account_date"), reverse=True)
 
     return jsonify({"message": "successful",
-                    "data": {"html": render_template("stock/tables/_roe.html", items=items)}
+                    "data": {"html": render_template("stock/report/tables/_roe.html", items=items)}
                 })
 
 
@@ -208,7 +208,7 @@ def api_data_operation_capability():
     indicators = get_stock_indicators(code, limit=limit)
 
     return jsonify({"message": "successful",
-                    "data": {"html": render_template("stock/tables/_turnover.html", items=indicators)}
+                    "data": {"html": render_template("stock/report/tables/_turnover.html", items=indicators)}
                 })    
 
 
@@ -236,7 +236,7 @@ def api_data_income_percentage():
         new_item["financing_expenses"] = 100 * item.financing_expenses / revenue if item.financing_expenses is not None else 0
         data.append(new_item)
     return jsonify({"message": "successful",
-                    "data": {"html": render_template("stock/tables/_income_percentage.html", data=data)}
+                    "data": {"html": render_template("stock/report/tables/_income_percentage.html", data=data)}
                 })
 
 
@@ -274,7 +274,7 @@ def api_data_financial_risk():
         simple_indicators.append(new_item)
     simple_indicators.sort(key=itemgetter("account_date"), reverse=True)
     return jsonify({"message": "successful",
-                    "data": {"html": render_template("stock/tables/_financial_risk.html", indicators=simple_indicators)}
+                    "data": {"html": render_template("stock/report/tables/_financial_risk.html", indicators=simple_indicators)}
                 })
 
 
@@ -481,7 +481,7 @@ def api_data_warning_currency_funds():
 
     items.sort(key=itemgetter("account_date"), reverse=True)
     return jsonify({"message":"successful",
-                    "data": {"html": render_template("stock/tables/_warning_currency_funds.html", items=items)}
+                    "data": {"html": render_template("stock/report/tables/_warning_currency_funds.html", items=items)}
                     })
 
 @stock_bp.route("/api/data/warning/account_receivable", methods=["GET"])
@@ -511,7 +511,7 @@ def api_data_warning_account_receivable():
         items.append(item)
     items.sort(key=itemgetter("account_date"), reverse=True)
     return jsonify({"message": "successful",
-                    "data": {"html": render_template("stock/tables/_warning_account_receivable.html", items=items)}
+                    "data": {"html": render_template("stock/report/tables/_warning_account_receivable.html", items=items)}
                     })
 
 
@@ -541,5 +541,5 @@ def api_data_warning_other_assets():
         items.append(item)
     items.sort(key=itemgetter("account_date"), reverse=True)
     return jsonify({"message": "successful",
-                    "data": {"html": render_template("stock/tables/_warning_other_assets.html", items=items)}
+                    "data": {"html": render_template("stock/report/tables/_warning_other_assets.html", items=items)}
                     })

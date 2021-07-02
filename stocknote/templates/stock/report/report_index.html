@@ -1,16 +1,4 @@
-{% extends 'base.html' %}
 
-{% block breadcrumb %}
-<li>个股</li>
-<li class="active" id="i_brc" data-code="{{ stock.code }}">{{stock.name}}</li>
-{% endblock %}
-
-{% block content_title %}
-{{ stock.code ~ ' ' ~ stock.name }}
-{% endblock %}
-
-{% block content %}
-<br><br>
 <div class="row">
     <div class="col-md-11">
         <div class="row text-muted">
@@ -382,5 +370,3 @@
         getDataAndPlotLines(profitability_url, "J_profitabilityIndicatorsChart");
     });
 </script>
-
-{% endblock %}

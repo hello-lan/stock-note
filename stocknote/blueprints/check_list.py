@@ -13,7 +13,7 @@ checklist_bp = Blueprint("check_list", __name__)
 @checklist_bp.route("/<code>", methods=["GET"])
 def index(code):
     stock = Stock.query.filter_by(code=code).first_or_404()
-    return render_template("check_list/checklist_index.html", stock=stock)
+    return render_template("stock/index.html", stock=stock)
 
 
 @checklist_bp.route("/api/data/quality", methods=["GET"])
@@ -21,7 +21,7 @@ def api_data_quality():
     code = request.args.get("code", type=str)
     checklist = CheckListQuality.query.filter_by(code=code).first()
     checklist = {} if checklist is None else checklist
-    html = render_template("check_list/lists/quality.html", code=code, checklist=checklist)
+    html = render_template("stock/check_list/quality.html", code=code, checklist=checklist)
     return jsonify({"message": "success",
                     "data": {"html": html}
                 })
@@ -64,7 +64,7 @@ def api_op_edit_quality_partial():
 def api_data_risk():
     code = request.args.get("code", type=str)
     checklist = {}
-    html = render_template("check_list/lists/risk.html", code=code, checklist=checklist)
+    html = render_template("stock/check_list/risk.html", code=code, checklist=checklist)
     return jsonify({"message": "success",
                     "data": {"html": html}
                 })

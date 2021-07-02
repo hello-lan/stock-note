@@ -43,7 +43,7 @@ def stock_pool():
             "latest_price": latest_price_,
         }
         items.append(new_item)
-    return render_template("individual/parts/_stock_pool.html", items=items)
+    return render_template("home/individual/parts/_stock_pool.html", items=items)
 
 
 @individual_bp.route("/stock-pool/op/add-stock", methods=["POST"])
@@ -115,7 +115,7 @@ def my_interests():
     items = db.session.query(MyInterests.code, Stock.name)  \
             .outerjoin(Stock, Stock.code==MyInterests.code)  \
             .all()
-    return render_template("individual/parts/_interests.html", items=items)
+    return render_template("home/individual/parts/_interests.html", items=items)
 
 
 @individual_bp.route("/my-interests/op/add-stock", methods=["POST"])
