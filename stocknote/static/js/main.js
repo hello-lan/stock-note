@@ -3,6 +3,9 @@ $(document).ready(function () {
     var ENTER_KEY = 13;
     var ESC_KEY = 27;
 
+    var preload_url = $(".active a").attr("data-href")
+    loadContent(preload_url);
+
     // 加载内容到右侧区域
     $(document).on('click', '.load-content-btn', function(){
         var url = $(this).attr("data-href");
@@ -18,8 +21,8 @@ $(document).ready(function () {
         }
         $input.focus().val('');
 
-        var url = stock_page_url + "?code=" + value;
-        loadContent(url);
+        var url = $input.attr("data-url") + "?code=" + value;
+        window.open(url);
     }
 
     $(document).on('keyup', '#i_stockInput', searchStock.bind(this));

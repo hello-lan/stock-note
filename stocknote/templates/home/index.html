@@ -1,5 +1,13 @@
 {% extends 'base.html' %}
 
+{% block style %}
+{{ super() }}
+<style>
+ #i_category > .active {background:rgb(83, 88, 83)}
+</style>
+
+{% endblock %}
+
 {% block content -%}
   <div class="container-fluid">
     <div class="row">
@@ -9,14 +17,14 @@
         <div class="row">
           <div class="col-md-8 col-md-offset-1">
             <div class="form-group has-feedback">
-              <input type="text" id="i_stockInput" placeholder="股票代码..." class="form-control number-checker">
+              <input type="text" id="i_stockInput" placeholder="股票代码..." class="form-control number-checker" data-url="{{url_for('stock.stock_detail')}}">
               <i class="glyphicon glyphicon-search form-control-feedback" style="display:inline-block"></i>
             </div>
           </div>
           <br><br><br>
         </div>
         <ul class="nav nav-sidebar" id="i_category">
-          <li><a class="load-content-btn" role="button" data-href="{{ url_for('home.home') }}">主 页</a></li>
+          <li class="active"><a class="load-content-btn" role="button" data-href="{{ url_for('individual.index') }}">主 页</a></li>
           <li><a class="load-content-btn" role="button" data-href="{{ url_for('compare.index') }}">竞争分析</a></li>
           <li>
             <a data-toggle="collapse" href="#valuationTools">估值工具</a>
@@ -39,9 +47,8 @@
   {{ super() }}
   <script src="/static/js/main.js"></script>
   <script type="text/javascript">
-    var home_page_url = "{{ url_for('home.home') }}";
+    var home_page_url = "{{ url_for('individual.index') }}";
     var group_page_url = "{{ url_for('compare.index') }}";
-    var stock_page_url = "{{ url_for('stock.stock_detail')}}";
 
     var create_group_url = "{{url_for('compare.api_op_create_group')}}";
     var remove_group_url = "{{url_for('compare.api_op_remove_group')}}";

@@ -12,13 +12,13 @@ compare_bp = Blueprint("compare", __name__)
 @compare_bp.route("/index")
 def index():
     groups = StockGroup.query.all()
-    return render_template("compare/_index.html", groups=groups)
+    return render_template("home/compare/_index.html", groups=groups)
 
 
 @compare_bp.route("/<int:group_id>/detail")
 def group_detail(group_id):
     group = StockGroup.query.get_or_404(group_id)
-    return render_template("compare/_group.html", group=group)
+    return render_template("home/compare/_group.html", group=group)
 
 
 @compare_bp.route("/op/create-group", methods=["POST"])

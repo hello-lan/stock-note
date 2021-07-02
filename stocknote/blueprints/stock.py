@@ -1,4 +1,5 @@
-from flask import render_template, current_app, Blueprint, jsonify, flash, request, abort
+from flask import (render_template, current_app, Blueprint, jsonify,
+                flash, request, abort, redirect, url_for)
 
 from operator import itemgetter, attrgetter
 from collections import defaultdict
@@ -16,15 +17,17 @@ from stocknote.utils.function import none_to_zeros
 stock_bp = Blueprint("stock", __name__)
 
 
+@stock_bp.route("/<code>", methods=["GET"])
+def index(code):
+    stock = Stock.query.filter_by(code=code).first_or_404()
+    return render_template("stock/index.html", stock=stock)
+
+
 @stock_bp.route("/detail", methods=["GET"])
 def stock_detail():
-    data = request.args
-    if "code" not in data:
-        abort(400)
-
-    code = data["code"]
-    stock = Stock.query.filter_by(code=code).first_or_404()
-    return render_template("stock/_stock_index.html", stock=stock)
+    code = request.args.get("code", type=str)
+    url = url_for('stock.index', code=code)
+    return redirect(url)
 
 
 @stock_bp.route("/report", methods=["GET"])

@@ -9,6 +9,11 @@ from stocknote.services.quotation import get_latest_price
 individual_bp = Blueprint("individual", __name__)
 
 
+@individual_bp.route("/home")
+def index():
+    return render_template("home/individual/_index.html")
+
+
 @individual_bp.route("/stock-pool")
 def stock_pool():
     from random import choice

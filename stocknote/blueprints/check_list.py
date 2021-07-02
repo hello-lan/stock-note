@@ -10,12 +10,6 @@ from stocknote.models.note import CheckListQuality
 checklist_bp = Blueprint("check_list", __name__)
 
 
-@checklist_bp.route("/<code>", methods=["GET"])
-def index(code):
-    stock = Stock.query.filter_by(code=code).first_or_404()
-    return render_template("stock/index.html", stock=stock)
-
-
 @checklist_bp.route("/api/data/quality", methods=["GET"])
 def api_data_quality():
     code = request.args.get("code", type=str)

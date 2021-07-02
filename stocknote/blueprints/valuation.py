@@ -7,12 +7,12 @@ valuation_bp = Blueprint("valuation", __name__)
 
 @valuation_bp.route("/pe/index")
 def pe_index():
-    return render_template("valuation/_pe_index.html")
+    return render_template("home/valuation/_pe_index.html")
 
 
 @valuation_bp.route("/dcf/index")
 def dcf_index():
-    return render_template("valuation/_dcf_index.html")
+    return render_template("home/valuation/_dcf_index.html")
 
 
 @valuation_bp.route("/dcf/report", methods=["GET"])
@@ -51,12 +51,12 @@ def dcf_report():
     # 永续年金折现价值
     data["present_value_of_perpetuity_value"] = int(data["perpetuity_value"] / pow(1 + discount_rate, len(cashflow_growths)))
     data["final_valuation"] = data["present_value_of_perpetuity_value"] + data["pv_total"]
-    return render_template("valuation/parts/_dcf_report.html", params=params, data=data)
+    return render_template("home/valuation/parts/_dcf_report.html", params=params, data=data)
 
 
 @valuation_bp.route("/dcf-plus/index")
 def dcf_plus_index():
-    return render_template("valuation/_dcf_plus_index.html")
+    return render_template("home/valuation/_dcf_plus_index.html")
 
 
 @valuation_bp.route("/dcf-plus/report")
@@ -112,4 +112,4 @@ def dcf_plus_report():
         "pes": pe_q,
         "prices": price_q
     }
-    return render_template("valuation/parts/_dcf_plus_report.html", data=data, r=r, equity=equity)
+    return render_template("home/valuation/parts/_dcf_plus_report.html", data=data, r=r, equity=equity)
