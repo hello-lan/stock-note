@@ -3,15 +3,20 @@ $(document).ready(function () {
     var ENTER_KEY = 13;
     var ESC_KEY = 27;
 
-    var preload_url = $(".active a").attr("data-href")
-    loadContent(preload_url);
+    // 点击navbar时切换active状态,
+    $("ul#i_category > li").click(function(){
+        $("ul#i_category > li").removeClass("active");
+        $(this).addClass("active");
+    });
 
     // 加载内容到右侧区域
     $(document).on('click', '.load-content-btn', function(){
-        var url = $(this).attr("data-href");
+        var url = $(this).attr("data-url");
         loadContent(url);
     });
 
+    $("#i_category > .active a").click();   // 触发点击事件，加载内容
+    
     // 查询个股
     function searchStock(e) {
         var $input = $("#i_stockInput");

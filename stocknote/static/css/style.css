@@ -32,8 +32,14 @@
 .nav-sidebar > .active > a,
 .nav-sidebar > .active > a:hover,
 .nav-sidebar > .active > a:focus {
-    color: #fff;
-    background-color: #428bca;
+        color:lightblue;
+        /* background-color:darkgray; */
+        /* background-color:slategrey; */
+        background-color:rgb(214, 230, 231)
+}
+
+#i_category > .active > a {
+    background-color:rgb(83, 88, 83)
 }
 
 /*主要内容格式设置*/
