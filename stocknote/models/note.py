@@ -94,3 +94,21 @@ class CheckListQuality(db.Model):
     past_explainable = db.Column(db.Text, default="-", comment="定性分析能否解释过往业绩")
     create_time = db.Column(db.DateTime, default=datetime.now)
     update_time = db.Column(db.DateTime, default=datetime.now, onupdate=datetime.now)
+
+
+class CheckListRisk(db.Model):
+    __tablename__ = "checklist_risk"
+
+    id = db.Column(db.Integer, primary_key=True)
+    code = db.Column(db.String(10), unique=True, index=True, nullable=False)
+    revenue_growth = db.Column(db.Text, default="-", comment="企业营业收入增长的原因")
+    operations = db.Column(db.Text, default="-", comment="行业、产地或地区经营情况分析")
+    fee = db.Column(db.Text, default="-", comment="看公司费用率或费用绝对数有没有变化")
+    investment = db.Column(db.Text, default="-", comment="投资状况分析")
+    project_changes = db.Column(db.Text, default="-", comment="募集项目变更情况")
+    differences_with_actual_funds_use = db.Column(db.Text, default="-", comment="关注计划投资金额与实际投资金额的差异")
+    develope_views_compare_to_past = db.Column(db.Text, default="-", comment="董事会历年关于公司的未来发展的描述有何不同")
+    develope_views_compare_to_competitors = db.Column(db.Text, default="-", comment="与同行其他竞争者的行业未来发展看法有何不同")
+    develope_views_summary = db.Column(db.Text, default="-", comment="总结分析公司的未来发展")
+    create_time = db.Column(db.DateTime, default=datetime.now)
+    update_time = db.Column(db.DateTime, default=datetime.now, onupdate=datetime.now)

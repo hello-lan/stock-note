@@ -1,1 +1,182 @@
-<h1 class="text-center">TO DO</h1>
+<div class="row">
+    <h3 class="text-center text-primary">避雷检查清单</h3>
+    <br><br><br>
+    <div class="col-md-3" ><p>公司代码:&nbsp;{{ code }}</p></div>
+    <div class="col-md-3 col-md-offset-6"><p class="text-right">更新时间:&nbsp;{{ checklist.update_time | default('-', True) | date }}</p></div>
+</div>
+<table class="table table-bordered table-condensed">
+    <thead>
+        <tr>
+            <th class="text-center" width="15%">检查项</th>
+            <th class="text-center" width="30%">检查要点</th>
+            <th class="text-center">检查结果</th>
+            <th class="text-center" width="5%">编辑</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            {% set desc_revenue_growth = '在分析营收增长原因（主要是量的增长，还是价格的提升）时，财报的成本表中‘直接材料成本’可以起到部分参考作用' %}
+            <td rowspan="1" style="vertical-align: middle">营业收入</td>
+            <td style="vertical-align: middle">{{ desc_revenue_growth }}</td>
+            <td class="pre-line" style="vertical-align: middle">{{ checklist.revenue_growth | default('-', True)}}</td>
+            <td class="text-center" style="vertical-align: middle">
+                <div class="dropdown">
+                    <span class="dropdown-toggle" id="checklistEditDropDownMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                        <i role="button" class="glyphicon glyphicon-option-horizontal"></i>
+                    </span>
+                    <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="checklistEditDropDownMenu" style="min-width:50px" >
+                        <li>
+                            <a role="btn" class="btn" onclick="showCheckListEditModal(this)" data-desc="{{ desc_revenue_growth }}" data-field="revenue_growth"><i class="glyphicon glyphicon-pencil"></i>&nbsp;&nbsp;编辑</a>
+                        </li>
+                    </ul>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            {% set desc_operations = '要关注的内容，主要时各类产品的增长或衰退、毛利率的变化情况以及传统销售区域是否有稳定的增长、新的消费区域开发是否顺利等' %}
+            <td rowspan="1" style="vertical-align: middle">行业、产品或地区经营情况分析</td>
+            <td style="vertical-align: middle">{{ desc_operations }}</td>
+            <td class="pre-line" style="vertical-align: middle">{{ checklist.operations | default('-', True)}}</td>
+            <td class="text-center" style="vertical-align: middle">
+                <div class="dropdown">
+                    <span class="dropdown-toggle" id="checklistEditDropDownMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                        <i role="button" class="glyphicon glyphicon-option-horizontal"></i>
+                    </span>
+                    <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="checklistEditDropDownMenu" style="min-width:50px" >
+                        <li>
+                            <a role="btn" class="btn" onclick="showCheckListEditModal(this)" data-desc="{{ desc_operations }}" data-field="operations"><i class="glyphicon glyphicon-pencil"></i>&nbsp;&nbsp;编辑</a>
+                        </li>
+                    </ul>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            {% set desc_fee = '主要看费用率或费用绝对值有没有异常变化' %}
+            <td rowspan="1" style="vertical-align: middle">费用</td>
+            <td style="vertical-align: middle">{{ desc_fee }}</td>
+            <td class="pre-line" style="vertical-align: middle">{{ checklist.fee | default('-', True)}}</td>
+            <td class="text-center" style="vertical-align: middle">
+                <div class="dropdown">
+                    <span class="dropdown-toggle" id="checklistEditDropDownMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                        <i role="button" class="glyphicon glyphicon-option-horizontal"></i>
+                    </span>
+                    <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="checklistEditDropDownMenu" style="min-width:50px" >
+                        <li>
+                            <a role="btn" class="btn" onclick="showCheckListEditModal(this)" data-desc="{{ desc_fee }}" data-field="fee"><i class="glyphicon glyphicon-pencil"></i>&nbsp;&nbsp;编辑</a>
+                        </li>
+                    </ul>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            {% set desc_investment = '企业未来是否能够有增长，取决于企业今天的投资。所以未来成长股，一般是当前投资活动现金流为负的企业' %}
+            <td rowspan="1" style="vertical-align: middle">投资状况分析</td>
+            <td style="vertical-align: middle">{{ desc_investment }}</td>
+            <td class="pre-line" style="vertical-align: middle">{{ checklist.investment | default('-', True)}}</td>
+            <td class="text-center" style="vertical-align: middle">
+                <div class="dropdown">
+                    <span class="dropdown-toggle" id="checklistEditDropDownMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                        <i role="button" class="glyphicon glyphicon-option-horizontal"></i>
+                    </span>
+                    <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="checklistEditDropDownMenu" style="min-width:50px" >
+                        <li>
+                            <a role="btn" class="btn" onclick="showCheckListEditModal(this)" data-desc="{{ desc_investment }}" data-field="investment"><i class="glyphicon glyphicon-pencil"></i>&nbsp;&nbsp;编辑</a>
+                        </li>
+                    </ul>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            {% set desc_project_changes = '要重点关注募“集项目变更情况表”，观察项目变更原因，究竟是与时俱进的变化，还是收钱变脸的无赖行为，这可以帮我们认识管理团队的品性。' %}
+            <td rowspan="2" style="vertical-align: middle">投资状况分析</td>
+            <td style="vertical-align: middle">{{ desc_project_changes }}</td>
+            <td class="pre-line" style="vertical-align: middle">{{ checklist.project_changes | default('-', True)}}</td>
+            <td class="text-center" style="vertical-align: middle">
+                <div class="dropdown">
+                    <span class="dropdown-toggle" id="checklistEditDropDownMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                        <i role="button" class="glyphicon glyphicon-option-horizontal"></i>
+                    </span>
+                    <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="checklistEditDropDownMenu" style="min-width:50px" >
+                        <li>
+                            <a role="btn" class="btn" onclick="showCheckListEditModal(this)" data-desc="{{ desc_project_changes }}" data-field="project_changes"><i class="glyphicon glyphicon-pencil"></i>&nbsp;&nbsp;编辑</a>
+                        </li>
+                    </ul>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            {% set desc_differences_with_actual_funds_use = '要关注计划投资金额和最终的实际投资金额，若差异太大，可能需要我们对管理层的管理能力和专业能力打个折扣看待。' %}
+            <td style="vertical-align: middle">{{ desc_differences_with_actual_funds_use }}</td>
+            <td class="pre-line" style="vertical-align: middle">{{ checklist.differences_with_actual_funds_use | default('-', True)}}</td>
+            <td class="text-center" style="vertical-align: middle">
+                <div class="dropdown">
+                    <span class="dropdown-toggle" id="checklistEditDropDownMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                        <i role="button" class="glyphicon glyphicon-option-horizontal"></i>
+                    </span>
+                    <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="checklistEditDropDownMenu" style="min-width:50px" >
+                        <li>
+                            <a role="btn" class="btn" onclick="showCheckListEditModal(this)" data-desc="{{ desc_differences_with_actual_funds_use }}" data-field="differences_with_actual_funds_use"><i class="glyphicon glyphicon-pencil"></i>&nbsp;&nbsp;编辑</a>
+                        </li>
+                    </ul>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            {% set desc_develope_views_compare_to_past = '要纵向看企业近年与往年有何不同' %}
+            <td rowspan="3" style="vertical-align: middle">董事会关于公司未来发展的讨论与分析</td>
+            <td style="vertical-align: middle">{{ desc_develope_views_compare_to_past }}</td>
+            <td class="pre-line" style="vertical-align: middle">{{ checklist.develope_views_compare_to_past | default('-', True)}}</td>
+            <td class="text-center" style="vertical-align: middle">
+                <div class="dropdown">
+                    <span class="dropdown-toggle" id="checklistEditDropDownMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                        <i role="button" class="glyphicon glyphicon-option-horizontal"></i>
+                    </span>
+                    <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="checklistEditDropDownMenu" style="min-width:50px" >
+                        <li>
+                            <a role="btn" class="btn" onclick="showCheckListEditModal(this)" data-desc="{{ desc_develope_views_compare_to_past }}" data-field="develope_views_compare_to_past"><i class="glyphicon glyphicon-pencil"></i>&nbsp;&nbsp;编辑</a>
+                        </li>
+                    </ul>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            {% set desc_develope_views_compare_to_competitors = '还要看企业和竞争对手的表述有何不同' %}
+            <td style="vertical-align: middle">{{ desc_develope_views_compare_to_competitors }}</td>
+            <td class="pre-line" style="vertical-align: middle">{{ checklist.develope_views_compare_to_competitors | default('-', True)}}</td>
+            <td class="text-center" style="vertical-align: middle">
+                <div class="dropdown">
+                    <span class="dropdown-toggle" id="checklistEditDropDownMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                        <i role="button" class="glyphicon glyphicon-option-horizontal"></i>
+                    </span>
+                    <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="checklistEditDropDownMenu" style="min-width:50px" >
+                        <li>
+                            <a role="btn" class="btn" onclick="showCheckListEditModal(this)" data-desc="{{ desc_develope_views_compare_to_competitors }}" data-field="develope_views_compare_to_competitors"><i class="glyphicon glyphicon-pencil"></i>&nbsp;&nbsp;编辑</a>
+                        </li>
+                    </ul>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            {% set desc_develope_views_summary = '认证读、仔细读，把几年的连起来读，把同行的拿来对比读，从中找分歧、找可信度、找真专家' %}
+            <td style="vertical-align: middle">{{ desc_develope_views_summary }}</td>
+            <td class="pre-line" style="vertical-align: middle">{{ checklist.develope_views_summary | default('-', True)}}</td>
+            <td class="text-center" style="vertical-align: middle">
+                <div class="dropdown">
+                    <span class="dropdown-toggle" id="checklistEditDropDownMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                        <i role="button" class="glyphicon glyphicon-option-horizontal"></i>
+                    </span>
+                    <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="checklistEditDropDownMenu" style="min-width:50px" >
+                        <li>
+                            <a role="btn" class="btn" onclick="showCheckListEditModal(this)" data-desc="{{ desc_develope_views_summary }}" data-field="develope_views_summary"><i class="glyphicon glyphicon-pencil"></i>&nbsp;&nbsp;编辑</a>
+                        </li>
+                    </ul>
+                </div>
+            </td>
+        </tr>
+    </tbody>
+</table>
+<!-- 存放数据用来被js读取 -->
+<div id="i_cacheData" data-code="{{code}}" 
+    data-partial-url="{{ url_for('check_list.api_data_risk_partial', code=code) }}"
+    data-partial-edit-url="{{ url_for('check_list.api_op_edit_risk_partial') }}">
+</div>
