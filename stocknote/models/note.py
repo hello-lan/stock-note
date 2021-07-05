@@ -112,3 +112,32 @@ class CheckListRisk(db.Model):
     develope_views_summary = db.Column(db.Text, default="-", comment="总结分析公司的未来发展")
     create_time = db.Column(db.DateTime, default=datetime.now)
     update_time = db.Column(db.DateTime, default=datetime.now, onupdate=datetime.now)
+
+
+class CheckListEvaluate(db.Model):
+    __tablename__ = "checklist_evaluate"
+
+    id = db.Column(db.Integer, primary_key=True)
+    code = db.Column(db.String(10), unique=True, index=True, nullable=False)
+    three_premise = db.Column(db.Text, default="-", comment="估值的三大前提：利润是否为真、利润是否可持续、维持当前盈利是否需要大量资本投入")
+    trading_plan_steps = db.Column(db.Text, default="-", comment="交易计划--分几层买入")
+    trading_plan_max_ratio = db.Column(db.Text, default="-", comment="交易计划--持仓上限")
+    # 非周期股部分
+    non_cyclical_profit_growth = db.Column(db.Text, default="-", comment="预估的利润增速--非周期股")
+    non_cyclical_net_profit_after_nrgal_atsolc = db.Column(db.Text, default="-", comment="预估的全年扣非净利润--非周期股")
+    non_cyclical_net_profit_analysis =  db.Column(db.Text, default="-", comment="对净利润做分析--非周期股")
+    non_cyclical_revenue = db.Column(db.Text, default="-", comment="估算公司营业收入--非周期股")
+    non_cyclical_profit_rate = db.Column(db.Text, default="-", comment="估算公司的利润率--非周期股")
+    non_cyclical_net_profit_discount = db.Column(db.Text, default="-", comment="对净利润现金含量低于100%的企业，对净利润予一定的折扣--非周期股")
+    non_cyclical_evaluate = db.Column(db.Text, default="-", comment="计算估值--非周期股")
+    non_cyclical_buying_point = db.Column(db.Text, default="-", comment="买点--非周期股")
+    non_cyclical_buying_point_2 = db.Column(db.Text, default="-", comment="买点--非周期股")
+    non_cyclical_selling_point = db.Column(db.Text, default="-", comment="卖点--非周期股")
+    # 周期股部分
+    cyclical_net_profit = db.Column(db.Text, default="-", comment="统计过去10年的净利润，计算年均净利润--周期股")
+    cyclical_net_profit_discount = db.Column(db.Text, default="-", comment="对净利润现金含量低于1oo%的企业，对净利润予一定的折扣--周期股")
+    cyclical_evaluate = db.Column(db.Text, default="-", comment="计算估值--周期股")
+    cyclical_buying_point = db.Column(db.Text, default="-", comment="买点--周期股")
+    cyclical_selling_point = db.Column(db.Text, default="-", comment="卖点--周期股")
+    create_time = db.Column(db.DateTime, default=datetime.now)
+    update_time = db.Column(db.DateTime, default=datetime.now, onupdate=datetime.now)

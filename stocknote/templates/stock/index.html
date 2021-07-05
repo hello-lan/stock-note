@@ -30,7 +30,7 @@
           <li class="active"><a href="#report" id="i_first_list" data-url="{{ url_for('stock.api_data_report', code=stock.code)}}">分析报表</a></li>
           <li><a href="#quality" data-url="{{ url_for('check_list.api_data_quality', code=stock.code)}}">质量检查清单</a></li>
           <li><a href="#risk" data-url="{{ url_for('check_list.api_data_risk', code=stock.code)}}">避雷检查清单</a></li>
-          <li><a href="#valuate">估值检查清单</a></li>
+          <li><a href="#valuate" data-url="{{ url_for('check_list.api_data_evaluate', code=stock.code)}}">估值检查清单</a></li>
         </ul>
       </div><!--/.nav-collapse -->
     </div>

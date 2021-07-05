@@ -1,0 +1,364 @@
+<div class="row">
+    <h3 class="text-center text-primary">估值检查清单</h3>
+    <br><br><br>
+    <div class="col-md-3" ><p>公司代码:&nbsp;{{ code }}</p></div>
+    <div class="col-md-3 col-md-offset-6"><p class="text-right">更新时间:&nbsp;{{ checklist.update_time | default('-', True) | date }}</p></div>
+</div>
+<table class="table table-bordered table-condensed">
+    <thead>
+        <tr>
+            <th class="text-center" width="15%">检查项</th>
+            <th class="text-center" width="30%">检查要点</th>
+            <th class="text-center">检查结果</th>
+            <th class="text-center" width="5%">编辑</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            {% set desc_three_premise= '公司利润是否为真？可否持续？维持当前盈利是否需要大量资本投入？' %}
+            <td style="vertical-align: middle">一、三大前提</td>
+            <td style="vertical-align: middle">{{ desc_three_premise}}</td>
+            <td class="pre-line" style="vertical-align: middle">{{ checklist.three_premise | default('-', True)}}</td>
+            <td class="text-center" style="vertical-align: middle">
+                <div class="dropdown">
+                    <span class="dropdown-toggle" id="checklistEditDropDownMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                        <i role="button" class="glyphicon glyphicon-option-horizontal"></i>
+                    </span>
+                    <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="checklistEditDropDownMenu" style="min-width:50px" >
+                        <li>
+                            <a role="btn" class="btn" onclick="showCheckListEditModal(this)" data-desc="{{ desc_three_premise}}" data-field="three_premise"><i class="glyphicon glyphicon-pencil"></i>&nbsp;&nbsp;编辑</a>
+                        </li>
+                    </ul>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td rowspan="11" style="vertical-align: middle">二、估算利润</td>
+            <td colspan="3" class="text-left text-info" style="vertical-align: middle">非周期股</td>
+        </tr>
+        <tr>
+            {% set desc_non_cyclical_profit_growth= '1.根据公司过去3年、10年的营业收入增速和净利润增速来模拟今后净利润增速' %}
+            <td style="vertical-align: middle">{{ desc_non_cyclical_profit_growth }}</td>
+            <td class="pre-line" style="vertical-align: middle">{{ checklist.non_cyclical_profit_growth | default('-', True)}}</td>
+            <td class="text-center" style="vertical-align: middle">
+                <div class="dropdown">
+                    <span class="dropdown-toggle" id="checklistEditDropDownMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                        <i role="button" class="glyphicon glyphicon-option-horizontal"></i>
+                    </span>
+                    <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="checklistEditDropDownMenu" style="min-width:50px" >
+                        <li>
+                            <a role="btn" class="btn" onclick="showCheckListEditModal(this)" data-desc="{{ desc_non_cyclical_profit_growth}}" data-field="non_cyclical_profit_growth"><i class="glyphicon glyphicon-pencil"></i>&nbsp;&nbsp;编辑</a>
+                        </li>
+                    </ul>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            {% set desc_non_cyclical_net_profit_after_nrgal_atsolc= '2. (1)根据季报、半年报的归母净利润简单测算全年的归母净利润，即全年的归母净利润＝１季报的 × 4，半年报的 × 2，三季报的 × 4/3' %}
+            <td style="vertical-align: middle">{{ desc_non_cyclical_net_profit_after_nrgal_atsolc}}</td>
+            <td class="pre-line" style="vertical-align: middle">{{ checklist.non_cyclical_net_profit_after_nrgal_atsolc | default('-', True)}}</td>
+            <td class="text-center" style="vertical-align: middle">
+                <div class="dropdown">
+                    <span class="dropdown-toggle" id="checklistEditDropDownMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                        <i role="button" class="glyphicon glyphicon-option-horizontal"></i>
+                    </span>
+                    <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="checklistEditDropDownMenu" style="min-width:50px" >
+                        <li>
+                            <a role="btn" class="btn" onclick="showCheckListEditModal(this)" data-desc="{{ desc_non_cyclical_net_profit_after_nrgal_atsolc}}" data-field="non_cyclical_net_profit_after_nrgal_atsolc"><i class="glyphicon glyphicon-pencil"></i>&nbsp;&nbsp;编辑</a>
+                        </li>
+                    </ul>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            {% set desc_non_cyclical_net_profit_analysis= '(2)根据一季报内“对1~6月经营业绩的预测”部分，对半年报的净利润作出分析，　根据半年报内“对1~9月经营业绩的预计”部分，对1~9月的净利润作出分析' %}
+            <td style="vertical-align: middle">{{ desc_non_cyclical_net_profit_analysis}}</td>
+            <td class="pre-line" style="vertical-align: middle">{{ checklist.non_cyclical_net_profit_analysis | default('-', True)}}</td>
+            <td class="text-center" style="vertical-align: middle">
+                <div class="dropdown">
+                    <span class="dropdown-toggle" id="checklistEditDropDownMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                        <i role="button" class="glyphicon glyphicon-option-horizontal"></i>
+                    </span>
+                    <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="checklistEditDropDownMenu" style="min-width:50px" >
+                        <li>
+                            <a role="btn" class="btn" onclick="showCheckListEditModal(this)" data-desc="{{ desc_non_cyclical_net_profit_analysis}}" data-field="non_cyclical_net_profit_analysis"><i class="glyphicon glyphicon-pencil"></i>&nbsp;&nbsp;编辑</a>
+                        </li>
+                    </ul>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td style="vertical-align: middle">3.根据营业收入×归母净利润率，估算归母净利润率:</td>
+            <td></td>
+            <td></td>
+        </tr>
+        <tr>
+            {% set desc_non_cyclical_revenue= '(1)根据地方政府相关经济产业规划，估算公司营业收入' %}
+            <td style="vertical-align: middle">{{ desc_non_cyclical_revenue}}</td>
+            <td class="pre-line" style="vertical-align: middle">{{ checklist.non_cyclical_revenue | default('-', True)}}</td>
+            <td class="text-center" style="vertical-align: middle">
+                <div class="dropdown">
+                    <span class="dropdown-toggle" id="checklistEditDropDownMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                        <i role="button" class="glyphicon glyphicon-option-horizontal"></i>
+                    </span>
+                    <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="checklistEditDropDownMenu" style="min-width:50px" >
+                        <li>
+                            <a role="btn" class="btn" onclick="showCheckListEditModal(this)" data-desc="{{ desc_non_cyclical_revenue}}" data-field="non_cyclical_revenue"><i class="glyphicon glyphicon-pencil"></i>&nbsp;&nbsp;编辑</a>
+                        </li>
+                    </ul>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            {% set desc_non_cyclical_profit_rate= '(2)根据近几年公司归母净利润率数据，估算当年归母净利润率' %}
+            <td style="vertical-align: middle">{{ desc_non_cyclical_profit_rate}}</td>
+            <td class="pre-line" style="vertical-align: middle">{{ checklist.non_cyclical_profit_rate | default('-', True)}}</td>
+            <td class="text-center" style="vertical-align: middle">
+                <div class="dropdown">
+                    <span class="dropdown-toggle" id="checklistEditDropDownMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                        <i role="button" class="glyphicon glyphicon-option-horizontal"></i>
+                    </span>
+                    <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="checklistEditDropDownMenu" style="min-width:50px" >
+                        <li>
+                            <a role="btn" class="btn" onclick="showCheckListEditModal(this)" data-desc="{{ desc_non_cyclical_profit_rate}}" data-field="non_cyclical_profit_rate"><i class="glyphicon glyphicon-pencil"></i>&nbsp;&nbsp;编辑</a>
+                        </li>
+                    </ul>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            {% set desc_non_cyclical_net_profit_discount= '4.对部分净现金含量低于100%，但其他方面都符合的企业，对净利润予以折扣处理。体现在速算中就是取稍低的市盈率，即 1*80%*25=1*20' %}
+            <td style="vertical-align: middle">{{ desc_non_cyclical_net_profit_discount}}</td>
+            <td class="pre-line" style="vertical-align: middle">{{ checklist.non_cyclical_net_profit_discount | default('-', True)}}</td>
+            <td class="text-center" style="vertical-align: middle">
+                <div class="dropdown">
+                    <span class="dropdown-toggle" id="checklistEditDropDownMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                        <i role="button" class="glyphicon glyphicon-option-horizontal"></i>
+                    </span>
+                    <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="checklistEditDropDownMenu" style="min-width:50px" >
+                        <li>
+                            <a role="btn" class="btn" onclick="showCheckListEditModal(this)" data-desc="{{ desc_non_cyclical_net_profit_discount}}" data-field="non_cyclical_net_profit_discount"><i class="glyphicon glyphicon-pencil"></i>&nbsp;&nbsp;编辑</a>
+                        </li>
+                    </ul>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="3" class="text-left text-info" style="vertical-align: middle">周期股</td>
+        </tr>
+        <tr>
+            {% set desc_cyclical_net_profit= '1.记录和统计公司过去10年的净利润数据，计算年均净利润，作为当年净利润' %}
+            <td style="vertical-align: middle">{{ desc_cyclical_net_profit}}</td>
+            <td class="pre-line" style="vertical-align: middle">{{ checklist.cyclical_net_profit | default('-', True)}}</td>
+            <td class="text-center" style="vertical-align: middle">
+                <div class="dropdown">
+                    <span class="dropdown-toggle" id="checklistEditDropDownMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                        <i role="button" class="glyphicon glyphicon-option-horizontal"></i>
+                    </span>
+                    <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="checklistEditDropDownMenu" style="min-width:50px" >
+                        <li>
+                            <a role="btn" class="btn" onclick="showCheckListEditModal(this)" data-desc="{{ desc_cyclical_net_profit}}" data-field="cyclical_net_profit"><i class="glyphicon glyphicon-pencil"></i>&nbsp;&nbsp;编辑</a>
+                        </li>
+                    </ul>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            {% set desc_cyclical_net_profit_discount= '2.对部分净现金含量低于100%，但其他方面都符合的企业，对净利润予以折扣处理。体现在速算中就是取稍低的市盈率，即 1*80%*25=1*20' %}
+            <td style="vertical-align: middle">{{ desc_cyclical_net_profit_discount}}</td>
+            <td class="pre-line" style="vertical-align: middle">{{ checklist.cyclical_net_profit_discount | default('-', True)}}</td>
+            <td class="text-center" style="vertical-align: middle">
+                <div class="dropdown">
+                    <span class="dropdown-toggle" id="checklistEditDropDownMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                        <i role="button" class="glyphicon glyphicon-option-horizontal"></i>
+                    </span>
+                    <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="checklistEditDropDownMenu" style="min-width:50px" >
+                        <li>
+                            <a role="btn" class="btn" onclick="showCheckListEditModal(this)" data-desc="{{ desc_cyclical_net_profit_discount}}" data-field="cyclical_net_profit_discount"><i class="glyphicon glyphicon-pencil"></i>&nbsp;&nbsp;编辑</a>
+                        </li>
+                    </ul>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td rowspan="4" style="vertical-align: middle">三、确定合理估值</td>
+            <td colspan="3" class="text-left text-info" style="vertical-align: middle">非周期股</td>
+        </tr>
+        <tr>
+            {% set desc_non_cyclical_evaluate= '1.在all cash is equal 的原则下，对于符合三大前提的企业，不区分行业特色，不区分历史波动区间，一律以无风险收益率的倒数作为三年后合理估值的市盈率水平。(即无风险收益率为3%~4%之间，取值25~30倍市盈率，无风险收益率４%~5%之间，取值20~25倍市盈率，以此类推)' %}
+            <td style="vertical-align: middle">{{ desc_non_cyclical_evaluate}}</td>
+            <td class="pre-line" style="vertical-align: middle">{{ checklist.non_cyclical_evaluate | default('-', True)}}</td>
+            <td class="text-center" style="vertical-align: middle">
+                <div class="dropdown">
+                    <span class="dropdown-toggle" id="checklistEditDropDownMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                        <i role="button" class="glyphicon glyphicon-option-horizontal"></i>
+                    </span>
+                    <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="checklistEditDropDownMenu" style="min-width:50px" >
+                        <li>
+                            <a role="btn" class="btn" onclick="showCheckListEditModal(this)" data-desc="{{ desc_non_cyclical_evaluate}}" data-field="non_cyclical_evaluate"><i class="glyphicon glyphicon-pencil"></i>&nbsp;&nbsp;编辑</a>
+                        </li>
+                    </ul>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="4" class="text-left text-info" style="vertical-align: middle">周期股</td>
+        </tr>
+        <tr>
+            {% set desc_cyclical_evaluate= '1.在all cash is equal 的原则下，完全忽略市场流行的“某行业应该享受某某倍市盈率，某行业某股票历史市盈率是多少倍”估值模式，按照当前无风险收益率3%~4%,且处于上升状态中的现况，暂给予25倍合理估值。' %}
+            <td style="vertical-align: middle">{{ desc_cyclical_evaluate}}</td>
+            <td class="pre-line" style="vertical-align: middle">{{ checklist.cyclical_evaluate | default('-', True)}}</td>
+            <td class="text-center" style="vertical-align: middle">
+                <div class="dropdown">
+                    <span class="dropdown-toggle" id="checklistEditDropDownMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                        <i role="button" class="glyphicon glyphicon-option-horizontal"></i>
+                    </span>
+                    <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="checklistEditDropDownMenu" style="min-width:50px" >
+                        <li>
+                            <a role="btn" class="btn" onclick="showCheckListEditModal(this)" data-desc="{{ desc_cyclical_evaluate}}" data-field="cyclical_evaluate"><i class="glyphicon glyphicon-pencil"></i>&nbsp;&nbsp;编辑</a>
+                        </li>
+                    </ul>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td rowspan="5" style="vertical-align: middle">四、确定理想买点</td>
+            <td colspan="3" class="text-left text-info" style="vertical-align: middle">非周期股</td>
+        </tr>
+        <tr>
+            {% set desc_non_cyclical_buying_point= '1.三年后合理估值的50%就是理想买点' %}
+            <td style="vertical-align: middle">{{ desc_non_cyclical_buying_point}}</td>
+            <td class="pre-line" style="vertical-align: middle">{{ checklist.non_cyclical_buying_point | default('-', True)}}</td>
+            <td class="text-center" style="vertical-align: middle">
+                <div class="dropdown">
+                    <span class="dropdown-toggle" id="checklistEditDropDownMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                        <i role="button" class="glyphicon glyphicon-option-horizontal"></i>
+                    </span>
+                    <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="checklistEditDropDownMenu" style="min-width:50px" >
+                        <li>
+                            <a role="btn" class="btn" onclick="showCheckListEditModal(this)" data-desc="{{ desc_non_cyclical_buying_point}}" data-field="non_cyclical_buying_point"><i class="glyphicon glyphicon-pencil"></i>&nbsp;&nbsp;编辑</a>
+                        </li>
+                    </ul>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            {% set desc_non_cyclical_buying_point_2 = '2.跌入当年合理估值区间中值买入' %}
+            <td style="vertical-align: middle">{{ desc_non_cyclical_buying_point_2 }}</td>
+            <td class="pre-line" style="vertical-align: middle">{{ checklist.non_cyclical_buying_point_2 | default('-', True)}}</td>
+            <td class="text-center" style="vertical-align: middle">
+                <div class="dropdown">
+                    <span class="dropdown-toggle" id="checklistEditDropDownMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                        <i role="button" class="glyphicon glyphicon-option-horizontal"></i>
+                    </span>
+                    <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="checklistEditDropDownMenu" style="min-width:50px" >
+                        <li>
+                            <a role="btn" class="btn" onclick="showCheckListEditModal(this)" data-desc="{{ desc_non_cyclical_buying_point_2}}" data-field="non_cyclical_buying_point_2"><i class="glyphicon glyphicon-pencil"></i>&nbsp;&nbsp;编辑</a>
+                        </li>
+                    </ul>
+                </div>
+            </td>
+        </tr>
+        <tr>       
+            <td colspan="3" class="text-left text-info" style="vertical-align: middle">周期股</td>
+        </tr>
+        <tr>
+            {% set desc_cyclical_buying_point= '1.按照当年合理估值7折买入' %}
+            <td style="vertical-align: middle">{{ desc_cyclical_buying_point}}</td>
+            <td class="pre-line" style="vertical-align: middle">{{ checklist.cyclical_buying_point | default('-', True)}}</td>
+            <td class="text-center" style="vertical-align: middle">
+                <div class="dropdown">
+                    <span class="dropdown-toggle" id="checklistEditDropDownMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                        <i role="button" class="glyphicon glyphicon-option-horizontal"></i>
+                    </span>
+                    <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="checklistEditDropDownMenu" style="min-width:50px" >
+                        <li>
+                            <a role="btn" class="btn" onclick="showCheckListEditModal(this)" data-desc="{{ desc_cyclical_buying_point}}" data-field="cyclical_buying_point"><i class="glyphicon glyphicon-pencil"></i>&nbsp;&nbsp;编辑</a>
+                        </li>
+                    </ul>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td rowspan="4" style="vertical-align: middle">五、确定卖点</td>
+            <td colspan="3" class="text-left text-info" style="vertical-align: middle">非周期股</td>
+        </tr>
+        <tr>
+            {% set desc_non_cyclical_selling_point= '1.当年市盈率超过50倍，或者市值超过３年后合理估值上限的150%，就是卖点，以先到者为准' %}
+            <td style="vertical-align: middle">{{ desc_non_cyclical_selling_point}}</td>
+            <td class="pre-line" style="vertical-align: middle">{{ checklist.non_cyclical_selling_point | default('-', True)}}</td>
+            <td class="text-center" style="vertical-align: middle">
+                <div class="dropdown">
+                    <span class="dropdown-toggle" id="checklistEditDropDownMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                        <i role="button" class="glyphicon glyphicon-option-horizontal"></i>
+                    </span>
+                    <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="checklistEditDropDownMenu" style="min-width:50px" >
+                        <li>
+                            <a role="btn" class="btn" onclick="showCheckListEditModal(this)" data-desc="{{ desc_non_cyclical_selling_point}}" data-field="non_cyclical_selling_point"><i class="glyphicon glyphicon-pencil"></i>&nbsp;&nbsp;编辑</a>
+                        </li>
+                    </ul>
+                </div>
+            </td>
+        </tr>
+        <tr>       
+            <td colspan="3" class="text-left text-info" style="vertical-align: middle">周期股</td>
+        </tr>
+        <tr>
+            {% set desc_cyclical_selling_point= '1.按照当年合理估值的150%卖出' %}
+            <td style="vertical-align: middle">{{ desc_cyclical_selling_point}}</td>
+            <td class="pre-line" style="vertical-align: middle">{{ checklist.cyclical_selling_point | default('-', True)}}</td>
+            <td class="text-center" style="vertical-align: middle">
+                <div class="dropdown">
+                    <span class="dropdown-toggle" id="checklistEditDropDownMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                        <i role="button" class="glyphicon glyphicon-option-horizontal"></i>
+                    </span>
+                    <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="checklistEditDropDownMenu" style="min-width:50px" >
+                        <li>
+                            <a role="btn" class="btn" onclick="showCheckListEditModal(this)" data-desc="{{ desc_cyclical_selling_point}}" data-field="cyclical_selling_point"><i class="glyphicon glyphicon-pencil"></i>&nbsp;&nbsp;编辑</a>
+                        </li>
+                    </ul>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td rowspan="2" style="vertical-align: middle">六、制定交易计划</td>
+            {% set desc_trading_plan_steps= '1.分几层买入，每层买百分之几的仓位?' %}
+            <td style="vertical-align: middle">{{ desc_trading_plan_steps}}</td>
+            <td class="pre-line" style="vertical-align: middle">{{ checklist.trading_plan_steps | default('-', True)}}</td>
+            <td class="text-center" style="vertical-align: middle">
+                <div class="dropdown">
+                    <span class="dropdown-toggle" id="checklistEditDropDownMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                        <i role="button" class="glyphicon glyphicon-option-horizontal"></i>
+                    </span>
+                    <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="checklistEditDropDownMenu" style="min-width:50px" >
+                        <li>
+                            <a role="btn" class="btn" onclick="showCheckListEditModal(this)" data-desc="{{ desc_trading_plan_steps}}" data-field="trading_plan_steps"><i class="glyphicon glyphicon-pencil"></i>&nbsp;&nbsp;编辑</a>
+                        </li>
+                    </ul>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            {% set desc_trading_plan_max_ratio= '2.该公司股票的持仓上限是多少?' %}
+            <td style="vertical-align: middle">{{ desc_trading_plan_max_ratio}}</td>
+            <td class="pre-line" style="vertical-align: middle">{{ checklist.trading_plan_max_ratio | default('-', True)}}</td>
+            <td class="text-center" style="vertical-align: middle">
+                <div class="dropdown">
+                    <span class="dropdown-toggle" id="checklistEditDropDownMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                        <i role="button" class="glyphicon glyphicon-option-horizontal"></i>
+                    </span>
+                    <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="checklistEditDropDownMenu" style="min-width:50px" >
+                        <li>
+                            <a role="btn" class="btn" onclick="showCheckListEditModal(this)" data-desc="{{ desc_trading_plan_max_ratio}}" data-field="trading_plan_max_ratio"><i class="glyphicon glyphicon-pencil"></i>&nbsp;&nbsp;编辑</a>
+                        </li>
+                    </ul>
+                </div>
+            </td>
+        </tr>    
+    </tbody>
+</table>
+<!-- 存放数据用来被js读取 -->
+<div id="i_cacheData" data-code="{{code}}" 
+    data-partial-url="{{ url_for('check_list.api_data_evaluate_partial', code=code) }}"
+    data-partial-edit-url="{{ url_for('check_list.api_op_edit_evaluate_partial') }}">
+</div>
