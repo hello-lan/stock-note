@@ -3,6 +3,7 @@ from functools import lru_cache
 from stocknote.models.stock import (StockGroup, Stock, StockIndicators, 
     StockCashFlow, StockIncomeStatement, StockBalanceSheet)
 from stocknote.extensions import db
+from stocknote.utils.function import none_to_zero
 
 
 @lru_cache(maxsize=1)
@@ -81,7 +82,7 @@ def get_bills_receivable_ratio(code):
         if total_revenue is None:
             ratiors[d] = None
         else:
-            ratiors[d] = b.bills_receivable / total_revenue
+            ratiors[d] = none_to_zero(b.bills_receivable) / total_revenue
     return ratiors
 
 
