@@ -148,3 +148,13 @@ def api_op_rm_stock_from_interests():
     return jsonify(status=200, message="移除成功")
 
 
+@individual_bp.route("/shell/crawl")
+def api_op_shell_crawl_data():
+    code = request.args.get("code", type=str)
+    import subprocess
+    return_code = subprocess.call("cd scripts && bash load_stockdata.sh %s" % code, shell=True)
+    if return_code == 0:
+        msg = "succeed in crawling %s" % code
+    else:
+        msg = "failed to crawl %s" % code
+    return jsonify(status=200, returnCode=return_code, message=msg)

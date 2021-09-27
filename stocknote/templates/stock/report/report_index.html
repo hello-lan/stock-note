@@ -229,6 +229,14 @@
                 <li><a href="#OperationCapability"> - 运营能力</a></li>
                 <li><a href="#financialRisk"> - 财务风险</a></li>
                 <li><a href="#abnormalRisk"> - 排雷</a></li>
+                <li><a role="button" class="text-muted" data-toggle="collapse" data-target="#i_updateData">无报表数据？</a></li>
+                    <div id="i_updateData" class="collapse text-center">
+                        <button class="btn btn-success btn-xs" type="button"
+                        data-url="{{ url_for('individual.api_op_shell_crawl_data', code=stock.code) }}"
+                        onclick="crawlData(this)">
+                        爬取数据
+                        </button>
+                    </div>
             </ul>
         </nav>
     </div>
@@ -322,6 +330,18 @@
                 loadContentV2(basic_info_url, "J_basicInfoTable");
             }
         });
+    }
+
+    function crawlData(obj){
+        var url = $(obj).attr("data-url");
+        $.ajax({
+            type: 'GET',
+            url: url,
+            success: function (response) {
+                //alert(response["message"]);
+                location.reload()  // 刷新页面
+            }
+        })
     }
 
     $(function () {
