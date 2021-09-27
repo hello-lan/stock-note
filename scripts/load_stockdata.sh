@@ -4,8 +4,10 @@
 
 code=$1
 
-python main.py add-cashflow -c $code
-python main.py add-indicators -c $code
-python main.py add-income -c $code
-python main.py add-balance -c $code
+python main.py crawl -d all -c $code
+
+# python main.py crawl -d cashflow -c $code
+# python main.py crawl -d indicators -c $code
+# python main.py crawl -d income -c $code
+# python main.py crawl -d balance -c $code
 
