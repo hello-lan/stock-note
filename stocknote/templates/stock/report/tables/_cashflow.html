@@ -12,7 +12,7 @@
         {% for item in cashflows %}
         <tr class="text-center">
             <td>{{ item.account_date }}</td>
-            <td>{{ (item.net_operating_cashflow | int) if item.net_operating_cashflow is number else '-' }}</td>
+            <td>{{ (item.net_operating_cashflow | thousands_format) if item.net_operating_cashflow is number else '-' }}</td>
             <td>{{ (item.nocf_yoy | round(2)) ~ '%' if item.nocf_yoy is number else '-' }}</td>
             <td>{{ (item.cfr_ratio | round(2)) ~ '%' if item.cfr_ratio is number else '-' }}</td>
             <td>{{ (item.cfnp_ratio | round(2)) ~ '%' if item.cfnp_ratio is number else '-' }}</td>

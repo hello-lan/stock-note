@@ -111,3 +111,10 @@ def register_jinjia2_filter(app):
         else:
             return filled_value
 
+    @app.template_filter("thousands_format")
+    def thousands_format(value, to_int=True):
+        if isinstance(value, int) or isinstance(value,float):
+            return "{:,}".format(int(value) if to_int else value)
+        else:
+            return value
+
