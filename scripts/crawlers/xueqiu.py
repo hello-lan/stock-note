@@ -23,6 +23,38 @@ class XueQiuCrawler:
         cookies = requests.utils.dict_from_cookiejar(rsp.cookies)
         self.session.cookies.update(cookies)
 
+    def crawl_stock_list(self):
+        url = "https://xueqiu.com/service/v5/stock/screener/quote/list"
+        size = 100
+        params = dict(
+            page=1,
+            size=size,
+            order="desc",
+            orderby="percent",
+            order_by="percent",
+            market="CN",
+            type="sh_sz"
+        )
+        page = 0
+        count = page * size + 1
+        result = []
+        codes = set()
+        while page * size < count:
+            page += 1
+            print(page)
+            params["page"] = page
+            resp = self.session.get(url, params=params)
+            data = resp.json()["data"]
+            count = data["count"]
+            for item in data["list"]:
+                code=item["symbol"][2:]
+                if code not in codes:
+                # result.append({"code":code, "name":item["name"]})
+                    yield {"code":code, "name":item["name"]}
+                codes.add(code)
+        # return result
+
+
     def crawl_indicator(self, code="SH600196", count=10):
         """ 爬取财务指标
         """

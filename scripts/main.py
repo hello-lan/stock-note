@@ -24,9 +24,12 @@ def cli():
 def init_stock():
     """ 初始化股票列表
     """
-    from crawlers.base import crawl_stock_list
+    # from crawlers.base import crawl_stock_list
+    from crawlers.xueqiu import XueQiuCrawler
 
-    data = crawl_stock_list()
+    crawler = XueQiuCrawler()
+
+    data = crawler.crawl_stock_list()
     for item in data:
         stock = Stock(**item)
         db.session.add(stock)
