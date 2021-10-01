@@ -15,7 +15,8 @@
         <tr class="text-center">
             <td style="padding: 0px;">
                 <span class="center-block">
-                    <span class="text-primary" >{{ item.name }}</span>
+                    <!-- <span class="text-primary" >{{ item.name }}</span> -->
+                    <a href="{{url_for('stock.index',code=item.code)}}" target="_blank" style="text-decoration: none">{{ item.name }}</a>
                     <sup>
                         {% if item.status == 1 %}
                         <span class="badge bg-red">b</span>
