@@ -267,6 +267,13 @@
     </div>
 </div>
 
+<!-- 加载状态 -->
+<div class="loading" hidden>
+    <p style="text-align:center; position: relative; top:40%" >
+        <img class="gif" src='/static/images/loading2.gif' style="height:160px;"/>
+    </p>
+</div>
+
 
 <script>
     // 百分率利润表
@@ -333,6 +340,8 @@
     }
 
     function crawlData(obj){
+        $('.loading').show(); // 显示加载状态
+
         var url = $(obj).attr("data-url");
         $.ajax({
             type: 'GET',
@@ -341,8 +350,9 @@
                 //alert(response["message"]);
                 //location.reload()  // 刷新页面
                 $("#navbar li.active > a").click()  // 刷新重载页面
+                $('.loading').hide();　// 隐藏加载状态
             }
-        })
+        });
     }
 
     $(function () {
