@@ -308,6 +308,8 @@
       success: function (data) {
         alert(data["message"]);
         load_interests();
+        //clear
+        $("#i_interestCodeAddInput").val("");
       }
     });
   }
