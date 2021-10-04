@@ -12,10 +12,10 @@
         {% for item in items %}
         <tr class="text-center">
             <th class="text-center">{{ item.account_date }}</th>
-            <td>{{ item.accounts_receivable_turnover }}</td>
-            <td>{{ item.inventory_turnover }}</td>
-            <td>{{ item.fixed_asset_turnover_ratio }}</td>
-            <td>{{ item.total_capital_turnover }}</td>
+            <td>{{ item.accounts_receivable_turnover | round(2) }}</td>
+            <td>{{ item.inventory_turnover | round(2) }}</td>
+            <td>{{ item.fixed_asset_turnover_ratio | round(2) }}</td>
+            <td>{{ item.total_capital_turnover | round(2) }}</td>
         </tr>
         {% endfor %}
     </tbody>

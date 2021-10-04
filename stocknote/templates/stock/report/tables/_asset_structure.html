@@ -21,13 +21,13 @@
         <tr>
             <td class="text-center">生产资产/总资产</td>
             {% for item in items %}
-            <td class="text-center">{{ item.productive_asset_ratio }}</td>
+            <td class="text-center">{{ item.productive_asset_ratio | round(2) }}</td>
             {% endfor %}
         </tr>
         <tr>
             <td class="text-center">税前利润总额/生产资产</td>
             {% for item in items %}
-            <td class="text-center">{{ item.profit_prdasset_ratio }}</td>
+            <td class="text-center">{{ item.profit_prdasset_ratio | round(2)}}</td>
             {% endfor %}
         </tr>
     </tbody>
