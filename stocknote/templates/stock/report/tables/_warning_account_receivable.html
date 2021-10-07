@@ -28,7 +28,7 @@
         <tr class="text-center">
             <th class="text-center">{{ item.account_date }}</th>
             <td>{{ item.bills_rcvb_ratio | round(3) }}</td>
-            <td>{{ item.bills_rcvb | thousands_format }} : {{ item.bill_payable | thousands_format }}</td>
+            <td>{{ item.bills_rcvb | simplify_number | fillna }} : {{ item.bill_payable | simplify_number | fillna }}</td>
             <td>{{ item.act_rcvb_ratio | round(3) }}</td>
             <td>{{ item.act_rcvb_turnover_days | round(2) }}</td>
             <td>{{ item.othr_rcvb_ratio | round(3) }}</td>

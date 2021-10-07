@@ -12,6 +12,7 @@ from stocknote.blueprints.valuation import valuation_bp
 from stocknote.blueprints.check_list import checklist_bp
 from stocknote.extensions import db
 from stocknote.settings import config
+from stocknote.utils import function as FC
 
 
 def create_app(config_name=None):
@@ -114,7 +115,28 @@ def register_jinjia2_filter(app):
     @app.template_filter("thousands_format")
     def thousands_format(value, to_int=True):
         if isinstance(value, int) or isinstance(value,float):
-            return "{:,}".format(int(value) if to_int else value)
+            return FC.format_thousand_separator(int(value) if to_int else value)
         else:
             return value
 
+    @app.template_filter("simplify_number")
+    def simplify_number(value):
+        if isinstance(value, int) or isinstance(value,float):
+            if abs(value) >= 1e8:
+                _value = round(value/1e8, 2)
+                unit = "亿"
+            elif abs(value) >= 1e4:
+                _value = round(value/1e4, 2)
+                unit = "万"
+            else:
+                _value = value
+                unit=""
+            value = FC.format_thousand_separator(_value) + unit
+        return value
+
+    @app.template_filter("fillna")
+    def fillna(value, filled_value="-"):
+        if value is None:
+            return filled_value
+        else:
+            return value

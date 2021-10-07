@@ -26,7 +26,7 @@
         {% for item in items %}
         <tr class="text-center">
             <th class="text-center">{{ item.account_date }}</th>
-            <td>{{ item.currency_funds | thousands_format}}</td>
+            <td>{{ item.currency_funds | simplify_number }}</td>
             <td>{{ item.crcfnd_assets_ratio | round(3) }}</td>
             <td>{{ item.asset_liab_ratio | round(3) }}</td>
             <td>{{ item.crcfnd_revenue_ratio | round(3) }}</td>
