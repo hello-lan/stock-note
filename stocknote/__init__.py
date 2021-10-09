@@ -10,7 +10,8 @@ from stocknote.blueprints.stock import stock_bp
 from stocknote.blueprints.individual import individual_bp
 from stocknote.blueprints.valuation import valuation_bp
 from stocknote.blueprints.check_list import checklist_bp
-from stocknote.extensions import db
+from stocknote.blueprints.auth import auth_bp
+from stocknote.extensions import db, login_manager
 from stocknote.settings import config
 from stocknote.utils import function as FC
 
@@ -32,6 +33,7 @@ def create_app(config_name=None):
 
 def register_extensions(app):
     db.init_app(app)
+    login_manager.init_app(app)
 
 
 def register_blueprints(app):
@@ -41,6 +43,7 @@ def register_blueprints(app):
     app.register_blueprint(individual_bp, url_prefix="/individual")
     app.register_blueprint(valuation_bp, url_prefix="/valuation")
     app.register_blueprint(checklist_bp, url_prefix="/check-list")
+    app.register_blueprint(auth_bp, url_prefix="/auth")
 
 
 def register_errors(app):
@@ -89,6 +92,25 @@ def register_commands(app):
             click.echo('Drop tables.')
         db.create_all()
         click.echo('Initialized database.')
+
+    @app.cli.command()
+    @click.option('-u', '--user', required=True, type=click.STRING, help="用户名")
+    @click.option('-p', '--password', required=True, type=click.STRING, help="密码")
+    def create_user(user, password):
+        """创建用户
+        """
+        from stocknote.models.auth import User
+        u = User(name=user, password=password)
+        db.session.add(u)
+        db.session.commit()
+        click.echo("successful create user: %s" % user)
+
+    @app.cli.command()
+    def test():
+        """run the tests."""
+        import unittest
+        tests = unittest.TestLoader().discover("tests")
+        unittest.TextTestRunner(verbosity=2).run(tests)
 
 
 def register_jinjia2_filter(app):

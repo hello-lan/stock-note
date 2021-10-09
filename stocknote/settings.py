@@ -11,20 +11,27 @@ BASE_DIR = dirname(dirname(abspath(__file__)))
 
 
 class BaseConfig:
-    SQLALCHEMY_DATABASE_URI = "sqlite:///" + join(BASE_DIR, "data.db")
     SQLALCHEMY_TRACK_MODIFICATIONS = False
     SECRET_KEY = '123456'
 
 
 class DevelopmentConfig(BaseConfig):
+    SQLALCHEMY_DATABASE_URI = "sqlite:///" + join(BASE_DIR, "data.db")
     pass
 
 
 class ProductionConfig(BaseConfig):
-    pass
+    SQLALCHEMY_DATABASE_URI = "sqlite:///" + join(BASE_DIR, "data.db")
+
+
+class TestingConfig(BaseConfig):
+    TESTING = True
+    SQLALCHEMY_DATABASE_URI = "sqlite:///" + join(BASE_DIR, "test_data.db")
+
 
 
 config = {
     'development': DevelopmentConfig,
     'production': ProductionConfig,
+    'testing': TestingConfig,
 }
