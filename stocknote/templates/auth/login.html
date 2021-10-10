@@ -28,7 +28,7 @@
 								<input class="submit" type="submit" id="btnSubmit" value="登录">
 							</li>
 							<li class="li3">
-								<a  class="visitor" href="index.html">游客身份进入</a>
+								<a class="visitor" role="button" onclick="login_visitor()">游客身份进入</a>
 							   </li>
 							</div>
 						</div>
@@ -76,19 +76,18 @@
 				$('#password').val('密码不能为空'); 
 				$('#password').css({'color':'red'}); 
 			} 
-		}) 
+		})
 		$('#password').focus(function () {
 			$('#password').css({'color':'#ADADAD'}); 
 		});
 			
-		// $('#btnSubmit').click(function () { 
-		// 	if ($('#username').val() == 'Zazzing' && $('#password').val() == '123456') { 
-		// 		alert('登录成功！'); 
-		// 		window.open('index.html');
-		// 	}
-		// 	else { 
-		// 		alert('登录失败！'); 
-		// 	}
-		// }) 
+		function login_visitor() { 
+			const username = "visitor";
+			const password = "123";
+			$("#username").val(username);
+			$("#password").val(password);
+			$("#btnSubmit").click()
+
+		}
 	</script> 	
 </html>

@@ -5,6 +5,13 @@
     <div class="row">
       <!-- 侧边栏 -->
       <div class="col-sm-3 sidebar">
+        <ul class="list-unstyled" style="display: flex; justify-content: space-between;">
+          <li>&nbsp;&nbsp;<span class="glyphicon glyphicon-user"></span><span class="text-success"> {{ current_user.nickname }}</span></li>
+          <!-- <li>欢迎登录! <span class="text-success">{{ current_user.nickname }}</span></li> -->
+          <li><a class="text-muted" href="{{url_for('auth.logout')}}" role="button"><span class="glyphicon glyphicon-off"></span></a></li>
+        </ul>
+        <br><br>
+        <h4 class="text-center text-success">StockNote,个人投研小助手!</h4>
         <br><br><br>
         <div class="row">
           <div class="col-md-8 col-md-offset-1">

@@ -92,11 +92,12 @@ def register_commands(app):
     @app.cli.command()
     @click.option('-u', '--user', required=True, type=click.STRING, help="用户名")
     @click.option('-p', '--password', required=True, type=click.STRING, help="密码")
-    def create_user(user, password):
+    @click.option('-n', '--nickname', type=click.STRING, help="密码")
+    def create_user(user, password, nickname):
         """创建用户
         """
         from stocknote.models.auth import User
-        u = User(name=user, password=password)
+        u = User(name=user, password=password, nick_name=nickname)
         db.session.add(u)
         db.session.commit()
         click.echo("successful create user: %s" % user)

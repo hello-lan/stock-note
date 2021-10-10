@@ -19,6 +19,7 @@ class User(UserMixin, db.Model):
     __tablename__ = 'users'
     id = db.Column(db.Integer, primary_key=True, index=True)
     name = db.Column(db.String(64), unique=True, index=True)
+    nick_name = db.Column(db.String(64))
     role_id = db.Column(db.Integer, db.ForeignKey('roles.id'))
     password_hash = db.Column(db.String(128))
 
@@ -32,6 +33,13 @@ class User(UserMixin, db.Model):
 
     def verify_password(self, password):
         return check_password_hash(self.password_hash, password)
+
+    @property
+    def nickname(self):
+        if self.nick_name is None:
+            return self.name
+        else:
+            return self.nick_name
 
 
 @login_manager.user_loader
