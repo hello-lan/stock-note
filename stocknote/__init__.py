@@ -4,13 +4,9 @@ import os
 import click
 from flask import Flask, render_template, jsonify, request
 
-from stocknote.blueprints.home import home_bp
-from stocknote.blueprints.compare import compare_bp
-from stocknote.blueprints.stock import stock_bp
-from stocknote.blueprints.individual import individual_bp
-from stocknote.blueprints.valuation import valuation_bp
-from stocknote.blueprints.check_list import checklist_bp
-from stocknote.blueprints.auth import auth_bp
+
+from stocknote.blueprints import (home_bp, compare_bp, stock_bp
+    ,individual_bp, valuation_bp, checklist_bp, auth_bp)
 from stocknote.extensions import db, login_manager
 from stocknote.settings import config
 from stocknote.utils import function as FC

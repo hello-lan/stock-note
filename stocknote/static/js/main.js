@@ -34,7 +34,7 @@ $(document).ready(function () {
 
     // 创建分组
     function create_group() {
-        var group_index_url = $("#i_groupIndexPage").attr("data-href");
+        var group_index_url = $("#i_groupIndexPage").attr("data-url");
         var name = $("#i_createGroupInput").val();
         $.ajax({
             type: 'POST',
@@ -43,14 +43,14 @@ $(document).ready(function () {
             contentType: 'application/json;charset=UTF-8',
             success: function (data) {
                 alert(data["message"]);
-                loadContent(group_index_url);    // 重新加载该页面
+                loadContent(group_index_url,"main");    // 重新加载该页面
             }
         });
     }
 
     // 移除分组
     function remove_group() {
-        var group_index_url = $("#i_groupIndexPage").attr("data-href");
+        var group_index_url = $("#i_groupIndexPage").attr("data-url");
         var group_id = $("#i_removeGroupInfo").attr("data-group");
         $.ajax({
             type: 'DELETE',

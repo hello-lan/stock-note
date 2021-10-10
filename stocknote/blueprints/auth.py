@@ -11,8 +11,7 @@ def login():
     if request.method == "POST":
         user_name = request.form.get("username")
         password = request.form.get("password")
-        user = User.query.filter_by(user_name=user_name).first()
-        # current_app.logger.info("username : %s" % user_name)
+        user = User.query.filter_by(name=user_name).first()
         if user is not None and user.verify_password(password):
             login_user(user)
             next_url = request.args.get('next')

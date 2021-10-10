@@ -1,7 +1,7 @@
 {% extends 'home/public/_base.html' %}
 
 {% block breadcrumb %}
-    <li class="text-muted">首页</li>
+    <li class="text-muted">stock-note</li>
     <li><a class="load-content-btn" id="i_groupIndexPage" role="button" data-url="{{ url_for('compare.index') }}">竞争分析</a></li>
     <li id="i_groupDetailUrl" data-href="{{ url_for('compare.group_detail', group_id=group.id) }}">{{group.name}}</li>
 {% endblock %}
