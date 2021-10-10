@@ -10,9 +10,9 @@
     </small>
 </div>
 
-<table class="table table-bordered table-condensed table-sm">
+<table class="table table-condensed table-sm table-hover">
     <thead>
-        <tr>
+        <tr class="info">
             <th class="text-center">报告期</th>
             {% for item in items %}
             <th class="text-center">{{ item.account_date}}</th>
@@ -32,7 +32,7 @@
             <td class="text-center">{{ item.total_noncurrent_assets | simplify_number | fillna }}</td>
             {% endfor %}
         </tr>
-        <tr>
+        <tr class="success">
             <th class="text-center">资产总计</th>
             {% for item in items %}
             <td class="text-center">{{ item.total_assets | simplify_number | fillna }}</td>
@@ -50,7 +50,7 @@
             <td class="text-center">{{ item.total_noncurrent_liab | simplify_number | fillna}}</td>
             {% endfor %}
         </tr>
-        <tr>
+        <tr class="success">
             <th class="text-center">负债合计</th>
             {% for item in items %}
             <td class="text-center">{{ item.total_liab | simplify_number | fillna}}</td>
@@ -68,13 +68,13 @@
             <td class="text-center">{{ item.minority_equity | simplify_number | fillna}}</td>
             {% endfor %}
         </tr>
-        <tr>
+        <tr class="success">
             <th class="text-center">所有者权益合计</th>
             {% for item in items %}
             <td class="text-center">{{ item.total_holders_equity | simplify_number | fillna}}</td>
             {% endfor %}
         </tr>
-        <tr>
+        <tr class="success">
             <th class="text-center">负债和所有者权益总计</th>
             {% for item in items %}
             <td class="text-center">{{ item.total_liab_and_holders_equity | simplify_number | fillna}} </td>
