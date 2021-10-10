@@ -17,6 +17,7 @@ class StockGroup(db.Model):
     __tablename__ = "stock_group"
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(20), nullable=False)
+    user_id = db.Column(db.Integer, default=1)
     stocks = db.relationship("Stock",
                             secondary='stock_group_log',
                             backref=db.backref("groups", lazy="dynamic"),

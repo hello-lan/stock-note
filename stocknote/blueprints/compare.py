@@ -1,8 +1,10 @@
 from flask import render_template, current_app, Blueprint, jsonify, flash, request
+from flask_login import current_user, login_required
 
 from collections import defaultdict
 
-from stocknote.models.stock import StockGroup, Stock, StockIncomeStatement, StockIndicators, StockCashFlow
+from stocknote.models.stock import (StockGroup, Stock, StockIncomeStatement
+    ,StockIndicators, StockCashFlow)
 from stocknote.extensions import db
 
 
@@ -11,7 +13,8 @@ compare_bp = Blueprint("compare", __name__)
 
 @compare_bp.route("/index")
 def index():
-    groups = StockGroup.query.all()
+    user_id = current_user.id
+    groups = StockGroup.query.filter_by(user_id=user_id).all()
     return render_template("home/compare/_index.html", groups=groups)
 
 
@@ -23,16 +26,17 @@ def group_detail(group_id):
 
 @compare_bp.route("/op/create-group", methods=["POST"])
 def api_op_create_group():
+    user_id = current_user.id
     data = request.get_json()
     if "name" not in data:
         return jsonify(message="未接收到请求参数.")
 
     group_name = data["name"]
-    _group = StockGroup.query.filter_by(name=group_name).first()
+    _group = StockGroup.query.filter_by(name=group_name, user_id=user_id).first()
     if _group is not None:
         return jsonify(message="该group已经存在.")
 
-    group = StockGroup(name=group_name)
+    group = StockGroup(name=group_name, user_id=user_id)
     db.session.add(group)
     db.session.commit()
     return jsonify(message="创建成功")
