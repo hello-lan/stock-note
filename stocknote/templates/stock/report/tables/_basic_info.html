@@ -1,6 +1,6 @@
 <table class="table table-bordered table-condensed">
     <thead>
-        <tr>
+        <tr class="active">
             <th class="text-center">基本情况</th>
             <th class="text-center">简单介绍</th>
             <th class="text-center">操作</th>
@@ -8,9 +8,9 @@
     </thead>
     <tbody>
         <tr>
-            <td class="text-center" style="min-width:150px">公司业务范围</td>
+            <td class="text-center" style="min-width:150px;vertical-align: middle">公司业务范围</td>
             <td class="pre-line">{{ info.scope | default('-', True)}}</td>
-            <td class="text-center" style="min-width:50px">
+            <td class="text-center" style="min-width:50px;vertical-align: middle">
                 <div class="dropdown">
                     <span class="dropdown-toggle" id="basicInfoEditDropDownMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
                         <i role="button" class="glyphicon glyphicon-option-horizontal"></i>
@@ -24,9 +24,9 @@
             </td>
         </tr>
         <tr>
-            <td class="text-center">业务结构</td>
+            <td class="text-center" style="vertical-align: middle">业务结构</td>
             <td class="pre-line">{{ info.structure | default('-', True)}}</td>
-            <td class="text-center">
+            <td class="text-center" style="vertical-align: middle">
                 <div class="dropdown">
                     <span class="dropdown-toggle" id="basicInfoEditDropDownMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
                         <i role="button" class="glyphicon glyphicon-option-horizontal"></i>
@@ -40,9 +40,9 @@
             </td>
         </tr>
         <tr>
-            <td class="text-center">上下游情况</td>
+            <td class="text-center" style="vertical-align: middle">上下游情况</td>
             <td class="pre-line">{{ info.industry_chain | default('-', True)}}</td>
-            <td class="text-center">
+            <td class="text-center" style="vertical-align: middle">
                 <div class="dropdown">
                     <span class="dropdown-toggle" id="basicInfoEditDropDownMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
                         <i role="button" class="glyphicon glyphicon-option-horizontal"></i>
@@ -56,9 +56,9 @@
             </td>
         </tr>
         <tr>
-            <td class="text-center">销售模式</td>
+            <td class="text-center" style="vertical-align: middle">销售模式</td>
             <td class="pre-line">{{ info.sales_model | default('-', True)}}</td>
-            <td class="text-center">
+            <td class="text-center" style="vertical-align: middle">
                 <div class="dropdown">
                     <span class="dropdown-toggle" id="basicInfoEditDropDownMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
                         <i role="button" class="glyphicon glyphicon-option-horizontal"></i>
@@ -72,9 +72,9 @@
             </td>
         </tr>
         <tr>
-            <td class="text-center">实际控制人</td>
+            <td class="text-center" style="vertical-align: middle">实际控制人</td>
             <td class="pre-line">{{ info.actual_controller | default('-', True)}}</td>
-            <td class="text-center">
+            <td class="text-center" style="vertical-align: middle">
                 <div class="dropdown">
                     <span class="dropdown-toggle" id="basicInfoEditDropDownMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
                         <i role="button" class="glyphicon glyphicon-option-horizontal"></i>
@@ -88,9 +88,9 @@
             </td>
         </tr>
         <tr>
-            <td class="text-center">机构持股占比</td>
+            <td class="text-center" style="vertical-align: middle">机构持股占比</td>
             <td class="pre-line">{{ info.institutional_ownership | default('-', True)}}</td>
-            <td class="text-center">
+            <td class="text-center" style="vertical-align: middle">
                 <div class="dropdown">
                     <span class="dropdown-toggle" id="basicInfoEditDropDownMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
                         <i role="button" class="glyphicon glyphicon-option-horizontal"></i>
@@ -104,9 +104,9 @@
             </td>
         </tr>
         <tr>
-            <td class="text-center">近年分红增发情况</td>
+            <td class="text-center" style="vertical-align: middle">近年分红增发情况</td>
             <td class="pre-line">{{ info.bonus_and_offering | default('-', True)}}</td>
-            <td class="text-center">
+            <td class="text-center" style="vertical-align: middle">
                 <div class="dropdown">
                     <span class="dropdown-toggle" id="basicInfoEditDropDownMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
                         <i role="button" class="glyphicon glyphicon-option-horizontal"></i>
@@ -120,9 +120,9 @@
             </td>
         </tr>
         <tr>
-            <td class="text-center">竞争对手</td>
+            <td class="text-center" style="vertical-align: middle">竞争对手</td>
             <td class="pre-line">{{ info.competitors | default('-', True)}}</td>
-            <td class="text-center">
+            <td class="text-center" style="vertical-align: middle">
                 <div class="dropdown">
                     <span class="dropdown-toggle" id="basicInfoEditDropDownMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
                         <i role="button" class="glyphicon glyphicon-option-horizontal"></i>
@@ -137,4 +137,4 @@
         </tr>
     </tbody>
 </table>
-<p class="text-right text-muted"><small>更新时间:&nbsp;{{ info.update_time | default('-', True) }}</small></p>
+<p class="text-right text-muted"><small>更新日期:&nbsp;{{ info.update_time | default('-', True) | date }}</small></p>
