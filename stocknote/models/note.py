@@ -36,9 +36,13 @@ class MyInterests(db.Model):
 
 class BasicInfo(db.Model):
     __tablename__  = "basic_info"
+    __table_args__ = (
+        UniqueConstraint("user_id", "code", name="k_uid_code"),
+    )
 
     id = db.Column(db.Integer, primary_key=True)
-    code = db.Column(db.String(10), unique=True, index=True, nullable=False)
+    user_id = db.Column(db.Integer, default=1)
+    code = db.Column(db.String(10), index=True, nullable=False)
     scope = db.Column(db.Text, default="-", comment="公司业务范围")
     structure = db.Column(db.Text, default="-", comment="公司业务结构")
     industry_chain = db.Column(db.Text, default="-", comment="上下游情况")
@@ -53,9 +57,13 @@ class BasicInfo(db.Model):
 
 class CheckListQuality(db.Model):
     __tablename__ = "checklist_quality"
+    __table_args__ = (
+        UniqueConstraint("user_id", "code", name="k_uid_code"),
+    )
 
     id = db.Column(db.Integer, primary_key=True)
-    code = db.Column(db.String(10), unique=True, index=True, nullable=False)
+    user_id = db.Column(db.Integer, default=1)
+    code = db.Column(db.String(10), index=True, nullable=False)
     profitability = db.Column(db.Text, default="-", comment="盈利能力情况")
     growth = db.Column(db.Text, default="-", comment="成长性")
     cashflow = db.Column(db.Text, default="-", comment="现金流状况")
@@ -98,9 +106,13 @@ class CheckListQuality(db.Model):
 
 class CheckListRisk(db.Model):
     __tablename__ = "checklist_risk"
+    __table_args__ = (
+        UniqueConstraint("user_id", "code", name="k_uid_code"),
+    )
 
     id = db.Column(db.Integer, primary_key=True)
-    code = db.Column(db.String(10), unique=True, index=True, nullable=False)
+    user_id = db.Column(db.Integer, default=1)
+    code = db.Column(db.String(10), index=True, nullable=False)
     revenue_growth = db.Column(db.Text, default="-", comment="企业营业收入增长的原因")
     operations = db.Column(db.Text, default="-", comment="行业、产地或地区经营情况分析")
     fee = db.Column(db.Text, default="-", comment="看公司费用率或费用绝对数有没有变化")
@@ -116,9 +128,13 @@ class CheckListRisk(db.Model):
 
 class CheckListEvaluate(db.Model):
     __tablename__ = "checklist_evaluate"
+    __table_args__ = (
+        UniqueConstraint("user_id", "code", name="k_uid_code"),
+    )
 
     id = db.Column(db.Integer, primary_key=True)
-    code = db.Column(db.String(10), unique=True, index=True, nullable=False)
+    user_id = db.Column(db.Integer, default=1)
+    code = db.Column(db.String(10), index=True, nullable=False)
     three_premise = db.Column(db.Text, default="-", comment="估值的三大前提：利润是否为真、利润是否可持续、维持当前盈利是否需要大量资本投入")
     trading_plan_steps = db.Column(db.Text, default="-", comment="交易计划--分几层买入")
     trading_plan_max_ratio = db.Column(db.Text, default="-", comment="交易计划--持仓上限")

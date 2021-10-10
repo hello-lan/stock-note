@@ -1,4 +1,5 @@
 from flask import render_template, current_app, Blueprint, jsonify, flash, request, abort
+from flask_login import login_required, current_user
 
 from collections import defaultdict
 
@@ -12,11 +13,13 @@ checklist_bp = Blueprint("check_list", __name__)
 
 ## 质量检查清单
 @checklist_bp.route("/api/data/quality", methods=["GET"])
+@login_required
 def api_data_quality():
     """ 完整的质量检查清单表格
     """
+    user_id = current_user.id
     code = request.args.get("code", type=str)
-    checklist = CheckListQuality.query.filter_by(code=code).first()
+    checklist = CheckListQuality.query.filter_by(code=code, user_id=user_id).first()
     checklist = {} if checklist is None else checklist
     html = render_template("stock/check_list/quality.html", code=code, checklist=checklist)
     return jsonify({"message": "success",
@@ -28,11 +31,12 @@ def api_data_quality():
 def api_data_quality_partial():
     """ 获取质量检查清单中指定字段的内容
     """
+    user_id = current_user.id
     code = request.args.get("code", type=str)
     field = request.args.get("field", type=str)
     if field is None:
         return jsonify(message="未接收到请求参数.")
-    info = CheckListQuality.query.filter_by(code=code).first()
+    info = CheckListQuality.query.filter_by(code=code, user_id=user_id).first()
     desc = getattr(info, field, "")
     return jsonify({"message": "success",
                     "data": {"desc": desc}
@@ -43,6 +47,7 @@ def api_data_quality_partial():
 def api_op_edit_quality_partial():
     """ 更新编辑质量检查清单中指定字段的内容
     """
+    user_id = current_user.id
     data = request.get_json()
     try:
         code = data["code"]
@@ -50,9 +55,9 @@ def api_op_edit_quality_partial():
         value = data["value"]
     except:
         return jsonify(message="未接收到完整的请求参数.")
-    checklist = CheckListQuality.query.filter_by(code=code).first()
+    checklist = CheckListQuality.query.filter_by(code=code, user_id=user_id).first()
     if checklist is None:
-        checklist = CheckListQuality(code=code)
+        checklist = CheckListQuality(code=code, user_id=user_id)
     setattr(checklist, field, value)
     db.session.add(checklist)
     db.session.commit()
@@ -66,8 +71,9 @@ def api_op_edit_quality_partial():
 def api_data_risk():
     """ 完整的避雷清单表格
     """
+    user_id = current_user.id
     code = request.args.get("code", type=str)
-    checklist = CheckListRisk.query.filter_by(code=code).first()
+    checklist = CheckListRisk.query.filter_by(code=code, user_id=user_id).first()
     checklist = {} if checklist is None else checklist
     html = render_template("stock/check_list/risk.html", code=code, checklist=checklist)
     return jsonify({"message": "success",
@@ -79,11 +85,12 @@ def api_data_risk():
 def api_data_risk_partial():
     """ 获取避雷清单中指定字段的内容
     """
+    user_id = current_user.id
     code = request.args.get("code", type=str)
     field = request.args.get("field", type=str)
     if field is None:
         return jsonify(message="未接收到请求参数.")
-    info = CheckListRisk.query.filter_by(code=code).first()
+    info = CheckListRisk.query.filter_by(code=code, user_id=user_id).first()
     desc = getattr(info, field, "")
     return jsonify({"message": "success",
                     "data": {"desc": desc}
@@ -94,6 +101,7 @@ def api_data_risk_partial():
 def api_op_edit_risk_partial():
     """ 更新编辑避雷清单中指定字段的内容
     """
+    user_id = current_user.id
     data = request.get_json()
     try:
         code = data["code"]
@@ -101,9 +109,9 @@ def api_op_edit_risk_partial():
         value = data["value"]
     except:
         return jsonify(message="未接收到完整的请求参数.")
-    checklist = CheckListRisk.query.filter_by(code=code).first()
+    checklist = CheckListRisk.query.filter_by(code=code,user_id=user_id).first()
     if checklist is None:
-        checklist = CheckListRisk(code=code)
+        checklist = CheckListRisk(code=code,user_id=user_id)
     setattr(checklist, field, value)
     db.session.add(checklist)
     db.session.commit()
@@ -117,8 +125,9 @@ def api_op_edit_risk_partial():
 def api_data_evaluate():
     """ 完整的估值清单表格
     """
+    user_id = current_user.id
     code = request.args.get("code", type=str)
-    checklist = CheckListEvaluate.query.filter_by(code=code).first()
+    checklist = CheckListEvaluate.query.filter_by(code=code, user_id=user_id).first()
     checklist = {} if checklist is None else checklist
     html = render_template("stock/check_list/evaluate.html", code=code, checklist=checklist)
     return jsonify({"message": "success",
@@ -130,11 +139,12 @@ def api_data_evaluate():
 def api_data_evaluate_partial():
     """ 获取估值清单中指定字段的内容
     """
+    user_id = current_user.id
     code = request.args.get("code", type=str)
     field = request.args.get("field", type=str)
     if field is None:
         return jsonify(message="未接收到请求参数.")
-    info = CheckListEvaluate.query.filter_by(code=code).first()
+    info = CheckListEvaluate.query.filter_by(code=code, user_id=user_id).first()
     desc = getattr(info, field, "")
     return jsonify({"message": "success",
                     "data": {"desc": desc}
@@ -145,6 +155,7 @@ def api_data_evaluate_partial():
 def api_op_edit_evaluate_partial():
     """ 更新编辑估值清单中指定字段的内容
     """
+    user_id = current_user.id
     data = request.get_json()
     try:
         code = data["code"]
@@ -152,9 +163,9 @@ def api_op_edit_evaluate_partial():
         value = data["value"]
     except:
         return jsonify(message="未接收到完整的请求参数.")
-    checklist = CheckListEvaluate.query.filter_by(code=code).first()
+    checklist = CheckListEvaluate.query.filter_by(code=code, user_id=user_id).first()
     if checklist is None:
-        checklist = CheckListEvaluate(code=code)
+        checklist = CheckListEvaluate(code=code, user_id=user_id)
     setattr(checklist, field, value)
     db.session.add(checklist)
     db.session.commit()

@@ -1,5 +1,6 @@
 from flask import (render_template, current_app, Blueprint, jsonify,
                 flash, request, abort, redirect, url_for)
+from flask_login import login_required, current_user
 
 from operator import itemgetter, attrgetter
 from collections import defaultdict
@@ -18,6 +19,7 @@ stock_bp = Blueprint("stock", __name__)
 
 
 @stock_bp.route("/<code>", methods=["GET"])
+@login_required
 def index(code):
     stock = Stock.query.filter_by(code=code).first_or_404()
     return render_template("stock/index.html", stock=stock)
@@ -41,8 +43,9 @@ def api_data_report():
 
 @stock_bp.route("/basic-info", methods=["GET"])
 def api_data_basic_info():
+    user_id = current_user.id
     code = request.args.get("code", type=str)
-    info = BasicInfo.query.filter_by(code=code).first()
+    info = BasicInfo.query.filter_by(code=code, user_id=user_id).first()
     if info is None:
         info = {}
     return jsonify({"message": "successful",
@@ -52,12 +55,13 @@ def api_data_basic_info():
 
 @stock_bp.route("/basic-info/partial", methods=["GET"])
 def api_data_partial_basic_info():
+    user_id = current_user.id
     code = request.args.get("code", type=str)
 
     field = request.args.get("field", type=str)
     if field is None:
         return jsonify(message="未接收到请求参数.")
-    info = BasicInfo.query.filter_by(code=code).first()
+    info = BasicInfo.query.filter_by(code=code,user_id=user_id).first()
     desc = getattr(info, field, "")
     return jsonify({"message": "success",
                     "data": {"desc": desc}
@@ -66,6 +70,7 @@ def api_data_partial_basic_info():
 
 @stock_bp.route("/basic-info/edit", methods=["PATCH"])
 def api_op_edit_basic_info():
+    user_id = current_user.id
     data = request.get_json()
     try:
         code = data["code"]
@@ -74,9 +79,9 @@ def api_op_edit_basic_info():
     except:
         return jsonify(message="未接收到完整的请求参数.")
     # fields = [field for field in BasicInfo.__dict__.keys() if not field.startswith("_")]
-    info = BasicInfo.query.filter_by(code=code).first()
+    info = BasicInfo.query.filter_by(code=code, user_id=user_id).first()
     if info is None:
-        info = BasicInfo(code=code)
+        info = BasicInfo(code=code, user_id=user_id)
     setattr(info, field, value)
     db.session.add(info)
     db.session.commit()

@@ -1,4 +1,4 @@
-<h3 class="text-center text-primary">{{stock.name}}({{ stock.code}})</h3>
+<h3 class="text-center text-primary" id="i_stock" data-code="{{stock.code}}">{{stock.name}}({{ stock.code}})</h3>
 <br><br>
 <div class="row">
     <div class="col-md-11">
@@ -324,7 +324,7 @@
     function editBasicInfo() {
         var cont = $("#i_basicInfoTextArea").val();
         var field = $("#i_basicInfoTextArea").attr("data-field");
-        var code = $("#i_brc").attr("data-code");
+        var code = $("#i_stock").attr("data-code");
 
         var params = { "field": field, "value": cont, "code": code};
         $.ajax({
