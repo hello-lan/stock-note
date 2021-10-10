@@ -1,4 +1,5 @@
 from flask import render_template, current_app, Blueprint, jsonify, flash, request, abort
+from flask_login import current_user, login_required
 
 from stocknote.extensions import db
 from stocknote.models.note import MyPool, MyInterests
@@ -16,10 +17,12 @@ def index():
 
 @individual_bp.route("/stock-pool")
 def stock_pool():
-    from random import choice
+    user_id = current_user.id
+    
     q = db.session.query(MyPool.code, MyPool.update_time, MyPool.positive_valuation,
                          MyPool.negative_valuation, MyPool.safe_of_margin, Stock.name) \
-        .outerjoin(Stock, MyPool.code==Stock.code).all()
+        .outerjoin(Stock, MyPool.code==Stock.code)  \
+        .filter(MyPool.user_id==user_id).all()
     prices = get_latest_price([item.code for item in q])
     items = []
     for item in q:
@@ -53,6 +56,7 @@ def stock_pool():
 
 @individual_bp.route("/stock-pool/op/add-stock", methods=["POST"])
 def api_op_add_stock_to_pool():
+    user_id = current_user.id
     data = request.get_json()
     if "code" not in data:
         return jsonify(message="未接收到请求参数.")
@@ -65,7 +69,8 @@ def api_op_add_stock_to_pool():
     pool_item = MyPool(code=code,
                     positive_valuation=positive_valuation,
                     negative_valuation=negative_valuation,
-                    safe_of_margin=safe_of_margin
+                    safe_of_margin=safe_of_margin,
+                    user_id=user_id
                     )
     db.session.add(pool_item)
     db.session.commit()
@@ -74,17 +79,20 @@ def api_op_add_stock_to_pool():
 
 @individual_bp.route("/stock-pool/op/rm-stock", methods=["DELETE"])
 def api_op_rm_stock_from_pool():
+    user_id = current_user.id
     data = request.get_json()
     if "code" not in data:
         return jsonify(message="未接收到请求参数.")
     code = data["code"]
-    MyPool.query.filter_by(code=code).delete(synchronize_session=False)
+
+    MyPool.query.filter_by(code=code,user_id=user_id).delete(synchronize_session=False)
     db.session.commit()
     return jsonify(status=200, message="移除成功")
 
 
 @individual_bp.route("/stock-pool/op/update-stock", methods=["PATCH"])
 def api_op_update_stock_in_pool():
+    user_id = current_user.id
     data = request.get_json()
     if "code" not in data:
         return jsonify(message="未接收到请求参数.")
@@ -96,41 +104,45 @@ def api_op_update_stock_in_pool():
         info["negative_valuation"] = data["negative_valuation"]
     if "safe_of_margin" in data:
         info["safe_of_margin"] = data["safe_of_margin"]
-    print(info)
-    item = MyPool.query.filter_by(code=code).update(info)
+    item = MyPool.query.filter_by(code=code, user_id=user_id).update(info)
     db.session.commit()
     return jsonify(status=200, message="更新成功")
 
 
 @individual_bp.route("/stock-pool/data/pool-item", methods=["GET"])
 def api_data_get_pool_item():
+    user_id = current_user.id
     code = request.args.get("code", type=str)
     item = MyPool.query.filter_by(code=code).first_or_404()
     data = {
         "code": item.code,
         "positive_valuation": item.positive_valuation,
         "negative_valuation": item.negative_valuation,
-        "safe_of_margin": item.safe_of_margin
+        "safe_of_margin": item.safe_of_margin,
+        "user_id": user_id
     }
     return jsonify(status=200, message="", data=data)
 
    
 @individual_bp.route("/my-interests")
 def my_interests():
+    user_id = current_user.id
     items = db.session.query(MyInterests.code, Stock.name)  \
             .outerjoin(Stock, Stock.code==MyInterests.code)  \
+            .filter(MyInterests.user_id==user_id)  \
             .all()
     return render_template("home/individual/parts/_interests.html", items=items)
 
 
 @individual_bp.route("/my-interests/op/add-stock", methods=["POST"])
 def api_op_add_stock_to_interests():
+    user_id = current_user.id
     data = request.get_json()
     if "code" not in data:
         return jsonify(message="未接收到请求参数.")
     
     code = data["code"]
-    interest = MyInterests(code=code)
+    interest = MyInterests(code=code, user_id=user_id)
     db.session.add(interest)
     db.session.commit()
     return jsonify(status=200, message="添加成功")
@@ -138,12 +150,13 @@ def api_op_add_stock_to_interests():
 
 @individual_bp.route("/my-interests/op/rm-stock", methods=["DELETE"])
 def api_op_rm_stock_from_interests():
+    user_id = current_user.id
     data = request.get_json()
     if "code" not in data:
         return jsonify(message="未接收到请求参数.")
     
     code = data["code"]
-    MyInterests.query.filter_by(code=code).delete(synchronize_session=False)
+    MyInterests.query.filter_by(code=code).filter_by(user_id=user_id).delete(synchronize_session=False)
     db.session.commit()
     return jsonify(status=200, message="移除成功")
 
