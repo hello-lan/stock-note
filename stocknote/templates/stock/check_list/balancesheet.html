@@ -1,0 +1,996 @@
+<div class="row">
+    <h3 class="text-center text-primary">资产负债表检查清单</h3>
+    <br><br><br>
+    <div class="col-md-3" ><p>公司代码:&nbsp;{{ code }}</p></div>
+    <div class="col-md-3 col-md-offset-6"><p class="text-right">更新时间:&nbsp;{{ checklist.update_time | default('-', True) | date }}</p></div>
+</div>
+<table class="table table-bordered table-condensed">
+    <thead>
+        <tr>
+            <th class="text-center" width="10%">检查项</th>
+            <th class="text-center" width="20%">检查要点</th>
+            <th class="text-center" width="25%">要点解读</th>
+            <th class="text-center" width="40">检查结果</th>
+            <th class="text-center" width="5%">编辑</th>
+        </tr>
+    </thead>
+    <tbody>
+        <!-- 固定资产 -->
+        <tr>
+            {% set issue = '折旧政策是什么？' %}
+            <td rowspan="4" style="vertical-align: middle">固定资产</td>
+            <td style="vertical-align: middle">{{ issue }}</td>
+            <td style="vertical-align: middle"><small class="text-muted">固定资产必须计提折旧。优秀的公司倾向于选择加速折旧法，如双倍余额递减法、年数总和法</small></td>
+            <td class="pre-line" style="vertical-align: middle">{{ checklist.gdzc_zjzc  | default('-', True)}}</td>
+            <td class="text-center" style="vertical-align: middle">
+                <div class="dropdown">
+                    <span class="dropdown-toggle" id="checklistEditDropDownMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                        <i role="button" class="glyphicon glyphicon-option-horizontal"></i>
+                    </span>
+                    <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="checklistEditDropDownMenu" style="min-width:50px" >
+                        <li>
+                            <a role="btn" class="btn" onclick="showCheckListEditModal(this)" data-desc="{{issue}}" data-field="gdzc_zjzc"><i class="glyphicon glyphicon-pencil"></i>&nbsp;&nbsp;编辑</a>
+                        </li>
+                    </ul>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            {% set issue = '折旧政策是否改变？' %}
+            <td style="vertical-align: middle">{{ issue }}</td>
+            <td style="vertical-align: middle"><small class="text-muted">没有充足的理由，折旧政策不允许变更，此时必须搞懂公司为什么改，改得合理与否，改了会带来什么利益。</small></td>
+            <td class="pre-line" style="vertical-align: middle">{{ checklist.gdzc_zjzcbh  | default('-', True)}}</td>
+            <td class="text-center" style="vertical-align: middle">
+                <div class="dropdown">
+                    <span class="dropdown-toggle" id="checklistEditDropDownMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                        <i role="button" class="glyphicon glyphicon-option-horizontal"></i>
+                    </span>
+                    <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="checklistEditDropDownMenu" style="min-width:50px" >
+                        <li>
+                            <a role="btn" class="btn" onclick="showCheckListEditModal(this)" data-desc="{{issue}}" data-field="gdzc_zjzcbh"><i class="glyphicon glyphicon-pencil"></i>&nbsp;&nbsp;编辑</a>
+                        </li>
+                    </ul>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            {% set issue = '折旧可能隐藏价值' %}
+            <td style="vertical-align: middle">{{ issue }}</td>
+            <td style="vertical-align: middle"><small class="text-muted">有些固定资产折旧后账面价值极低，但实际价值可能并没那么大降幅，如水电企业的大坝、白酒企业的酒窖</small></td>
+            <td class="pre-line" style="vertical-align: middle">{{ checklist.gdzc_ycjz  | default('-', True)}}</td>
+            <td class="text-center" style="vertical-align: middle">
+                <div class="dropdown">
+                    <span class="dropdown-toggle" id="checklistEditDropDownMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                        <i role="button" class="glyphicon glyphicon-option-horizontal"></i>
+                    </span>
+                    <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="checklistEditDropDownMenu" style="min-width:50px" >
+                        <li>
+                            <a role="btn" class="btn" onclick="showCheckListEditModal(this)" data-desc="{{issue}}" data-field="gdzc_ycjz"><i class="glyphicon glyphicon-pencil"></i>&nbsp;&nbsp;编辑</a>
+                        </li>
+                    </ul>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            {% set issue = '是否大额计提减值？' %}
+            <td style="vertical-align: middle">{{ issue }}</td>
+            <td style="vertical-align: middle"><small class="text-muted">固定减值准备需要作为费用从利润表中扣除。有的公司会先大额计提减值，降低固定资产账面价值，将损失记录在当年，然后第二年以高出账面价值卖出，从而调节利润。</small></td>
+            <td class="pre-line" style="vertical-align: middle">{{ checklist.gdzc_jtjz  | default('-', True)}}</td>
+            <td class="text-center" style="vertical-align: middle">
+                <div class="dropdown">
+                    <span class="dropdown-toggle" id="checklistEditDropDownMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                        <i role="button" class="glyphicon glyphicon-option-horizontal"></i>
+                    </span>
+                    <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="checklistEditDropDownMenu" style="min-width:50px" >
+                        <li>
+                            <a role="btn" class="btn" onclick="showCheckListEditModal(this)" data-desc="{{issue}}" data-field="gdzc_jtjz"><i class="glyphicon glyphicon-pencil"></i>&nbsp;&nbsp;编辑</a>
+                        </li>
+                    </ul>
+                </div>
+            </td>
+        </tr> 
+        <!-- 在建工程 -->
+        <tr>
+            {% set issue = '在建工程数目巨大？' %}
+            <td rowspan="2" style="vertical-align: middle">在建工程</td>
+            <td style="vertical-align: middle">{{ issue }}</td>
+            <td style="vertical-align: middle">
+                <small class="text-muted">
+                <p>在建工程不需要计提折旧。如果企业的在建工程数目巨大，持续多年不转入固定资产，就需要警惕。若没有合理的解释，就可能藏着两种危险：</p>
+                <ol style="padding-left:15px">
+                <li>故意不转入固定资产，以避免折旧、美化利润； </li>
+                <li>通过在建工程将钱支付给虚构或关联的承建人，然后再以采购本公司产品或服务的名义，变成营业收入流回公司</li>
+                </ul>
+                </small>
+            </td>
+            <td class="pre-line" style="vertical-align: middle">{{ checklist.zjgc_sm  | default('-', True)}}</td>
+            <td class="text-center" style="vertical-align: middle">
+                <div class="dropdown">
+                    <span class="dropdown-toggle" id="checklistEditDropDownMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                        <i role="button" class="glyphicon glyphicon-option-horizontal"></i>
+                    </span>
+                    <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="checklistEditDropDownMenu" style="min-width:50px" >
+                        <li>
+                            <a role="btn" class="btn" onclick="showCheckListEditModal(this)" data-desc="{{issue}}" data-field="zjgc_sm"><i class="glyphicon glyphicon-pencil"></i>&nbsp;&nbsp;编辑</a>
+                        </li>
+                    </ul>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            {% set issue = '伴随投入资金的增加，在建工程进度没有同比例增加，反而停滞减少？' %}
+            <td style="vertical-align: middle">{{ issue }}</td>
+            <td style="vertical-align: middle"><small class="text-muted">往往也意味着藏着猫腻，投资者需要提高警惕，查找是否有合理解释。</small></td>
+            <td class="pre-line" style="vertical-align: middle">{{ checklist.zjgc_jd  | default('-', True)}}</td>
+            <td class="text-center" style="vertical-align: middle">
+                <div class="dropdown">
+                    <span class="dropdown-toggle" id="checklistEditDropDownMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                        <i role="button" class="glyphicon glyphicon-option-horizontal"></i>
+                    </span>
+                    <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="checklistEditDropDownMenu" style="min-width:50px" >
+                        <li>
+                            <a role="btn" class="btn" onclick="showCheckListEditModal(this)" data-desc="{{issue}}" data-field="zjgc_jd"><i class="glyphicon glyphicon-pencil"></i>&nbsp;&nbsp;编辑</a>
+                        </li>
+                    </ul>
+                </div>
+            </td>
+        </tr> 
+        <!-- 开发支出 -->
+        <tr>
+            {% set issue = '是否有较大开发支出？' %}
+            <td rowspan="1" style="vertical-align: middle">开发支出</td>
+            <td style="vertical-align: middle">{{ issue }}</td>
+            <td style="vertical-align: middle">
+                <small class="text-muted">
+                    <p>研发支出全部费用化（即无开发支出）的公司，利润数据的可靠性会高一些。</p>
+                    <p>无形资产的研发，是一件风险和收益都很大的事情，如果企业的研发支出巨大，背后隐藏的究竟是机会还是风险，需要投资者真正理解行业、理解企业后才能判断。</p>
+                </small>
+            </td>
+            <td class="pre-line" style="vertical-align: middle">{{ checklist.kfzc  | default('-', True)}}</td>
+            <td class="text-center" style="vertical-align: middle">
+                <div class="dropdown">
+                    <span class="dropdown-toggle" id="checklistEditDropDownMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                        <i role="button" class="glyphicon glyphicon-option-horizontal"></i>
+                    </span>
+                    <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="checklistEditDropDownMenu" style="min-width:50px" >
+                        <li>
+                            <a role="btn" class="btn" onclick="showCheckListEditModal(this)" data-desc="{{issue}}" data-field="kfzc"><i class="glyphicon glyphicon-pencil"></i>&nbsp;&nbsp;编辑</a>
+                        </li>
+                    </ul>
+                </div>
+            </td>
+        </tr>  
+        <!-- 生物资产 -->
+        <tr>
+            {% set issue = '是否有生物资产？' %}
+            <td rowspan="1" style="vertical-align: middle">生物资产</td>
+            <td style="vertical-align: middle">{{ issue }}</td>
+            <td style="vertical-align: middle">
+                <small class="text-muted">
+                    <ol style="padding-left:15px">
+                        <li>生物资产的价值判断存在很大的难度。如水里的鲤鱼、王八、鲍鱼等，不但难以盘点数量和大小，甚至连是否存在也不好确定，因而成为造假的高发地</li>
+                        <li>生物资产虚增后填空也很容易，可以直接告诉会计师，水里的鱼虾贝蟹都死光了</li>
+                        <li>借助消耗性生物资产的减值可以转回这一特点，农、林、渔、牧公司很容易调节不同年度的利润</li>
+                　　</ol>
+                    <p>农、林、渔、牧行业是造假高位区域，一定要谨慎涉足</p>
+                </small>
+            </td>
+            <td class="pre-line" style="vertical-align: middle">{{ checklist.swzc  | default('-', True)}}</td>
+            <td class="text-center" style="vertical-align: middle">
+                <div class="dropdown">
+                    <span class="dropdown-toggle" id="checklistEditDropDownMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                        <i role="button" class="glyphicon glyphicon-option-horizontal"></i>
+                    </span>
+                    <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="checklistEditDropDownMenu" style="min-width:50px" >
+                        <li>
+                            <a role="btn" class="btn" onclick="showCheckListEditModal(this)" data-desc="{{issue}}" data-field="swzc"><i class="glyphicon glyphicon-pencil"></i>&nbsp;&nbsp;编辑</a>
+                        </li>
+                    </ul>
+                </div>
+            </td>
+        </tr> 
+        <!-- 商誉 -->
+        <tr>
+            {% set issue = '是否有较大的商誉？' %}
+            <td rowspan="1" style="vertical-align: middle">商誉</td>
+            <td style="vertical-align: middle">{{ issue }}</td>
+            <td style="vertical-align: middle">
+                <small class="text-muted">
+                    <ol style="padding-left:15px">
+                        <li>商誉不用摊销。一般来说，买家们通常喜欢低估可辨认资产的价值，降低后期的折旧费用，使公司的利润表表现得更靓丽</li>
+                        <li>商誉减值。商誉一旦计提减值，利润表里会增加一笔巨额的“费用”，公司的利润同比会非常难看，甚至巨亏（商誉暴雷）</li>
+                　　</ol>
+                    <p>所以若企业有非常高的商誉，可以尝试取了解收购活动中可辨认资产作价是否有失公平；也可以将收购造成的商誉模拟成需要计提的折旧资产；或尝试将商誉从净资产里去掉，再计算资产负债率，看是否过高</p>
+                </small>
+            </td>
+            <td class="pre-line" style="vertical-align: middle">{{ checklist.sy  | default('-', True)}}</td>
+            <td class="text-center" style="vertical-align: middle">
+                <div class="dropdown">
+                    <span class="dropdown-toggle" id="checklistEditDropDownMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                        <i role="button" class="glyphicon glyphicon-option-horizontal"></i>
+                    </span>
+                    <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="checklistEditDropDownMenu" style="min-width:50px" >
+                        <li>
+                            <a role="btn" class="btn" onclick="showCheckListEditModal(this)" data-desc="{{issue}}" data-field="sy"><i class="glyphicon glyphicon-pencil"></i>&nbsp;&nbsp;编辑</a>
+                        </li>
+                    </ul>
+                </div>
+            </td>
+        </tr> 
+        <!-- 长期待摊费用 -->
+        <tr>
+            {% set issue = '是否有较大的长期待摊费用？' %}
+            <td rowspan="1" style="vertical-align: middle">长期待摊费用</td>
+            <td style="vertical-align: middle">{{ issue }}</td>
+            <td style="vertical-align: middle">
+                <small class="text-muted">
+                    这个科目的数字没有任何价值，其数字越大，资产质量越差
+                </small>
+            </td>
+            <td class="pre-line" style="vertical-align: middle">{{ checklist.cqdtfy  | default('-', True)}}</td>
+            <td class="text-center" style="vertical-align: middle">
+                <div class="dropdown">
+                    <span class="dropdown-toggle" id="checklistEditDropDownMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                        <i role="button" class="glyphicon glyphicon-option-horizontal"></i>
+                    </span>
+                    <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="checklistEditDropDownMenu" style="min-width:50px" >
+                        <li>
+                            <a role="btn" class="btn" onclick="showCheckListEditModal(this)" data-desc="{{issue}}" data-field="cqdtfy"><i class="glyphicon glyphicon-pencil"></i>&nbsp;&nbsp;编辑</a>
+                        </li>
+                    </ul>
+                </div>
+            </td>
+        </tr> 
+        <!-- 持有待售资产 -->
+        <tr>
+            {% set issue = '是否有持有待售资产？' %}
+            <td rowspan="1" style="vertical-align: middle">持有待售资产</td>
+            <td style="vertical-align: middle">{{ issue }}</td>
+            <td style="vertical-align: middle">
+                <small class="text-muted">
+                    <ol style="padding-left:15px">
+                    <li>资产、资产组合一旦归入“持有待售”，企业就不用再为它们计提折旧，可导致当期利润增加</li>
+                    <li>当联合营企业股权符合“持有待售”条件后，拟出售部分股权归入“持有待售资产”，该部分股权对应的联合营公司当年的的净利润或亏损比例（通常是亏损的），不再计入企业合并利润表的投资收益。</li>
+                    </ol>
+                </small>
+            </td>
+            <td class="pre-line" style="vertical-align: middle">{{ checklist.cydszc  | default('-', True)}}</td>
+            <td class="text-center" style="vertical-align: middle">
+                <div class="dropdown">
+                    <span class="dropdown-toggle" id="checklistEditDropDownMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                        <i role="button" class="glyphicon glyphicon-option-horizontal"></i>
+                    </span>
+                    <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="checklistEditDropDownMenu" style="min-width:50px" >
+                        <li>
+                            <a role="btn" class="btn" onclick="showCheckListEditModal(this)" data-desc="{{issue}}" data-field="cydszc"><i class="glyphicon glyphicon-pencil"></i>&nbsp;&nbsp;编辑</a>
+                        </li>
+                    </ul>
+                </div>
+            </td>
+        </tr>
+        <!-- 货币资金  -->
+        <tr>
+            {% set issue = '货币资金余额是否比短期负债小很多？' %}
+            <td rowspan="5" style="vertical-align: middle">货币资金</td>
+            <td style="vertical-align: middle">{{ issue }}</td>
+            <td style="vertical-align: middle">
+                <small class="text-muted">
+                    现有货币资金不足以应对即将到期的债务，公司资金链的安全性可能有问题。
+                </small>
+            </td>
+            <td class="pre-line" style="vertical-align: middle">{{ checklist.hbzj_dqfz  | default('-', True)}}</td>
+            <td class="text-center" style="vertical-align: middle">
+                <div class="dropdown">
+                    <span class="dropdown-toggle" id="checklistEditDropDownMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                        <i role="button" class="glyphicon glyphicon-option-horizontal"></i>
+                    </span>
+                    <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="checklistEditDropDownMenu" style="min-width:50px" >
+                        <li>
+                            <a role="btn" class="btn" onclick="showCheckListEditModal(this)" data-desc="{{issue}}" data-field="hbzj_dqfz"><i class="glyphicon glyphicon-pencil"></i>&nbsp;&nbsp;编辑</a>
+                        </li>
+                    </ul>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            {% set issue = '是否货币资金充裕，却借了很多有息甚至高息负债？' %}
+            <td style="vertical-align: middle">{{ issue }}</td>
+            <td style="vertical-align: middle">
+                <small class="text-muted">
+                    俗称“存贷双高”，大概率时账面货币资金虚构、挪用或者被担保冻结。
+                </small>
+            </td>
+            <td class="pre-line" style="vertical-align: middle">{{ checklist.hbzj_yxfz  | default('-', True)}}</td>
+            <td class="text-center" style="vertical-align: middle">
+                <div class="dropdown">
+                    <span class="dropdown-toggle" id="checklistEditDropDownMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                        <i role="button" class="glyphicon glyphicon-option-horizontal"></i>
+                    </span>
+                    <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="checklistEditDropDownMenu" style="min-width:50px" >
+                        <li>
+                            <a role="btn" class="btn" onclick="showCheckListEditModal(this)" data-desc="{{issue}}" data-field="hbzj_yxfz"><i class="glyphicon glyphicon-pencil"></i>&nbsp;&nbsp;编辑</a>
+                        </li>
+                    </ul>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            {% set issue = '定期存款和其他货币资金数额巨大，却缺乏短期可动用流动资金？' %}
+            <td style="vertical-align: middle">{{ issue }}</td>
+            <td style="vertical-align: middle">
+                <small class="text-muted">
+                    同样意味着，貌似充足的货币资金可能已经被冻结。货币资金的虚构或挪用，大部分原因是被控股股东“借”走了。
+                </small>
+            </td>
+            <td class="pre-line" style="vertical-align: middle">{{ checklist.hbzj_dqyqt  | default('-', True)}}</td>
+            <td class="text-center" style="vertical-align: middle">
+                <div class="dropdown">
+                    <span class="dropdown-toggle" id="checklistEditDropDownMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                        <i role="button" class="glyphicon glyphicon-option-horizontal"></i>
+                    </span>
+                    <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="checklistEditDropDownMenu" style="min-width:50px" >
+                        <li>
+                            <a role="btn" class="btn" onclick="showCheckListEditModal(this)" data-desc="{{issue}}" data-field="hbzj_dqyqt"><i class="glyphicon glyphicon-pencil"></i>&nbsp;&nbsp;编辑</a>
+                        </li>
+                    </ul>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            {% set issue = '其他货币资金数额巨大，缺乏合理解释？' %}
+            <td style="vertical-align: middle">{{ issue }}</td>
+            <td style="vertical-align: middle">
+                <small class="text-muted">
+                    注意是否存在上市公司对外支付大额投资预付款、意向金、保证金等，导致货币资金被被控股股东或关联人占用的情况
+                </small>
+            </td>
+            <td class="pre-line" style="vertical-align: middle">{{ checklist.hbzj_qthbzj  | default('-', True)}}</td>
+            <td class="text-center" style="vertical-align: middle">
+                <div class="dropdown">
+                    <span class="dropdown-toggle" id="checklistEditDropDownMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                        <i role="button" class="glyphicon glyphicon-option-horizontal"></i>
+                    </span>
+                    <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="checklistEditDropDownMenu" style="min-width:50px" >
+                        <li>
+                            <a role="btn" class="btn" onclick="showCheckListEditModal(this)" data-desc="{{issue}}" data-field="hbzj_qthbzj"><i class="glyphicon glyphicon-pencil"></i>&nbsp;&nbsp;编辑</a>
+                        </li>
+                    </ul>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            {% set issue = '货币资金产生的利息收入，显著低于常见理财或存款利率？' %}
+            <td style="vertical-align: middle">{{ issue }}</td>
+            <td style="vertical-align: middle">
+                <small class="text-muted">
+                    往往预示着货币资金是真实的，却只在上市公司银行账户上待过较短时间。一般是在报表日前回到上市公司账户，待查验审计完毕后，就通过各种手段离“家”出走，待下次报表日前再回来应对审计
+                </small>
+            </td>
+            <td class="pre-line" style="vertical-align: middle">{{ checklist.hbzj_lx  | default('-', True)}}</td>
+            <td class="text-center" style="vertical-align: middle">
+                <div class="dropdown">
+                    <span class="dropdown-toggle" id="checklistEditDropDownMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                        <i role="button" class="glyphicon glyphicon-option-horizontal"></i>
+                    </span>
+                    <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="checklistEditDropDownMenu" style="min-width:50px" >
+                        <li>
+                            <a role="btn" class="btn" onclick="showCheckListEditModal(this)" data-desc="{{issue}}" data-field="hbzj_lx"><i class="glyphicon glyphicon-pencil"></i>&nbsp;&nbsp;编辑</a>
+                        </li>
+                    </ul>
+                </div>
+            </td>
+        </tr>
+        <!-- 应收票据 -->
+        <tr>
+            {% set issue = '查看银票和商票的比例情况' %}
+            <td rowspan="3" style="vertical-align: middle">应收票据</td>
+            <td style="vertical-align: middle">{{ issue }}</td>
+            <td style="vertical-align: middle">
+                <small class="text-muted">
+                    如果大部分是银票，说明企业地位强势，产品很抢手；若大部分是商票，说明企业当下的营业收入，是靠相对宽松的销售政策推动的
+                </small>
+            </td>
+            <td class="pre-line" style="vertical-align: middle">{{ checklist.yspj_ypsp  | default('-', True)}}</td>
+            <td class="text-center" style="vertical-align: middle">
+                <div class="dropdown">
+                    <span class="dropdown-toggle" id="checklistEditDropDownMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                        <i role="button" class="glyphicon glyphicon-option-horizontal"></i>
+                    </span>
+                    <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="checklistEditDropDownMenu" style="min-width:50px" >
+                        <li>
+                            <a role="btn" class="btn" onclick="showCheckListEditModal(this)" data-desc="{{issue}}" data-field="yspj_ypsp"><i class="glyphicon glyphicon-pencil"></i>&nbsp;&nbsp;编辑</a>
+                        </li>
+                    </ul>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            {% set issue = '以往一直是银票，某年突然出现大量商票？' %}
+            <td style="vertical-align: middle">{{ issue }}</td>
+            <td style="vertical-align: middle">
+                <small class="text-muted">
+                    基本能够证明企业的产品或服务遇到了销售困境，开始放松销售政策
+                </small>
+            </td>
+            <td class="pre-line" style="vertical-align: middle">{{ checklist.yspj_sp  | default('-', True)}}</td>
+            <td class="text-center" style="vertical-align: middle">
+                <div class="dropdown">
+                    <span class="dropdown-toggle" id="checklistEditDropDownMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                        <i role="button" class="glyphicon glyphicon-option-horizontal"></i>
+                    </span>
+                    <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="checklistEditDropDownMenu" style="min-width:50px" >
+                        <li>
+                            <a role="btn" class="btn" onclick="showCheckListEditModal(this)" data-desc="{{issue}}" data-field="yspj_sp"><i class="glyphicon glyphicon-pencil"></i>&nbsp;&nbsp;编辑</a>
+                        </li>
+                    </ul>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            {% set issue = '非金融企业，却存在与正常经营规模不匹配的应收票据？' %}
+            <td style="vertical-align: middle">{{ issue }}</td>
+            <td style="vertical-align: middle">
+                <small class="text-muted">
+                    需警惕这家公司不务正业，在票据市场当炒家
+                </small>
+            </td>
+            <td class="pre-line" style="vertical-align: middle">{{ checklist.yspj_fjrhy  | default('-', True)}}</td>
+            <td class="text-center" style="vertical-align: middle">
+                <div class="dropdown">
+                    <span class="dropdown-toggle" id="checklistEditDropDownMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                        <i role="button" class="glyphicon glyphicon-option-horizontal"></i>
+                    </span>
+                    <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="checklistEditDropDownMenu" style="min-width:50px" >
+                        <li>
+                            <a role="btn" class="btn" onclick="showCheckListEditModal(this)" data-desc="{{issue}}" data-field="yspj_fjrhy"><i class="glyphicon glyphicon-pencil"></i>&nbsp;&nbsp;编辑</a>
+                        </li>
+                    </ul>
+                </div>
+            </td>
+        </tr>
+        <!-- 应收账款 -->
+        <tr>
+            {% set issue = '应收账款大幅增长，增长幅度超过同期收入增长幅度，应收账款周转率显著低于行业平均水平，或呈明显的下降趋势？' %}
+            <td rowspan="5" style="vertical-align: middle">应收账款</td>
+            <td style="vertical-align: middle">{{ issue }}</td>
+            <td style="vertical-align: middle">
+                <small class="text-muted">
+                    <p>往往预示着两种可能：</p>
+                    <ol style="padding-left:15px">
+                        <li>公司临时放宽信用政策，加大赊销力度</li>
+                        <li>公司提前确认收入甚至虚构收入</li>
+                    </ol>
+                </small>
+            </td>
+            <td class="pre-line" style="vertical-align: middle">{{ checklist.yszk_dfzz  | default('-', True)}}</td>
+            <td class="text-center" style="vertical-align: middle">
+                <div class="dropdown">
+                    <span class="dropdown-toggle" id="checklistEditDropDownMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                        <i role="button" class="glyphicon glyphicon-option-horizontal"></i>
+                    </span>
+                    <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="checklistEditDropDownMenu" style="min-width:50px" >
+                        <li>
+                            <a role="btn" class="btn" onclick="showCheckListEditModal(this)" data-desc="{{issue}}" data-field="yszk_dfzz"><i class="glyphicon glyphicon-pencil"></i>&nbsp;&nbsp;编辑</a>
+                        </li>
+                    </ul>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            {% set issue = '应收账款占营业收入的比例较大，且很大部分（如超过三成）是一年以上的应收款？' %}
+            <td style="vertical-align: middle">{{ issue }}</td>
+            <td style="vertical-align: middle">
+                <small class="text-muted">
+                    需警惕公司收入的真实性
+                </small>
+            </td>
+            <td class="pre-line" style="vertical-align: middle">{{ checklist.yszk_ys  | default('-', True)}}</td>
+            <td class="text-center" style="vertical-align: middle">
+                <div class="dropdown">
+                    <span class="dropdown-toggle" id="checklistEditDropDownMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                        <i role="button" class="glyphicon glyphicon-option-horizontal"></i>
+                    </span>
+                    <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="checklistEditDropDownMenu" style="min-width:50px" >
+                        <li>
+                            <a role="btn" class="btn" onclick="showCheckListEditModal(this)" data-desc="{{issue}}" data-field="yszk_ys"><i class="glyphicon glyphicon-pencil"></i>&nbsp;&nbsp;编辑</a>
+                        </li>
+                    </ul>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            {% set issue = '查看应收账款坏账的计提比例，和同行业的其他公司做比较' %}
+            <td style="vertical-align: middle">{{ issue }}</td>
+            <td style="vertical-align: middle">
+                <small class="text-muted">
+                    计提标准越严格的公司越值得信赖
+                </small>
+            </td>
+            <td class="pre-line" style="vertical-align: middle">{{ checklist.yszk_hzjtbl  | default('-', True)}}</td>
+            <td class="text-center" style="vertical-align: middle">
+                <div class="dropdown">
+                    <span class="dropdown-toggle" id="checklistEditDropDownMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                        <i role="button" class="glyphicon glyphicon-option-horizontal"></i>
+                    </span>
+                    <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="checklistEditDropDownMenu" style="min-width:50px" >
+                        <li>
+                            <a role="btn" class="btn" onclick="showCheckListEditModal(this)" data-desc="{{issue}}" data-field="yszk_hzjtbl"><i class="glyphicon glyphicon-pencil"></i>&nbsp;&nbsp;编辑</a>
+                        </li>
+                    </ul>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            {% set issue = '以往的计提标准一贯宽松，突然严格？或一贯严格，突然宽松？' %}
+            <td style="vertical-align: middle">{{ issue }}</td>
+            <td style="vertical-align: middle">
+                <small class="text-muted">
+                    可能是意图“洗大澡”做低基数，以备来年转回坏账准备，美化利润表；一贯宽松，突然严格，美化当年利润的意图就很明显了
+                </small>
+            </td>
+            <td class="pre-line" style="vertical-align: middle">{{ checklist.yszk_jtbzbh  | default('-', True)}}</td>
+            <td class="text-center" style="vertical-align: middle">
+                <div class="dropdown">
+                    <span class="dropdown-toggle" id="checklistEditDropDownMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                        <i role="button" class="glyphicon glyphicon-option-horizontal"></i>
+                    </span>
+                    <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="checklistEditDropDownMenu" style="min-width:50px" >
+                        <li>
+                            <a role="btn" class="btn" onclick="showCheckListEditModal(this)" data-desc="{{issue}}" data-field="yszk_jtbzbh"><i class="glyphicon glyphicon-pencil"></i>&nbsp;&nbsp;编辑</a>
+                        </li>
+                    </ul>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            {% set issue = '某些时间很长的应收账款突然付清了？' %}
+            <td style="vertical-align: middle">{{ issue }}</td>
+            <td style="vertical-align: middle">
+                <small class="text-muted">
+                    观察上市公司在这笔款项前后，是否增加了其他累积金额近似的异常支出。造假分子为了掩盖高额的应收账款，会找关联公司或客户付一笔钱过来，冲销应收账款。同时再通过其他应收账款、预付款或购货款等名义，将这笔钱转出去。
+                </small>
+            </td>
+            <td class="pre-line" style="vertical-align: middle">{{ checklist.yszk_fq  | default('-', True)}}</td>
+            <td class="text-center" style="vertical-align: middle">
+                <div class="dropdown">
+                    <span class="dropdown-toggle" id="checklistEditDropDownMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                        <i role="button" class="glyphicon glyphicon-option-horizontal"></i>
+                    </span>
+                    <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="checklistEditDropDownMenu" style="min-width:50px" >
+                        <li>
+                            <a role="btn" class="btn" onclick="showCheckListEditModal(this)" data-desc="{{issue}}" data-field="yszk_fq"><i class="glyphicon glyphicon-pencil"></i>&nbsp;&nbsp;编辑</a>
+                        </li>
+                    </ul>
+                </div>
+            </td>
+        </tr>
+        <!-- 预付款 -->
+        <tr>
+            {% set issue = '预付账款是否大幅度增长？' %}
+            <td rowspan="1" style="vertical-align: middle">预付款</td>
+            <td style="vertical-align: middle">{{ issue }}</td>
+            <td style="vertical-align: middle">
+                <small class="text-muted">
+                    尤其是预付工程款、预付专利技术或非专利技术的采购款大幅增长，往往提醒我们关注公司是否存在通过预付款流出资金，然后再以购买公司商品或服务的名义流回，虚增营业收入和净利润的风险
+                </small>
+            </td>
+            <td class="pre-line" style="vertical-align: middle">{{ checklist.yfzk_zz  | default('-', True)}}</td>
+            <td class="text-center" style="vertical-align: middle">
+                <div class="dropdown">
+                    <span class="dropdown-toggle" id="checklistEditDropDownMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                        <i role="button" class="glyphicon glyphicon-option-horizontal"></i>
+                    </span>
+                    <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="checklistEditDropDownMenu" style="min-width:50px" >
+                        <li>
+                            <a role="btn" class="btn" onclick="showCheckListEditModal(this)" data-desc="{{issue}}" data-field="yfzk_zz"><i class="glyphicon glyphicon-pencil"></i>&nbsp;&nbsp;编辑</a>
+                        </li>
+                    </ul>
+                </div>
+            </td>
+        </tr>
+        <!-- 其他应收款 -->
+        <tr>
+            {% set issue = '数目是否较大?' %}
+            <td rowspan="1" style="vertical-align: middle">其他应收款</td>
+            <td style="vertical-align: middle">{{ issue }}</td>
+            <td style="vertical-align: middle">
+                <small class="text-muted">
+                    <ol style="padding-left:15px">
+                        <li>如果企业账上本就没几个钱，还容忍大量应收款和其他应收款存在，投资者可以直接怀疑应收款造假</li>
+                        <li>投资者如果遇到“其他xx”（如其他应收款、其他流动资产、其他非流动资产）数据较大，可以先抱着公司经营不够规范的初步印象来看</li>
+                    </ol>
+                </small>
+            </td>
+            <td class="pre-line" style="vertical-align: middle">{{ checklist.qtysk_sm  | default('-', True)}}</td>
+            <td class="text-center" style="vertical-align: middle">
+                <div class="dropdown">
+                    <span class="dropdown-toggle" id="checklistEditDropDownMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                        <i role="button" class="glyphicon glyphicon-option-horizontal"></i>
+                    </span>
+                    <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="checklistEditDropDownMenu" style="min-width:50px" >
+                        <li>
+                            <a role="btn" class="btn" onclick="showCheckListEditModal(this)" data-desc="{{issue}}" data-field="qtysk_sm"><i class="glyphicon glyphicon-pencil"></i>&nbsp;&nbsp;编辑</a>
+                        </li>
+                    </ul>
+                </div>
+            </td>
+        </tr>
+        <!-- 存货 -->
+        <tr>
+            {% set issue = '关注存款计提跌价准备的标准' %}
+            <td rowspan="3" style="vertical-align: middle">存货</td>
+            <td style="vertical-align: middle">{{ issue }}</td>
+            <td style="vertical-align: middle">
+                <small class="text-muted">
+                    如果一个行业的存货有快速贬值的特征（如新鲜食品或高科技制造业），投资者就需要了解同行业其他公司对存货计提跌价准备的标准，在与自己关注的公司比对，以衡量公司存货价值是否真实
+                </small>
+            </td>
+            <td class="pre-line" style="vertical-align: middle">{{ checklist.ch_jtdjzbbz  | default('-', True)}}</td>
+            <td class="text-center" style="vertical-align: middle">
+                <div class="dropdown">
+                    <span class="dropdown-toggle" id="checklistEditDropDownMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                        <i role="button" class="glyphicon glyphicon-option-horizontal"></i>
+                    </span>
+                    <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="checklistEditDropDownMenu" style="min-width:50px" >
+                        <li>
+                            <a role="btn" class="btn" onclick="showCheckListEditModal(this)" data-desc="{{issue}}" data-field="ch_jtdjzbbz"><i class="glyphicon glyphicon-pencil"></i>&nbsp;&nbsp;编辑</a>
+                        </li>
+                    </ul>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            {% set issue = '存货增长大幅超过同期营业成本增长，且期末存货账面价值与当期营业成本之比，显著高于同行业水平？' %}
+            <td style="vertical-align: middle">{{ issue }}</td>
+            <td style="vertical-align: middle">
+                <small class="text-muted">
+                    造假者尤其喜欢通过虚构价值和数量不易确定的商品采购，将资金流出体外，再通过购买本公司产品或服务的形式将资金流入，创造虚假的收入和利润。
+                </small>
+            </td>
+            <td class="pre-line" style="vertical-align: middle">{{ checklist.ch_zj  | default('-', True)}}</td>
+            <td class="text-center" style="vertical-align: middle">
+                <div class="dropdown">
+                    <span class="dropdown-toggle" id="checklistEditDropDownMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                        <i role="button" class="glyphicon glyphicon-option-horizontal"></i>
+                    </span>
+                    <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="checklistEditDropDownMenu" style="min-width:50px" >
+                        <li>
+                            <a role="btn" class="btn" onclick="showCheckListEditModal(this)" data-desc="{{issue}}" data-field="ch_zj"><i class="glyphicon glyphicon-pencil"></i>&nbsp;&nbsp;编辑</a>
+                        </li>
+                    </ul>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            {% set issue = '存货与毛利率同时增加？' %}
+            <td style="vertical-align: middle">{{ issue }}</td>
+            <td style="vertical-align: middle">
+                <small class="text-muted">
+                    公司通过提高不必要的生产量，将部分固定成本转移到堆积在库房的新增存货里，降低了当期销售产品的成本，增加了利润。这种现象通常在固定较高的行业多发。
+                </small>
+            </td>
+            <td class="pre-line" style="vertical-align: middle">{{ checklist.ch_mll  | default('-', True)}}</td>
+            <td class="text-center" style="vertical-align: middle">
+                <div class="dropdown">
+                    <span class="dropdown-toggle" id="checklistEditDropDownMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                        <i role="button" class="glyphicon glyphicon-option-horizontal"></i>
+                    </span>
+                    <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="checklistEditDropDownMenu" style="min-width:50px" >
+                        <li>
+                            <a role="btn" class="btn" onclick="showCheckListEditModal(this)" data-desc="{{issue}}" data-field="ch_mll"><i class="glyphicon glyphicon-pencil"></i>&nbsp;&nbsp;编辑</a>
+                        </li>
+                    </ul>
+                </div>
+            </td>
+        </tr>
+        <!-- 投资性房产 -->
+        <tr>
+            {% set issue = '计量方式是以成本模式计量还是以公允价值模式计量？' %}
+            <td rowspan="1" style="vertical-align: middle">投资性房产</td>
+            <td style="vertical-align: middle">{{ issue }}</td>
+            <td style="vertical-align: middle">
+                <small class="text-muted">
+                    <ol style="padding-left:15px">
+                        <li>采用成本模式计量，后续处理和固定资产一样：按期计提折旧，年底做价值测试，折旧和减值算当期利润表的费用，收到的租金计入利润表的其他业务收入</li>
+                        <li>采用公允价值模式计量，则不需要计提折旧和摊销，而是直接以期末的公允价值计入资产，并将期间的涨跌计入利润表的“公允价值变动”科目，影响当期利润（这个利润并不对应现金流入或流出）</li>
+                    </ol>
+                </small>
+            </td>
+            <td class="pre-line" style="vertical-align: middle">{{ checklist.tzxfc_jlfs  | default('-', True)}}</td>
+            <td class="text-center" style="vertical-align: middle">
+                <div class="dropdown">
+                    <span class="dropdown-toggle" id="checklistEditDropDownMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                        <i role="button" class="glyphicon glyphicon-option-horizontal"></i>
+                    </span>
+                    <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="checklistEditDropDownMenu" style="min-width:50px" >
+                        <li>
+                            <a role="btn" class="btn" onclick="showCheckListEditModal(this)" data-desc="{{issue}}" data-field="tzxfc_jlfs"><i class="glyphicon glyphicon-pencil"></i>&nbsp;&nbsp;编辑</a>
+                        </li>
+                    </ul>
+                </div>
+            </td>
+        </tr>
+        <!-- 持有到期投资 -->
+        <tr>
+            {% set issue = '关注期间所获利息收入和到期确保收回本金' %}
+            <td rowspan="1" style="vertical-align: middle">持有到期投资</td>
+            <td style="vertical-align: middle">{{ issue }}</td>
+            <td style="vertical-align: middle">
+                <small class="text-muted">
+                </small>
+            </td>
+            <td class="pre-line" style="vertical-align: middle">{{ checklist.cydqtz  | default('-', True)}}</td>
+            <td class="text-center" style="vertical-align: middle">
+                <div class="dropdown">
+                    <span class="dropdown-toggle" id="checklistEditDropDownMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                        <i role="button" class="glyphicon glyphicon-option-horizontal"></i>
+                    </span>
+                    <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="checklistEditDropDownMenu" style="min-width:50px" >
+                        <li>
+                            <a role="btn" class="btn" onclick="showCheckListEditModal(this)" data-desc="{{issue}}" data-field="cydqtz"><i class="glyphicon glyphicon-pencil"></i>&nbsp;&nbsp;编辑</a>
+                        </li>
+                    </ul>
+                </div>
+            </td>
+        </tr>
+        <!-- 交易性金融资产 -->
+        <tr>
+            {% set issue = '数额是否比较大？查看附注了解其明细' %}
+            <td rowspan="1" style="vertical-align: middle">交易性金融资产</td>
+            <td style="vertical-align: middle">{{ issue }}</td>
+            <td style="vertical-align: middle">
+                <small class="text-muted">
+                    不需要计提折旧，也不需要做减值测试，直接将持有期间的公允价值变动，计入利润表的“公允价值变动收益”科目，影响公司当期利润。所以在牛市或熊市里，往往会对上市公司本身的股价起到助涨或助跌作用
+                </small>
+            </td>
+            <td class="pre-line" style="vertical-align: middle">{{ checklist.jyxjrzc_sm  | default('-', True)}}</td>
+            <td class="text-center" style="vertical-align: middle">
+                <div class="dropdown">
+                    <span class="dropdown-toggle" id="checklistEditDropDownMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                        <i role="button" class="glyphicon glyphicon-option-horizontal"></i>
+                    </span>
+                    <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="checklistEditDropDownMenu" style="min-width:50px" >
+                        <li>
+                            <a role="btn" class="btn" onclick="showCheckListEditModal(this)" data-desc="{{issue}}" data-field="jyxjrzc_sm"><i class="glyphicon glyphicon-pencil"></i>&nbsp;&nbsp;编辑</a>
+                        </li>
+                    </ul>
+                </div>
+            </td>
+        </tr>  
+        <!-- 衍生金融资产   -->
+        <tr>
+            {% set issue = '数额是否比较大？查看附注了解其明细' %}
+            <td rowspan="1" style="vertical-align: middle">衍生金融资产</td>
+            <td style="vertical-align: middle">{{ issue }}</td>
+            <td style="vertical-align: middle">
+                <small class="text-muted">
+                    不需要计提折旧，也不需要做减值测试，直接将持有期间的公允价值变动，计入利润表的“公允价值变动收益”科目，影响公司当期利润。所以在牛市或熊市里，往往会对上市公司本身的股价起到助涨或助跌作用
+                </small>
+            </td>
+            <td class="pre-line" style="vertical-align: middle">{{ checklist.ysjrzc_sm  | default('-', True)}}</td>
+            <td class="text-center" style="vertical-align: middle">
+                <div class="dropdown">
+                    <span class="dropdown-toggle" id="checklistEditDropDownMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                        <i role="button" class="glyphicon glyphicon-option-horizontal"></i>
+                    </span>
+                    <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="checklistEditDropDownMenu" style="min-width:50px" >
+                        <li>
+                            <a role="btn" class="btn" onclick="showCheckListEditModal(this)" data-desc="{{issue}}" data-field="ysjrzc_sm"><i class="glyphicon glyphicon-pencil"></i>&nbsp;&nbsp;编辑</a>
+                        </li>
+                    </ul>
+                </div>
+            </td>
+        </tr> 
+        <!-- 其他非流动金融资产 -->
+        <tr>
+            {% set issue = '数额是否比较大？查看附注了解其明细' %}
+            <td rowspan="1" style="vertical-align: middle">其他非流动金融资产</td>
+            <td style="vertical-align: middle">{{ issue }}</td>
+            <td style="vertical-align: middle">
+                <small class="text-muted">
+                    不需要计提折旧，也不需要做减值测试，直接将持有期间的公允价值变动，计入利润表的“公允价值变动收益”科目，影响公司当期利润。所以在牛市或熊市里，往往会对上市公司本身的股价起到助涨或助跌作用
+                </small>
+            </td>
+            <td class="pre-line" style="vertical-align: middle">{{ checklist.qitafldjrzc_sm  | default('-', True)}}</td>
+            <td class="text-center" style="vertical-align: middle">
+                <div class="dropdown">
+                    <span class="dropdown-toggle" id="checklistEditDropDownMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                        <i role="button" class="glyphicon glyphicon-option-horizontal"></i>
+                    </span>
+                    <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="checklistEditDropDownMenu" style="min-width:50px" >
+                        <li>
+                            <a role="btn" class="btn" onclick="showCheckListEditModal(this)" data-desc="{{issue}}" data-field="qitafldjrzc_sm"><i class="glyphicon glyphicon-pencil"></i>&nbsp;&nbsp;编辑</a>
+                        </li>
+                    </ul>
+                </div>
+            </td>
+        </tr> 
+        <!-- 长期股权投资 -->
+        <tr>
+            {% set issue = '数额是否比较大，资产计价是否合适（高估还是低估）' %}
+            <td rowspan="6" style="vertical-align: middle">长期股权投资</td>
+            <td style="vertical-align: middle">{{ issue }}</td>
+            <td style="vertical-align: middle">
+                <small class="text-muted">
+                    合并报表数据中的长期股权投资为用权益法核算的联合营公司股权（2014.7以后），联合营公司当年的利润或亏损，按照持股比例计入上市公司利润表的投资收益里
+                </small>
+            </td>
+            <td class="pre-line" style="vertical-align: middle">{{ checklist.cqgqtz_sm  | default('-', True)}}</td>
+            <td class="text-center" style="vertical-align: middle">
+                <div class="dropdown">
+                    <span class="dropdown-toggle" id="checklistEditDropDownMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                        <i role="button" class="glyphicon glyphicon-option-horizontal"></i>
+                    </span>
+                    <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="checklistEditDropDownMenu" style="min-width:50px" >
+                        <li>
+                            <a role="btn" class="btn" onclick="showCheckListEditModal(this)" data-desc="{{issue}}" data-field="cqgqtz_sm"><i class="glyphicon glyphicon-pencil"></i>&nbsp;&nbsp;编辑</a>
+                        </li>
+                    </ul>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            {% set issue = '是否大额减值' %}
+            <td style="vertical-align: middle">{{ issue }}</td>
+            <td style="vertical-align: middle">
+                <small class="text-muted">
+                    可能的操纵手法：本期大额减值，下期卖出获利，从而操纵利润表
+                </small>
+            </td>
+            <td class="pre-line" style="vertical-align: middle">{{ checklist.cqgqtz_jz  | default('-', True)}}</td>
+            <td class="text-center" style="vertical-align: middle">
+                <div class="dropdown">
+                    <span class="dropdown-toggle" id="checklistEditDropDownMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                        <i role="button" class="glyphicon glyphicon-option-horizontal"></i>
+                    </span>
+                    <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="checklistEditDropDownMenu" style="min-width:50px" >
+                        <li>
+                            <a role="btn" class="btn" onclick="showCheckListEditModal(this)" data-desc="{{issue}}" data-field="cqgqtz_jz"><i class="glyphicon glyphicon-pencil"></i>&nbsp;&nbsp;编辑</a>
+                        </li>
+                    </ul>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            {% set issue = '同一控制下公司之间的收购，按照非同一控制处理，创造利润' %}
+            <td style="vertical-align: middle">{{ issue }}</td>
+            <td style="vertical-align: middle">
+                <small class="text-muted">
+                    <p>受同一最终实际控制人控制的不同公司之间的收购，只能用权益结合法，只允许调整股东权益，不允许产生利润；</p>
+                    <p>而非同一控制下的两家公司之间的收购行为，则使用购买法，交易产生的利润记录为营业外收入，影响当期利润</p>
+                </small>
+            </td>
+            <td class="pre-line" style="vertical-align: middle">{{ checklist.cqgqtz_tykz  | default('-', True)}}</td>
+            <td class="text-center" style="vertical-align: middle">
+                <div class="dropdown">
+                    <span class="dropdown-toggle" id="checklistEditDropDownMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                        <i role="button" class="glyphicon glyphicon-option-horizontal"></i>
+                    </span>
+                    <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="checklistEditDropDownMenu" style="min-width:50px" >
+                        <li>
+                            <a role="btn" class="btn" onclick="showCheckListEditModal(this)" data-desc="{{issue}}" data-field="cqgqtz_tykz"><i class="glyphicon glyphicon-pencil"></i>&nbsp;&nbsp;编辑</a>
+                        </li>
+                    </ul>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            {% set issue = '在资产边缘小额交易，将子公司变为联营公司，操纵利润表' %}
+            <td style="vertical-align: middle">{{ issue }}</td>
+            <td style="vertical-align: middle">
+                <small class="text-muted">
+                    上市公司因主动减持或因新进股东进入而被动摊薄而导致丧失对子公司的控股权，产生的投资收益计入合并报表的利润表（若未丧失控股权则是计入合并报表的股东权益）
+                </small>
+            </td>
+            <td class="pre-line" style="vertical-align: middle">{{ checklist.cqgqtz_zgs2lx  | default('-', True)}}</td>
+            <td class="text-center" style="vertical-align: middle">
+                <div class="dropdown">
+                    <span class="dropdown-toggle" id="checklistEditDropDownMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                        <i role="button" class="glyphicon glyphicon-option-horizontal"></i>
+                    </span>
+                    <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="checklistEditDropDownMenu" style="min-width:50px" >
+                        <li>
+                            <a role="btn" class="btn" onclick="showCheckListEditModal(this)" data-desc="{{issue}}" data-field="cqgqtz_zgs2lx"><i class="glyphicon glyphicon-pencil"></i>&nbsp;&nbsp;编辑</a>
+                        </li>
+                    </ul>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            {% set issue = '在资产边缘小额交易，将金融资产变为联营企业，操纵利润表' %}
+            <td style="vertical-align: middle">{{ issue }}</td>
+            <td style="vertical-align: middle">
+                <small class="text-muted">
+                    与上述方法类似。通常发生在持有其他上市公司破净股的情况下。上市公司通过少量增持，或获取对方董事席位等方法，将原本划分为金融资产的小额持股，变成具有重大影响的联营公司股权投资，改用权益法核算，可辨认净资产公允价值与股价的差额，可以变为营业外收入，提升当期净利润
+                </small>
+            </td>
+            <td class="pre-line" style="vertical-align: middle">{{ checklist.cqgqtz_jrzc2lx  | default('-', True)}}</td>
+            <td class="text-center" style="vertical-align: middle">
+                <div class="dropdown">
+                    <span class="dropdown-toggle" id="checklistEditDropDownMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                        <i role="button" class="glyphicon glyphicon-option-horizontal"></i>
+                    </span>
+                    <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="checklistEditDropDownMenu" style="min-width:50px" >
+                        <li>
+                            <a role="btn" class="btn" onclick="showCheckListEditModal(this)" data-desc="{{issue}}" data-field="cqgqtz_jrzc2lx"><i class="glyphicon glyphicon-pencil"></i>&nbsp;&nbsp;编辑</a>
+                        </li>
+                    </ul>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            {% set issue = '将一篮子减持拆成两次或两次以上的独立交易' %}
+            <td style="vertical-align: middle">{{ issue }}</td>
+            <td style="vertical-align: middle">
+                <small class="text-muted">
+                    可能的操纵手法：出售部分股权但不丧失控制权，只改变净资产（股东权益），不改变净利润；出售部分股权导致控股权丧失，可以改变净利润
+                </small>
+            </td>
+            <td class="pre-line" style="vertical-align: middle">{{ checklist.cqgqtz_jc  | default('-', True)}}</td>
+            <td class="text-center" style="vertical-align: middle">
+                <div class="dropdown">
+                    <span class="dropdown-toggle" id="checklistEditDropDownMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                        <i role="button" class="glyphicon glyphicon-option-horizontal"></i>
+                    </span>
+                    <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="checklistEditDropDownMenu" style="min-width:50px" >
+                        <li>
+                            <a role="btn" class="btn" onclick="showCheckListEditModal(this)" data-desc="{{issue}}" data-field="cqgqtz_jc"><i class="glyphicon glyphicon-pencil"></i>&nbsp;&nbsp;编辑</a>
+                        </li>
+                    </ul>
+                </div>
+            </td>
+        </tr>  
+        <!-- 有息负债 -->
+        <tr>
+            {% set issue = ' 企业的现金及现金等价物能否覆盖有息负债' %}
+            <td rowspan="2" style="vertical-align: middle">有息负债<br>(短期借款/交易性金融负债/长期借款/应付债券/一年内到期的非流动负债)</td>
+            <td style="vertical-align: middle">{{ issue }}</td>
+            <td style="vertical-align: middle">
+                <small class="text-muted">
+                    即看企业企业手头的现金及现金等价物能够偿还债务
+                </small>
+            </td>
+            <td class="pre-line" style="vertical-align: middle">{{ checklist.yxfz_xj  | default('-', True)}}</td>
+            <td class="text-center" style="vertical-align: middle">
+                <div class="dropdown">
+                    <span class="dropdown-toggle" id="checklistEditDropDownMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                        <i role="button" class="glyphicon glyphicon-option-horizontal"></i>
+                    </span>
+                    <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="checklistEditDropDownMenu" style="min-width:50px" >
+                        <li>
+                            <a role="btn" class="btn" onclick="showCheckListEditModal(this)" data-desc="{{issue}}" data-field="yxfz_xj"><i class="glyphicon glyphicon-pencil"></i>&nbsp;&nbsp;编辑</a>
+                        </li>
+                    </ul>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            {% set issue = '有息负债占总资产的比例' %}
+            <td style="vertical-align: middle">{{ issue }}</td>
+            <td style="vertical-align: middle">
+                <small class="text-muted">
+                    将该占比和同行，尤其是行业内龙头企业对比，大幅高于或低于同行，都值得投资者思考原因及后果
+                </small>
+            </td>
+            <td class="pre-line" style="vertical-align: middle">{{ checklist.yxfz_zzc  | default('-', True)}}</td>
+            <td class="text-center" style="vertical-align: middle">
+                <div class="dropdown">
+                    <span class="dropdown-toggle" id="checklistEditDropDownMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                        <i role="button" class="glyphicon glyphicon-option-horizontal"></i>
+                    </span>
+                    <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="checklistEditDropDownMenu" style="min-width:50px" >
+                        <li>
+                            <a role="btn" class="btn" onclick="showCheckListEditModal(this)" data-desc="{{issue}}" data-field="yxfz_zzc"><i class="glyphicon glyphicon-pencil"></i>&nbsp;&nbsp;编辑</a>
+                        </li>
+                    </ul>
+                </div>
+            </td>
+        </tr>  
+    </tbody>
+
+</table>
+<!-- 存放数据用来被js读取 -->
+<div id="i_cacheData" data-code="{{code}}" 
+    data-partial-url="{{ url_for('check_list.api_data_balancesheet_item', code=code) }}"
+    data-partial-edit-url="{{ url_for('check_list.api_op_edit_balancesheet_item') }}">
+</div>
