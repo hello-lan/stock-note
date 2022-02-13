@@ -7,7 +7,7 @@ from collections import defaultdict
 
 from stocknote.models.stock import (StockGroup, Stock, StockIndicators, StockCashFlow,
         StockIncomeStatement, StockBalanceSheet)
-from stocknote.models.note import BasicInfo
+from stocknote.models.personal.note import BasicInfo
 from stocknote.extensions import db
 from stocknote.services.stock_data import (get_stock_indicators, get_cashflow_revenue_ratios,
         get_account_receivable_ratio, get_stock_balance_sheet, get_productive_assets,

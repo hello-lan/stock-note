@@ -2,7 +2,7 @@ from flask import render_template, current_app, Blueprint, jsonify, flash, reque
 from flask_login import current_user, login_required
 
 from stocknote.extensions import db
-from stocknote.models.note import MyPool, MyInterests
+from stocknote.models.personal.note import MyPool, MyInterests
 from stocknote.models.stock import Stock
 from stocknote.services.quotation import get_latest_price
 
