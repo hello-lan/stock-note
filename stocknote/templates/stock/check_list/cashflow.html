@@ -1,0 +1,130 @@
+<div class="row">
+    <h3 class="text-center text-primary">现金流量表检查清单</h3>
+    <br><br><br>
+    <div class="col-md-3" ><p>公司代码:&nbsp;{{ code }}</p></div>
+    <div class="col-md-3 col-md-offset-6"><p class="text-right">更新时间:&nbsp;{{ checklist.update_time | default('-', True) | date }}</p></div>
+</div>
+<table class="table table-bordered table-condensed">
+    <thead>
+        <tr>
+            <th class="text-center" width="10%">检查项</th>
+            <th class="text-center" width="20%">检查要点</th>
+            <th class="text-center" width="25%">要点解读</th>
+            <th class="text-center" width="40">检查结果</th>
+            <th class="text-center" width="5%">编辑</th>
+        </tr>
+    </thead>
+    <tbody>
+        <!-- 经营活动现金流净额 -->
+        <tr>
+            {% set issue = '是否大于０，超过多少？' %}
+            <td rowspan="2" style="vertical-align: middle">经营活动现金流量净额</td>
+            <td style="vertical-align: middle">{{ issue }}</td>
+            <td style="vertical-align: middle"><small class="text-muted">
+                <ol class="paddingleft-ol">
+                    <li>经营活动现金净流量小于零，企业入不敷出，需要筹钱度日</li>
+                    <li>经营活动现金净流量等于零，企业现金流勉强维持当前规模的经营活动，但没有剩余积累构建新的固定资产和无形资产等</li>
+                    <li>经营活动现金净流量大于零，但小于折旧摊销，企业仍然不具备更新升级的能力</li>
+                    <li>经营活动现金净流量等于折旧摊销，企业仍然无法为扩大再生产提供现金，企业只能一直维持在当前规模</li>
+                    <li>经营活动现金净流量大于折旧摊销，说明企业不仅能正常经营，补偿资产的折旧摊销，还能为企业扩大再生产提供资金，企业具有潜在成长性</li>
+                <ol>
+            </small></td>
+            <td class="pre-line" style="vertical-align: middle">{{ checklist.jyhdxjlje  | default('-', True)}}</td>
+            <td class="text-center" style="vertical-align: middle">
+                <div class="dropdown">
+                    <span class="dropdown-toggle" id="checklistEditDropDownMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                        <i role="button" class="glyphicon glyphicon-option-horizontal"></i>
+                    </span>
+                    <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="checklistEditDropDownMenu" style="min-width:50px" >
+                        <li>
+                            <a role="btn" class="btn" onclick="showCheckListEditModal(this)" data-desc="{{issue}}" data-field="jyhdxjlje"><i class="glyphicon glyphicon-pencil"></i>&nbsp;&nbsp;编辑</a>
+                        </li>
+                    </ul>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            {% set issue = '经营活动现金流净额/净利润' %}
+            <td style="vertical-align: middle">{{ issue }}</td>
+            <td style="vertical-align: middle"><small class="text-muted">
+                <p>比值大于１，说明公司净利润全部或大部分变成实实在在的现金，是“挣到钱”了，这个比值持续大于１，很可能意味着公司商品或服务供不应求。买家不断打来预付款来订货。</p>
+                <p>房地产行业不适用这个指标</p>
+            </small></td>
+            <td class="pre-line" style="vertical-align: middle">{{ checklist.jyhdxjlje_jlr | default('-', True)}}</td>
+            <td class="text-center" style="vertical-align: middle">
+                <div class="dropdown">
+                    <span class="dropdown-toggle" id="checklistEditDropDownMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                        <i role="button" class="glyphicon glyphicon-option-horizontal"></i>
+                    </span>
+                    <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="checklistEditDropDownMenu" style="min-width:50px" >
+                        <li>
+                            <a role="btn" class="btn" onclick="showCheckListEditModal(this)" data-desc="{{issue}}" data-field="jyhdxjlje_jlr"><i class="glyphicon glyphicon-pencil"></i>&nbsp;&nbsp;编辑</a>
+                        </li>
+                    </ul>
+                </div>
+            </td>
+        </tr>
+        <!--　销售商品、提高劳务收到的现金 -->
+        <tr>
+            {% set issue = '与营业收入对比' %}
+            <td rowspan="1" style="vertical-align: middle">销售商品、提高劳务收到的现金</td>
+            <td style="vertical-align: middle">{{ issue }}</td>
+            <td style="vertical-align: middle">
+                <small class="text-muted">
+                    <ol class="paddingleft-ol">
+                        <li>如果持续大于营业收入，就基本说明企业销售的绝大部分款项应收到了，可以认为公司经营情况良好，商业地位稳固</li>
+                        <li>但某些企业会大量收到银票或商票，同时并不将这些银票或商票持有到期或贴现，而是转手背书支付给上游供货商，从而导致现金流入和流出均不体现在现金流量表里，这时“销售商品、提高劳务收到的现金”的观察价值会大打折扣</li>
+                </small>
+            </td>
+            <td class="pre-line" style="vertical-align: middle">{{ checklist.xslwsr  | default('-', True)}}</td>
+            <td class="text-center" style="vertical-align: middle">
+                <div class="dropdown">
+                    <span class="dropdown-toggle" id="checklistEditDropDownMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                        <i role="button" class="glyphicon glyphicon-option-horizontal"></i>
+                    </span>
+                    <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="checklistEditDropDownMenu" style="min-width:50px" >
+                        <li>
+                            <a role="btn" class="btn" onclick="showCheckListEditModal(this)" data-desc="{{issue}}" data-field="xslwsr"><i class="glyphicon glyphicon-pencil"></i>&nbsp;&nbsp;编辑</a>
+                        </li>
+                    </ul>
+                </div>
+            </td>
+        </tr>
+        <!-- 现金流画像 -->
+        <tr>
+            {% set issue = '比较＂经营活动现金流量净额＂、＂投资活动现金流净额＂、＂筹资活动现金流金额＂三者的正负情况' %}
+            <td rowspan="1" style="vertical-align: middle">现金流画像</td>
+            <td style="vertical-align: middle">{{ issue }}</td>
+            <td style="vertical-align: middle">
+                <small class="text-muted">
+                    相关解读见附图
+                </small>
+            </td>
+            <td class="pre-line" style="vertical-align: middle">{{ checklist.xjlxx  | default('-', True)}}</td>
+            <td class="text-center" style="vertical-align: middle">
+                <div class="dropdown">
+                    <span class="dropdown-toggle" id="checklistEditDropDownMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                        <i role="button" class="glyphicon glyphicon-option-horizontal"></i>
+                    </span>
+                    <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="checklistEditDropDownMenu" style="min-width:50px" >
+                        <li>
+                            <a role="btn" class="btn" onclick="showCheckListEditModal(this)" data-desc="{{issue}}" data-field="xjlxx"><i class="glyphicon glyphicon-pencil"></i>&nbsp;&nbsp;编辑</a>
+                        </li>
+                    </ul>
+                </div>
+            </td>
+        </tr>
+    </tbody>
+</table>
+<br><br><hr>
+<div>
+    <h5><strong>附图：企业现金流画像</strong></h5>
+    <img src="/static/infomations/cashflow_profile.jpg" class="img-responsive" alt="Responsive image">
+</div>
+<!-- 存放数据用来被js读取 -->
+<div id="i_cacheData" data-code="{{code}}" 
+    data-partial-url="{{ url_for('check_list.api_data_cashflow_item', code=code) }}"
+    data-partial-edit-url="{{ url_for('check_list.api_op_edit_cashflow_item') }}">
+</div>
+<!-- 当前checklist的URL -->
+<div id="i_curCheckList"  data-url="{{ url_for('check_list.api_data_cashflow', code=code)}}"></div>

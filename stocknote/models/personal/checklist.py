@@ -184,3 +184,18 @@ class ChecklistProfit(db.Model):
     update_time = db.Column(db.DateTime, default=datetime.now, onupdate=datetime.now)
     
 
+class ChecklistCashFlow(db.Model):
+    __tablename__ = "checklist_cashflow"
+    __table_args__ = (
+        UniqueConstraint("user_id", "code", name="k_uid_code"),
+    ) 
+
+    id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, default=1)
+    code = db.Column(db.String(10), index=True, nullable=False)
+    jyhdxjlje = db.Column(db.Text, default="-", comment="经营活动现金流净额")
+    jyhdxjlje_jlr = db.Column(db.Text, default="-", comment="经营活动现金流净额/净利润")
+    xslwsr = db.Column(db.Text, default="-", comment="销售商品、提高劳务收到的现金")
+    xjlxx = db.Column(db.Text, default="-", comment="现金流肖像")
+    create_time = db.Column(db.DateTime, default=datetime.now)
+    update_time = db.Column(db.DateTime, default=datetime.now, onupdate=datetime.now)
