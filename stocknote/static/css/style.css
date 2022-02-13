@@ -119,3 +119,7 @@ hr {
     opacity: 0.4;
     z-index:10000;
 }
+
+.paddingleft-ul, .paddingleft-ol{
+    padding-left: 15px !important;  
+}

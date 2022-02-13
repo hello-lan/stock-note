@@ -162,3 +162,25 @@ class ChecklistBanlanceSheet(db.Model):
     yxfz_zzc = db.Column(db.Text, default="-", comment="有息负债占总资产的比例")
     create_time = db.Column(db.DateTime, default=datetime.now)
     update_time = db.Column(db.DateTime, default=datetime.now, onupdate=datetime.now)
+
+
+class ChecklistProfit(db.Model):
+    __tablename__ = "checklist_profit"
+    __table_args__ = (
+        UniqueConstraint("user_id", "code", name="k_uid_code"),
+    ) 
+
+    id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, default=1)
+    code = db.Column(db.String(10), index=True, nullable=False)
+    mll = db.Column(db.Text, default="-", comment="通过附注查看“主营业务收入”与“主营业务成本”，从而计算毛利率")
+    hyfw = db.Column(db.Text, default="-", comment="财报中找到分行业主营收入的表格，一般主营业务涉猎特别广泛的，先对其价值打个折扣")
+    xsfy = db.Column(db.Text, default="-", comment="销售费用")
+    glfy = db.Column(db.Text, default="-", comment="管理费用")
+    zcjzss = db.Column(db.Text, default="-", comment="资产减值损失")
+    yylr = db.Column(db.Text, default="-", comment="营业利润")
+    jlr = db.Column(db.Text, default="-", comment="净利润")
+    create_time = db.Column(db.DateTime, default=datetime.now)
+    update_time = db.Column(db.DateTime, default=datetime.now, onupdate=datetime.now)
+    
+

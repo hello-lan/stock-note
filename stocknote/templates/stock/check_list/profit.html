@@ -1,0 +1,198 @@
+<div class="row">
+    <h3 class="text-center text-primary">利润表检查清单</h3>
+    <br><br><br>
+    <div class="col-md-3" ><p>公司代码:&nbsp;{{ code }}</p></div>
+    <div class="col-md-3 col-md-offset-6"><p class="text-right">更新时间:&nbsp;{{ checklist.update_time | default('-', True) | date }}</p></div>
+</div>
+<table class="table table-bordered table-condensed">
+    <thead>
+        <tr>
+            <th class="text-center" width="10%">检查项</th>
+            <th class="text-center" width="20%">检查要点</th>
+            <th class="text-center" width="25%">要点解读</th>
+            <th class="text-center" width="40">检查结果</th>
+            <th class="text-center" width="5%">编辑</th>
+        </tr>
+    </thead>
+    <tbody>
+        <!-- 主营业务收入和主营业务成本 -->
+        <tr>
+            {% set issue = '通过附注查看“主营业务收入”与“主营业务成本”，从而计算毛利率（毛利率＝主营业务收入－主营业务成本）' %}
+            <td rowspan="2" style="vertical-align: middle">营业收入和营业成本</td>
+            <td style="vertical-align: middle">{{ issue }}</td>
+            <td style="vertical-align: middle"><small class="text-muted">
+                <ol class="paddingleft-ol">
+                    <li>将毛利率和同行相比，高出很多的企业，要么是业内强者，要么就是造假骗子；</li>
+                    <li>和自己去年同期相比，分析毛利率变化原因：是生产成本增加（减少）了，还是企业产品或服务提价（降价）了</li>
+                <ol>
+            </small></td>
+            <td class="pre-line" style="vertical-align: middle">{{ checklist.mll  | default('-', True)}}</td>
+            <td class="text-center" style="vertical-align: middle">
+                <div class="dropdown">
+                    <span class="dropdown-toggle" id="checklistEditDropDownMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                        <i role="button" class="glyphicon glyphicon-option-horizontal"></i>
+                    </span>
+                    <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="checklistEditDropDownMenu" style="min-width:50px" >
+                        <li>
+                            <a role="btn" class="btn" onclick="showCheckListEditModal(this)" data-desc="{{issue}}" data-field="mll"><i class="glyphicon glyphicon-pencil"></i>&nbsp;&nbsp;编辑</a>
+                        </li>
+                    </ul>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            {% set issue = '财报中找到分行业主营收入的表格,查看主营业务范围' %}
+            <td style="vertical-align: middle">{{ issue }}</td>
+            <td style="vertical-align: middle"><small class="text-muted">
+                一般主营业务涉猎特别广泛的，先对其价值打个折扣：
+                <ol class="paddingleft-ol">
+                <li>多行业发展证明原行业机会难找；</li>
+                <li>企业管理层有可能在一个领域成功后，自信心爆棚，将“多元化”变为“多元恶化”益。</li>
+                <ol>
+            </small></td>
+            <td class="pre-line" style="vertical-align: middle">{{ checklist.hyfw | default('-', True)}}</td>
+            <td class="text-center" style="vertical-align: middle">
+                <div class="dropdown">
+                    <span class="dropdown-toggle" id="checklistEditDropDownMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                        <i role="button" class="glyphicon glyphicon-option-horizontal"></i>
+                    </span>
+                    <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="checklistEditDropDownMenu" style="min-width:50px" >
+                        <li>
+                            <a role="btn" class="btn" onclick="showCheckListEditModal(this)" data-desc="{{issue}}" data-field="hyfw"><i class="glyphicon glyphicon-pencil"></i>&nbsp;&nbsp;编辑</a>
+                        </li>
+                    </ul>
+                </div>
+            </td>
+        </tr>
+        <!--　销售费用 -->
+        <tr>
+            {% set issue = '销售费用的变化趋势' %}
+            <td rowspan="1" style="vertical-align: middle">销售费用</td>
+            <td style="vertical-align: middle">{{ issue }}</td>
+            <td style="vertical-align: middle">
+                <small class="text-muted">
+                    销售费用和管理费用的变化趋势，应该和营业收入的变化趋势一致，如果变化太大，就需要关注变化的原因，可以在财报中搜索“销售费用”或“管理费用”，究竟是是什么费用在增长
+                </small>
+            </td>
+            <td class="pre-line" style="vertical-align: middle">{{ checklist.xsfy  | default('-', True)}}</td>
+            <td class="text-center" style="vertical-align: middle">
+                <div class="dropdown">
+                    <span class="dropdown-toggle" id="checklistEditDropDownMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                        <i role="button" class="glyphicon glyphicon-option-horizontal"></i>
+                    </span>
+                    <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="checklistEditDropDownMenu" style="min-width:50px" >
+                        <li>
+                            <a role="btn" class="btn" onclick="showCheckListEditModal(this)" data-desc="{{issue}}" data-field="xsfy"><i class="glyphicon glyphicon-pencil"></i>&nbsp;&nbsp;编辑</a>
+                        </li>
+                    </ul>
+                </div>
+            </td>
+        </tr>
+        <!-- 管理费用 -->
+        <tr>
+            {% set issue = '管理费用的变化趋势' %}
+            <td rowspan="1" style="vertical-align: middle">管理费用</td>
+            <td style="vertical-align: middle">{{ issue }}</td>
+            <td style="vertical-align: middle">
+                <small class="text-muted">
+                    销售费用和管理费用的变化趋势，应该和营业收入的变化趋势一致，如果变化太大，就需要关注变化的原因，可以在财报中搜索“销售费用”或“管理费用”，究竟是是什么费用在增长
+                </small>
+            </td>
+            <td class="pre-line" style="vertical-align: middle">{{ checklist.glfy  | default('-', True)}}</td>
+            <td class="text-center" style="vertical-align: middle">
+                <div class="dropdown">
+                    <span class="dropdown-toggle" id="checklistEditDropDownMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                        <i role="button" class="glyphicon glyphicon-option-horizontal"></i>
+                    </span>
+                    <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="checklistEditDropDownMenu" style="min-width:50px" >
+                        <li>
+                            <a role="btn" class="btn" onclick="showCheckListEditModal(this)" data-desc="{{issue}}" data-field="glfy"><i class="glyphicon glyphicon-pencil"></i>&nbsp;&nbsp;编辑</a>
+                        </li>
+                    </ul>
+                </div>
+            </td>
+        </tr>
+        <!-- 资产减值损失 -->
+        <tr>
+            {% set issue = '一般为正值，表示有一笔资产减值产生，偶尔也有为负值，表示已经计提减值的存货、坏账或债券，又被收回来' %}
+            <td rowspan="1" style="vertical-align: middle">资产减值损失</td>
+            <td style="vertical-align: middle">{{ issue }}</td>
+            <td style="vertical-align: middle">
+                <small class="text-muted">
+                总体来说这个数值应该比较小，如果经常出现或正或负的大额数字，要么是公司调控报表，要么是减值测试水平太长，都需要投资者提高警惕
+                </small>
+            </td>
+            <td class="pre-line" style="vertical-align: middle">{{ checklist.zcjzss | default('-', True)}}</td>
+            <td class="text-center" style="vertical-align: middle">
+                <div class="dropdown">
+                    <span class="dropdown-toggle" id="checklistEditDropDownMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                        <i role="button" class="glyphicon glyphicon-option-horizontal"></i>
+                    </span>
+                    <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="checklistEditDropDownMenu" style="min-width:50px" >
+                        <li>
+                            <a role="btn" class="btn" onclick="showCheckListEditModal(this)" data-desc="{{issue}}" data-field="zcjzss"><i class="glyphicon glyphicon-pencil"></i>&nbsp;&nbsp;编辑</a>
+                        </li>
+                    </ul>
+                </div>
+            </td>
+        </tr>  
+        <!-- 营业利润 -->
+        <tr>
+            {% set issue = '看营业利润和营业利润率的变化趋势，营业利润率＝营业利润/营业总收入' %}
+            <td rowspan="1" style="vertical-align: middle">营业利润</td>
+            <td style="vertical-align: middle">{{ issue }}</td>
+            <td style="vertical-align: middle">
+                <small class="text-muted">
+                    最终要的是看营业利润和营业利润率的变化趋势，并与同行业的其他公司做对比，如果变低，就需要一项一项找原因，看是什么因素导致的，是暂时性因素影响还是企业竞争力正在下降的体现。
+                </small>
+            </td>
+            <td class="pre-line" style="vertical-align: middle">{{ checklist.yylr | default('-', True)}}</td>
+            <td class="text-center" style="vertical-align: middle">
+                <div class="dropdown">
+                    <span class="dropdown-toggle" id="checklistEditDropDownMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                        <i role="button" class="glyphicon glyphicon-option-horizontal"></i>
+                    </span>
+                    <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="checklistEditDropDownMenu" style="min-width:50px" >
+                        <li>
+                            <a role="btn" class="btn" onclick="showCheckListEditModal(this)" data-desc="{{issue}}" data-field="yylr"><i class="glyphicon glyphicon-pencil"></i>&nbsp;&nbsp;编辑</a>
+                        </li>
+                    </ul>
+                </div>
+            </td>
+        </tr> 
+        <!-- 净利润 -->
+        <tr>
+            {% set issue = '营业利润加上营业外收支净额，缴纳所得税后，剩下的就是净利润' %}
+            <td rowspan="1" style="vertical-align: middle">净利润</td>
+            <td style="vertical-align: middle">{{ issue }}</td>
+            <td style="vertical-align: middle"><small class="text-muted">
+                    <ol class="paddingleft-ol">
+                        <li>如果营业外收支净额数值比较大，建议直接用营业利润的75%来看待净利润</li>
+                        <li>通常而言，如果企业利润的主要部分经常来自营业外收支，基本能肯定这是企业在打扮自己的报表，背后有陷进的概率很大</li>
+                        <li>净利润并不是公司挣到的钱，一定要和现金流量表的“经营现金流”对照着看。如果经营现金流金额/净利润的比值连续数年大于１，发现"印钞机"的概率就大，反之则需要提高警惕，并挖掘原因</li>
+                    </ol>
+                </small></td>
+            <td class="pre-line" style="vertical-align: middle">{{ checklist.jlr  | default('-', True)}}</td>
+            <td class="text-center" style="vertical-align: middle">
+                <div class="dropdown">
+                    <span class="dropdown-toggle" id="checklistEditDropDownMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                        <i role="button" class="glyphicon glyphicon-option-horizontal"></i>
+                    </span>
+                    <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="checklistEditDropDownMenu" style="min-width:50px" >
+                        <li>
+                            <a role="btn" class="btn" onclick="showCheckListEditModal(this)" data-desc="{{issue}}" data-field="jlr"><i class="glyphicon glyphicon-pencil"></i>&nbsp;&nbsp;编辑</a>
+                        </li>
+                    </ul>
+                </div>
+            </td>
+        </tr> 
+    </tbody>
+
+</table>
+<!-- 存放数据用来被js读取 -->
+<div id="i_cacheData" data-code="{{code}}" 
+    data-partial-url="{{ url_for('check_list.api_data_profit_item', code=code) }}"
+    data-partial-edit-url="{{ url_for('check_list.api_op_edit_profit_item') }}">
+</div>
+<!-- 当前checklist的URL -->
+<div id="i_curCheckList"  data-url="{{ url_for('check_list.api_data_profit', code=code)}}"></div>

@@ -35,7 +35,7 @@
             <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">财报检查清单 <span class="caret"></span></a>
             <ul class="dropdown-menu">
               <li><a href="#balanceSheet" data-url="{{ url_for('check_list.api_data_balancesheet', code=stock.code)}}" onclick="loadSheet(this)">资产负债表</a></li>
-              <li><a href="#profit">利润表</a></li>
+              <li><a href="#profit" data-url="{{ url_for('check_list.api_data_profit', code=stock.code)}}" onclick="loadSheet(this)">利润表</a></li>
               <li><a href="#casflow">现金流量表</a></li>
             </ul>
           </li>
