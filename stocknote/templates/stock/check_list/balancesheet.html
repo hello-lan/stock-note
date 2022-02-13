@@ -97,7 +97,7 @@
             <td style="vertical-align: middle">
                 <small class="text-muted">
                 <p>在建工程不需要计提折旧。如果企业的在建工程数目巨大，持续多年不转入固定资产，就需要警惕。若没有合理的解释，就可能藏着两种危险：</p>
-                <ol style="padding-left:15px">
+                <ol class="paddingleft-ol">
                 <li>故意不转入固定资产，以避免折旧、美化利润； </li>
                 <li>通过在建工程将钱支付给虚构或关联的承建人，然后再以采购本公司产品或服务的名义，变成营业收入流回公司</li>
                 </ul>
@@ -167,11 +167,11 @@
             <td style="vertical-align: middle">{{ issue }}</td>
             <td style="vertical-align: middle">
                 <small class="text-muted">
-                    <ol style="padding-left:15px">
+                    <ol class="paddingleft-ol">
                         <li>生物资产的价值判断存在很大的难度。如水里的鲤鱼、王八、鲍鱼等，不但难以盘点数量和大小，甚至连是否存在也不好确定，因而成为造假的高发地</li>
                         <li>生物资产虚增后填空也很容易，可以直接告诉会计师，水里的鱼虾贝蟹都死光了</li>
                         <li>借助消耗性生物资产的减值可以转回这一特点，农、林、渔、牧公司很容易调节不同年度的利润</li>
-                　　</ol>
+                    </ol>
                     <p>农、林、渔、牧行业是造假高位区域，一定要谨慎涉足</p>
                 </small>
             </td>
@@ -196,10 +196,10 @@
             <td style="vertical-align: middle">{{ issue }}</td>
             <td style="vertical-align: middle">
                 <small class="text-muted">
-                    <ol style="padding-left:15px">
+                    <ol class="paddingleft-ol">
                         <li>商誉不用摊销。一般来说，买家们通常喜欢低估可辨认资产的价值，降低后期的折旧费用，使公司的利润表表现得更靓丽</li>
                         <li>商誉减值。商誉一旦计提减值，利润表里会增加一笔巨额的“费用”，公司的利润同比会非常难看，甚至巨亏（商誉暴雷）</li>
-                　　</ol>
+                    </ol>
                     <p>所以若企业有非常高的商誉，可以尝试取了解收购活动中可辨认资产作价是否有失公平；也可以将收购造成的商誉模拟成需要计提的折旧资产；或尝试将商誉从净资产里去掉，再计算资产负债率，看是否过高</p>
                 </small>
             </td>
@@ -248,7 +248,7 @@
             <td style="vertical-align: middle">{{ issue }}</td>
             <td style="vertical-align: middle">
                 <small class="text-muted">
-                    <ol style="padding-left:15px">
+                    <ol class="paddingleft-ol">
                     <li>资产、资产组合一旦归入“持有待售”，企业就不用再为它们计提折旧，可导致当期利润增加</li>
                     <li>当联合营企业股权符合“持有待售”条件后，拟出售部分股权归入“持有待售资产”，该部分股权对应的联合营公司当年的的净利润或亏损比例（通常是亏损的），不再计入企业合并利润表的投资收益。</li>
                     </ol>
@@ -456,7 +456,7 @@
             <td style="vertical-align: middle">
                 <small class="text-muted">
                     <p>往往预示着两种可能：</p>
-                    <ol style="padding-left:15px">
+                    <ol class="paddingleft-ol">
                         <li>公司临时放宽信用政策，加大赊销力度</li>
                         <li>公司提前确认收入甚至虚构收入</li>
                     </ol>
@@ -595,7 +595,7 @@
             <td style="vertical-align: middle">{{ issue }}</td>
             <td style="vertical-align: middle">
                 <small class="text-muted">
-                    <ol style="padding-left:15px">
+                    <ol class="paddingleft-ol">
                         <li>如果企业账上本就没几个钱，还容忍大量应收款和其他应收款存在，投资者可以直接怀疑应收款造假</li>
                         <li>投资者如果遇到“其他xx”（如其他应收款、其他流动资产、其他非流动资产）数据较大，可以先抱着公司经营不够规范的初步印象来看</li>
                     </ol>
@@ -690,7 +690,7 @@
             <td style="vertical-align: middle">{{ issue }}</td>
             <td style="vertical-align: middle">
                 <small class="text-muted">
-                    <ol style="padding-left:15px">
+                    <ol class="paddingleft-ol">
                         <li>采用成本模式计量，后续处理和固定资产一样：按期计提折旧，年底做价值测试，折旧和减值算当期利润表的费用，收到的租金计入利润表的其他业务收入</li>
                         <li>采用公允价值模式计量，则不需要计提折旧和摊销，而是直接以期末的公允价值计入资产，并将期间的涨跌计入利润表的“公允价值变动”科目，影响当期利润（这个利润并不对应现金流入或流出）</li>
                     </ol>
@@ -712,11 +712,12 @@
         </tr>
         <!-- 持有到期投资 -->
         <tr>
-            {% set issue = '关注期间所获利息收入和到期确保收回本金' %}
+            {% set issue = '是否有较大的持有到期资产？' %}
             <td rowspan="1" style="vertical-align: middle">持有到期投资</td>
             <td style="vertical-align: middle">{{ issue }}</td>
             <td style="vertical-align: middle">
                 <small class="text-muted">
+                    关注期间所获利息收入和到期确保收回本金
                 </small>
             </td>
             <td class="pre-line" style="vertical-align: middle">{{ checklist.cydqtz  | default('-', True)}}</td>
