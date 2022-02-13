@@ -994,3 +994,5 @@
     data-partial-url="{{ url_for('check_list.api_data_balancesheet_item', code=code) }}"
     data-partial-edit-url="{{ url_for('check_list.api_op_edit_balancesheet_item') }}">
 </div>
+<!-- 当前checklist的URL -->
+<div id="i_curCheckList"  data-url="{{ url_for('check_list.api_data_balancesheet', code=code)}}"></div>

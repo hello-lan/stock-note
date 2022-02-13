@@ -180,3 +180,5 @@
     data-partial-url="{{ url_for('check_list.api_data_risk_partial', code=code) }}"
     data-partial-edit-url="{{ url_for('check_list.api_op_edit_risk_partial') }}">
 </div>
+<!-- 当前checklist的URL -->
+<div id="i_curCheckList"  data-url="{{ url_for('check_list.api_data_risk', code=code)}}"></div>

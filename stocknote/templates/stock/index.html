@@ -27,10 +27,10 @@
       </div>
       <div id="navbar" class="collapse navbar-collapse">
         <ul class="nav navbar-nav">
-          <li class="active"><a href="#report" id="i_first_list" data-url="{{ url_for('stock.api_data_report', code=stock.code)}}">综合看板</a></li>
-          <li><a href="#quality" data-url="{{ url_for('check_list.api_data_quality', code=stock.code)}}">质量检查清单</a></li>
-          <li><a href="#risk" data-url="{{ url_for('check_list.api_data_risk', code=stock.code)}}">避雷检查清单</a></li>
-          <li><a href="#valuate" data-url="{{ url_for('check_list.api_data_evaluate', code=stock.code)}}">估值检查清单</a></li>
+          <li class="active"><a href="#report" id="i_first_list" data-url="{{ url_for('stock.api_data_report', code=stock.code)}}" onclick="loadSheet(this)">综合看板</a></li>
+          <li><a href="#quality" data-url="{{ url_for('check_list.api_data_quality', code=stock.code)}}" onclick="loadSheet(this)">质量检查清单</a></li>
+          <li><a href="#risk" data-url="{{ url_for('check_list.api_data_risk', code=stock.code)}}" onclick="loadSheet(this)">避雷检查清单</a></li>
+          <li><a href="#evaluate" data-url="{{ url_for('check_list.api_data_evaluate', code=stock.code)}}" onclick="loadSheet(this)">估值检查清单</a></li>
           <li class="dropdown">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">财报检查清单 <span class="caret"></span></a>
             <ul class="dropdown-menu">
@@ -95,8 +95,8 @@
     $("#navbar > ul > li").click(function(){
         $("#navbar > ul > li").removeClass("active");
         $(this).addClass("active");
-        var obj = $(this).children("a");
-        loadSheet(obj);
+        // var obj = $(this).children("a");
+        // loadSheet(obj);
 	})
 
     // 显示清单编辑框
@@ -134,7 +134,7 @@
             success: function (response) {
                 alert(response["message"]);
                 // 刷新检查清单（加载激活状态的检查清单）
-                loadSheet("#navbar li.active > a");
+                loadSheet("#i_curCheckList");
             }
         });
     }

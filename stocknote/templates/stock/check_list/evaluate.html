@@ -362,3 +362,5 @@
     data-partial-url="{{ url_for('check_list.api_data_evaluate_partial', code=code) }}"
     data-partial-edit-url="{{ url_for('check_list.api_op_edit_evaluate_partial') }}">
 </div>
+<!-- 当前checklist的URL -->
+<div id="i_curCheckList"  data-url="{{ url_for('check_list.api_data_evaluate', code=code)}}"></div>
