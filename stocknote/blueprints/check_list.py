@@ -5,7 +5,8 @@ from collections import defaultdict
 
 from stocknote.extensions import db
 from stocknote.models.stock import Stock
-from stocknote.models.note import CheckListQuality, CheckListRisk, CheckListEvaluate, ChecklistBanlanceSheet
+from stocknote.models.personal.checklist import (CheckListQuality, CheckListRisk, 
+        CheckListEvaluate, ChecklistBanlanceSheet)
 
 
 checklist_bp = Blueprint("check_list", __name__)
