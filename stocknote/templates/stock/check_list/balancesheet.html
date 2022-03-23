@@ -144,6 +144,7 @@
                 <small class="text-muted">
                     <p>研发支出全部费用化（即无开发支出）的公司，利润数据的可靠性会高一些。</p>
                     <p>无形资产的研发，是一件风险和收益都很大的事情，如果企业的研发支出巨大，背后隐藏的究竟是机会还是风险，需要投资者真正理解行业、理解企业后才能判断。</p>
+                    <p>此外，开发支出余额不需要计提摊销，这又成为上市公司利润调节的一个选择</p>
                 </small>
             </td>
             <td class="pre-line" style="vertical-align: middle">{{ checklist.kfzc  | default('-', True)}}</td>
@@ -271,7 +272,7 @@
         <!-- 货币资金  -->
         <tr>
             {% set issue = '货币资金余额是否比短期负债小很多？' %}
-            <td rowspan="5" style="vertical-align: middle">货币资金</td>
+            <td rowspan="8" style="vertical-align: middle">货币资金</td>
             <td style="vertical-align: middle">{{ issue }}</td>
             <td style="vertical-align: middle">
                 <small class="text-muted">
@@ -293,7 +294,7 @@
             </td>
         </tr>
         <tr>
-            {% set issue = '是否货币资金充裕，却借了很多有息甚至高息负债？' %}
+            {% set issue = '是否货币资金充裕，却借了很多有息甚至高息负债？ 比如两者占总资产比值都超过20%?' %}
             <td style="vertical-align: middle">{{ issue }}</td>
             <td style="vertical-align: middle">
                 <small class="text-muted">
@@ -359,11 +360,13 @@
             </td>
         </tr>
         <tr>
-            {% set issue = '货币资金产生的利息收入，显著低于常见理财或存款利率？' %}
+            {% set issue = '货币资金产生的利息收入，显著低于常见理财或存款利率？(如对比７天通知存款利率）' %}
             <td style="vertical-align: middle">{{ issue }}</td>
             <td style="vertical-align: middle">
                 <small class="text-muted">
-                    往往预示着货币资金是真实的，却只在上市公司银行账户上待过较短时间。一般是在报表日前回到上市公司账户，待查验审计完毕后，就通过各种手段离“家”出走，待下次报表日前再回来应对审计
+                    <p>往往预示着货币资金是真实的，却只在上市公司银行账户上待过较短时间。一般是在报表日前回到上市公司账户，待查验审计完毕后，就通过各种手段离“家”出走，待下次报表日前再回来应对审计。</p>
+                    <p>货币资金收益率＝利润表中的利息收入/货币资金余额
+                        （具体测算时，货币资金余额取最近４个季度末或５个季度末的货币资金余额计算平均余额）。</p>
                 </small>
             </td>
             <td class="pre-line" style="vertical-align: middle">{{ checklist.hbzj_lx  | default('-', True)}}</td>
@@ -375,6 +378,74 @@
                     <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="checklistEditDropDownMenu" style="min-width:50px" >
                         <li>
                             <a role="btn" class="btn" onclick="showCheckListEditModal(this)" data-desc="{{issue}}" data-field="hbzj_lx"><i class="glyphicon glyphicon-pencil"></i>&nbsp;&nbsp;编辑</a>
+                        </li>
+                    </ul>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            {% set issue = '有没有权利受限的资金？包括外埠存款、银行汇票存款、银行本票存款、信用证存款和信用卡存款等' %}
+            <td style="vertical-align: middle">{{ issue }}</td>
+            <td style="vertical-align: middle">
+                <small class="text-muted">
+                    如果上市公司货币资金虽然很多，但其中大部分都是受限资金，那么上市公司很容易出现现金流断裂的的风险
+                </small>
+            </td>
+            <td class="pre-line" style="vertical-align: middle">{{ checklist.hbzj_sx| default('-', True)}}</td>
+            <td class="text-center" style="vertical-align: middle">
+                <div class="dropdown">
+                    <span class="dropdown-toggle" id="checklistEditDropDownMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                        <i role="button" class="glyphicon glyphicon-option-horizontal"></i>
+                    </span>
+                    <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="checklistEditDropDownMenu" style="min-width:50px" >
+                        <li>
+                            <a role="btn" class="btn" onclick="showCheckListEditModal(this)" data-desc="{{issue}}" data-field="hbzj_sx"><i class="glyphicon glyphicon-pencil"></i>&nbsp;&nbsp;编辑</a>
+                        </li>
+                    </ul>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            {% set issue = '是否存在隐藏的货币资金？有些上市公司的货币资金并非全部在货币资金科目核算，比如很多公司会购买理财（短期理财）。' %}
+            <td style="vertical-align: middle">{{ issue }}</td>
+            <td style="vertical-align: middle">
+                <small class="text-muted">
+                    理财产品核算科目较多，可能出现在交易性金融资产、其他流动资产或非流动资产，具体需要借助报表附注来判断。如果上市公司购买金额较大的理财产品，至少可以说明公司的货币资金大概率是真实的。
+                </small>
+            </td>
+            <td class="pre-line" style="vertical-align: middle">{{ checklist.hbzj_yc  | default('-', True)}}</td>
+            <td class="text-center" style="vertical-align: middle">
+                <div class="dropdown">
+                    <span class="dropdown-toggle" id="checklistEditDropDownMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                        <i role="button" class="glyphicon glyphicon-option-horizontal"></i>
+                    </span>
+                    <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="checklistEditDropDownMenu" style="min-width:50px" >
+                        <li>
+                            <a role="btn" class="btn" onclick="showCheckListEditModal(this)" data-desc="{{issue}}" data-field="hbzj_yc"><i class="glyphicon glyphicon-pencil"></i>&nbsp;&nbsp;编辑</a>
+                        </li>
+                    </ul>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            {% set issue = '货币资金的来源' %}
+            <td style="vertical-align: middle">{{ issue }}</td>
+            <td style="vertical-align: middle">
+                <small class="text-muted">
+                    <p>有些公司为了期末账面货币资金看起来比较多，会在6月30日或12月31日这两个时点去拆借资金。</p>
+                    <p>上市公司拆借资金一般通过其他应付款核算，可以通过其他应付款附注去判断（如关联方款项或非金融机构借款）。</p>
+                    <p>如果上市公司的货币资金是拆借来的，说明公司货币资金比较紧张，可能出现流动性危机。</p>
+                </small>
+            </td>
+            <td class="pre-line" style="vertical-align: middle">{{ checklist.hbzj_ly  | default('-', True)}}</td>
+            <td class="text-center" style="vertical-align: middle">
+                <div class="dropdown">
+                    <span class="dropdown-toggle" id="checklistEditDropDownMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                        <i role="button" class="glyphicon glyphicon-option-horizontal"></i>
+                    </span>
+                    <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="checklistEditDropDownMenu" style="min-width:50px" >
+                        <li>
+                            <a role="btn" class="btn" onclick="showCheckListEditModal(this)" data-desc="{{issue}}" data-field="hbzj_ly"><i class="glyphicon glyphicon-pencil"></i>&nbsp;&nbsp;编辑</a>
                         </li>
                     </ul>
                 </div>
@@ -477,7 +548,7 @@
             </td>
         </tr>
         <tr>
-            {% set issue = '应收账款占营业收入的比例较大，且很大部分（如超过三成）是一年以上的应收款？' %}
+            {% set issue = '应收账款占营业收入的比例较大，且很大部分（如超过三成）是一年以上的应收款？（即分析账龄，账龄越短越好）' %}
             <td style="vertical-align: middle">{{ issue }}</td>
             <td style="vertical-align: middle">
                 <small class="text-muted">
@@ -567,7 +638,7 @@
         <!-- 预付款 -->
         <tr>
             {% set issue = '预付账款是否大幅度增长？' %}
-            <td rowspan="1" style="vertical-align: middle">预付款</td>
+            <td rowspan="3" style="vertical-align: middle">预付款</td>
             <td style="vertical-align: middle">{{ issue }}</td>
             <td style="vertical-align: middle">
                 <small class="text-muted">
@@ -583,6 +654,50 @@
                     <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="checklistEditDropDownMenu" style="min-width:50px" >
                         <li>
                             <a role="btn" class="btn" onclick="showCheckListEditModal(this)" data-desc="{{issue}}" data-field="yfzk_zz"><i class="glyphicon glyphicon-pencil"></i>&nbsp;&nbsp;编辑</a>
+                        </li>
+                    </ul>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            {% set issue = '查看预付款账龄' %}
+            <td style="vertical-align: middle">{{ issue }}</td>
+            <td style="vertical-align: middle">
+                <small class="text-muted">
+                    如果预付款账龄较长，那么很明显不符合商业逻辑
+                </small>
+            </td>
+            <td class="pre-line" style="vertical-align: middle">{{ checklist.yfzk_zl  | default('-', True)}}</td>
+            <td class="text-center" style="vertical-align: middle">
+                <div class="dropdown">
+                    <span class="dropdown-toggle" id="checklistEditDropDownMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                        <i role="button" class="glyphicon glyphicon-option-horizontal"></i>
+                    </span>
+                    <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="checklistEditDropDownMenu" style="min-width:50px" >
+                        <li>
+                            <a role="btn" class="btn" onclick="showCheckListEditModal(this)" data-desc="{{issue}}" data-field="yfzk_zl"><i class="glyphicon glyphicon-pencil"></i>&nbsp;&nbsp;编辑</a>
+                        </li>
+                    </ul>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            {% set issue = '占总资产的比例是否超过20％?' %}
+            <td style="vertical-align: middle">{{ issue }}</td>
+            <td style="vertical-align: middle">
+                <small class="text-muted">
+                    超过20％可能就有较大的风险
+                </small>
+            </td>
+            <td class="pre-line" style="vertical-align: middle">{{ checklist.yfzk_bl  | default('-', True)}}</td>
+            <td class="text-center" style="vertical-align: middle">
+                <div class="dropdown">
+                    <span class="dropdown-toggle" id="checklistEditDropDownMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                        <i role="button" class="glyphicon glyphicon-option-horizontal"></i>
+                    </span>
+                    <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="checklistEditDropDownMenu" style="min-width:50px" >
+                        <li>
+                            <a role="btn" class="btn" onclick="showCheckListEditModal(this)" data-desc="{{issue}}" data-field="yfzk_bl"><i class="glyphicon glyphicon-pencil"></i>&nbsp;&nbsp;编辑</a>
                         </li>
                     </ul>
                 </div>
