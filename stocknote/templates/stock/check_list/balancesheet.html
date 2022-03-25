@@ -17,10 +17,18 @@
     <tbody>
         <!-- 固定资产 -->
         <tr>
-            {% set issue = '折旧政策是什么？' %}
+            {% set issue = '折旧政策是什么（折旧方法、折旧年限和残值率等）？' %}
             <td rowspan="4" style="vertical-align: middle">固定资产</td>
             <td style="vertical-align: middle">{{ issue }}</td>
-            <td style="vertical-align: middle"><small class="text-muted">固定资产必须计提折旧。优秀的公司倾向于选择加速折旧法，如双倍余额递减法、年数总和法</small></td>
+            <td style="vertical-align: middle"><small class="text-muted">
+                固定资产必须计提折旧。
+                <ol class="paddingleft-ol">
+                    <li>优秀的公司倾向于选择加速折旧法，如双倍余额递减法、年数总和法</li>
+                    <li>折旧年限越长，则计提折旧金额更低，计入存货成本的金额更低，因此毛利率更高。</li>
+                    <li>残值率是指固定资产计提完毕后的剩余金额，这个金额也是公司估算的，也会影响折旧计提金额，从而影响净利润。</li>
+                </ol>
+                可以和同行对比，看公司的折旧政策是保守还是激进。
+            </small></td>
             <td class="pre-line" style="vertical-align: middle">{{ checklist.gdzc_zjzc  | default('-', True)}}</td>
             <td class="text-center" style="vertical-align: middle">
                 <div class="dropdown">
@@ -38,7 +46,7 @@
         <tr>
             {% set issue = '折旧政策是否改变？' %}
             <td style="vertical-align: middle">{{ issue }}</td>
-            <td style="vertical-align: middle"><small class="text-muted">没有充足的理由，折旧政策不允许变更，此时必须搞懂公司为什么改，改得合理与否，改了会带来什么利益。</small></td>
+            <td style="vertical-align: middle"><small class="text-muted">没有充足的理由，折旧政策不允许变更，此时必须搞懂公司为什么改，改得合理与否，改了会带来什么利益。（固定资产折旧最终去向一般是营业成本和管理费用，因此固定资产折旧的变更可以影响变更以后每年的利润，术语叫推迟成本、费用的入账时间）</small></td>
             <td class="pre-line" style="vertical-align: middle">{{ checklist.gdzc_zjzcbh  | default('-', True)}}</td>
             <td class="text-center" style="vertical-align: middle">
                 <div class="dropdown">
@@ -638,7 +646,7 @@
         <!-- 预付款 -->
         <tr>
             {% set issue = '预付账款是否大幅度增长？' %}
-            <td rowspan="3" style="vertical-align: middle">预付款</td>
+            <td rowspan="4" style="vertical-align: middle">预付款</td>
             <td style="vertical-align: middle">{{ issue }}</td>
             <td style="vertical-align: middle">
                 <small class="text-muted">
@@ -676,6 +684,28 @@
                     <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="checklistEditDropDownMenu" style="min-width:50px" >
                         <li>
                             <a role="btn" class="btn" onclick="showCheckListEditModal(this)" data-desc="{{issue}}" data-field="yfzk_zl"><i class="glyphicon glyphicon-pencil"></i>&nbsp;&nbsp;编辑</a>
+                        </li>
+                    </ul>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            {% set issue = '关注预付款性质' %}
+            <td style="vertical-align: middle">{{ issue }}</td>
+            <td style="vertical-align: middle">
+                <small class="text-muted">
+                    若有确凿证据表明其不符合预付账款性质，或者因供货单位破产、撤销等原因已无望再收到所购货物的，应将其计入其他应收款。当预付款变成其他应收款，那么这个钱能不能收回来，能收回来多少，就具有极大的不确定性。换句话说，预付款容易成为上市公司大股东占用上市公司资金的科目。
+                </small>
+            </td>
+            <td class="pre-line" style="vertical-align: middle">{{ checklist.yfzk_xz  | default('-', True)}}</td>
+            <td class="text-center" style="vertical-align: middle">
+                <div class="dropdown">
+                    <span class="dropdown-toggle" id="checklistEditDropDownMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                        <i role="button" class="glyphicon glyphicon-option-horizontal"></i>
+                    </span>
+                    <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="checklistEditDropDownMenu" style="min-width:50px" >
+                        <li>
+                            <a role="btn" class="btn" onclick="showCheckListEditModal(this)" data-desc="{{issue}}" data-field="yfzk_xz"><i class="glyphicon glyphicon-pencil"></i>&nbsp;&nbsp;编辑</a>
                         </li>
                     </ul>
                 </div>
@@ -801,7 +831,7 @@
         <!-- 投资性房产 -->
         <tr>
             {% set issue = '计量方式是以成本模式计量还是以公允价值模式计量？' %}
-            <td rowspan="1" style="vertical-align: middle">投资性房产</td>
+            <td rowspan="2" style="vertical-align: middle">投资性房产</td>
             <td style="vertical-align: middle">{{ issue }}</td>
             <td style="vertical-align: middle">
                 <small class="text-muted">
@@ -825,6 +855,29 @@
                 </div>
             </td>
         </tr>
+        <tr>
+            {% set issue = '是否有新增的以公允价值计量的投资性房产？如由其他类型的房地产转为采用公允价值模式计量投资性房产或者由原先的成本模式变为公允价值模式。' %}
+            <td style="vertical-align: middle">{{ issue }}</td>
+            <td style="vertical-align: middle">
+                <small class="text-muted">
+                    <p>这两种转换虽然虽然并没有增加净利润，但因为采用公允价值模式计量，则不需要计提折旧和摊销，这样可以减少后期的折旧，增加利润。</p>
+                    <p>对投资者来说，公允价值变动损益并不能带来实际的现金流，与一般的净利润不同，在估值时需要考虑剔除。</p>
+                </small>
+            </td>
+            <td class="pre-line" style="vertical-align: middle">{{ checklist.tzxfc_xzgyjzjl | default('-', True)}}</td>
+            <td class="text-center" style="vertical-align: middle">
+                <div class="dropdown">
+                    <span class="dropdown-toggle" id="checklistEditDropDownMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                        <i role="button" class="glyphicon glyphicon-option-horizontal"></i>
+                    </span>
+                    <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="checklistEditDropDownMenu" style="min-width:50px" >
+                        <li>
+                            <a role="btn" class="btn" onclick="showCheckListEditModal(this)" data-desc="{{issue}}" data-field="tzxfc_xzgyjzjl"><i class="glyphicon glyphicon-pencil"></i>&nbsp;&nbsp;编辑</a>
+                        </li>
+                    </ul>
+                </div>
+            </td>
+        </tr> 
         <!-- 持有到期投资 -->
         <tr>
             {% set issue = '是否有较大的持有到期资产？' %}
@@ -1102,6 +1155,32 @@
                 </div>
             </td>
         </tr>  
+                <!-- 少数股东权益 -->
+                <tr>
+                    {% set issue = '少数股东的ROE远高于上市公司股东的ROE?' %}
+                    <td rowspan="1" style="vertical-align: middle">少数股东权益</td>
+                    <td style="vertical-align: middle">{{ issue }}</td>
+                    <td style="vertical-align: middle">
+                        <small class="text-muted">
+                            <p>通过利润表中的少数股东损益与负债表中的少数股东权益计算出少数股东的ROE。</p>
+                            <p>如果少数股东的ROE远高于上市公司股东的ROE，分析是不是因为“少数股东”主要集中在旗下最赚钱的子公司，如果不是，就需要思考原因：说不定就是利益输送。</p>
+                            <p>有时候会反过来，通过持股比例的安排把亏损留給少数股东，从而保证上市公司盈利，此时也应该警惕。</p>
+                        </small>
+                    </td>
+                    <td class="pre-line" style="vertical-align: middle">{{ checklist.ssgdqy_roe  | default('-', True)}}</td>
+                    <td class="text-center" style="vertical-align: middle">
+                        <div class="dropdown">
+                            <span class="dropdown-toggle" id="checklistEditDropDownMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                                <i role="button" class="glyphicon glyphicon-option-horizontal"></i>
+                            </span>
+                            <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="checklistEditDropDownMenu" style="min-width:50px" >
+                                <li>
+                                    <a role="btn" class="btn" onclick="showCheckListEditModal(this)" data-desc="{{issue}}" data-field="ssgdqy_roe"><i class="glyphicon glyphicon-pencil"></i>&nbsp;&nbsp;编辑</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </td>
+                </tr>
     </tbody>
 
 </table>
