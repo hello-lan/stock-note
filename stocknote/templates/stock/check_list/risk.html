@@ -8,7 +8,7 @@
     <thead>
         <tr>
             <th class="text-center" width="15%">检查项</th>
-            <th class="text-center" width="30%">检查要点</th>
+            <th class="text-center" width="40%">检查要点</th>
             <th class="text-center">检查结果</th>
             <th class="text-center" width="5%">编辑</th>
         </tr>
@@ -88,7 +88,7 @@
         </tr>
         <tr>
             {% set desc_project_changes = '要重点关注募“集项目变更情况表”，观察项目变更原因，究竟是与时俱进的变化，还是收钱变脸的无赖行为，这可以帮我们认识管理团队的品性。' %}
-            <td rowspan="2" style="vertical-align: middle">投资状况分析</td>
+            <td rowspan="2" style="vertical-align: middle">募集资金使用情况</td>
             <td style="vertical-align: middle">{{ desc_project_changes }}</td>
             <td class="pre-line" style="vertical-align: middle">{{ checklist.project_changes | default('-', True)}}</td>
             <td class="text-center" style="vertical-align: middle">
