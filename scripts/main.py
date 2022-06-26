@@ -15,6 +15,42 @@ app = create_app()
 app.app_context().push()   # 推入上下文
 
 
+def check_balancesheet(code:str, dt:date):
+    from stocknote.models.stock import StockBalanceSheet
+
+    item = StockBalanceSheet.query.filter_by(code=code,account_date=dt).first()
+    if item is None:
+        return False 
+    else:
+        return True
+
+
+def check_cashflow(code:str, dt:date):
+    from stocknote.models.stock import StockCashFlow
+    item = StockCashFlow.query.filter_by(code=code,account_date=dt).first()
+    if item is None:
+        return False 
+    else:
+        return True
+
+def check_indicators(code:str, dt:date):
+    from stocknote.models.stock import StockIndicators
+    item = StockIndicators.query.filter_by(code=code,account_date=dt).first()
+    if item is None:
+        return False 
+    else:
+        return True
+
+def check_income(code:str, dt:date):
+    from stocknote.models.stock import StockIncomeStatement
+    item = StockIncomeStatement.query.filter_by(code=code,account_date=dt).first()
+    if item is None:
+        return False 
+    else:
+        return True
+
+
+
 @click.group()
 def cli():
     pass
@@ -81,6 +117,9 @@ class CrawlerWrapper:
 
             data = crawler.crawl_cashflow(code_)
             for item in data["data"]["list"]:
+                if check_cashflow(code, date.fromtimestamp(item["report_date"]/1000)):
+                    continue
+
                 cashflow = StockCashFlow(
                     code = code,
                     account_date = date.fromtimestamp(item["report_date"]/1000),
@@ -115,6 +154,9 @@ class CrawlerWrapper:
             data = crawler.crawl_indicator(code_)
             # 解析
             for item in data["data"]["list"]:
+                if check_indicators(code, date.fromtimestamp(item["report_date"]/1000)):
+                    continue
+
                 indicators = StockIndicators(
                     code = code,
                     account_date = date.fromtimestamp(item["report_date"]/1000),
@@ -179,6 +221,9 @@ class CrawlerWrapper:
                 code_ = "SZ" + code
             data = crawler.crawl_income(code_)
             for item in data["data"]["list"]:
+                if check_income(code, date.fromtimestamp(item["report_date"]/1000)):
+                    continue
+
                 income = StockIncomeStatement(
                     code = code,
                     account_date = date.fromtimestamp(item["report_date"]/1000),
@@ -227,6 +272,8 @@ class CrawlerWrapper:
                 code_ = "SZ" + code
             data = crawler.crawl_balance_sheet(code_)
             for item in data["data"]["list"]:
+                if check_balancesheet(code, date.fromtimestamp(item["report_date"]/1000)):
+                    continue
                 balance = StockBalanceSheet(
                     code = code,
                     account_date = date.fromtimestamp(item["report_date"]/1000),
